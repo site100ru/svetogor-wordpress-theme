@@ -7,10 +7,10 @@
 $id = 'how-to-order-' . $block['id'];
 $className = !empty($block['className']) ? ' ' . $block['className'] : '';
 
-// ИСПРАВЛЕННАЯ ЛОГИКА ОПРЕДЕЛЕНИЯ ФОНА
+//  ОПРЕДЕЛЕНИЯ ФОНА
 $background_color = get_field('background_color_how_to_order');
 
-// Проверяем глобальную переменную для принудительного фона
+// Проверяем глобальную переменную для фона
 global $temp_how_to_order_data;
 if ($temp_how_to_order_data && isset($temp_how_to_order_data['background_color_how_to_order'])) {
   $background_color = $temp_how_to_order_data['background_color_how_to_order'];
@@ -27,7 +27,7 @@ $columns = get_field('columns') ?: '4';
 $section_title = get_field('section_title') ?: 'Как заказать';
 $steps = get_field('steps', 'option');
 
-// ИСПРАВЛЕННАЯ ЛОГИКА КЛАССОВ
+// ЛОГИКА КЛАССОВ
 $section_class = 'section section-how';
 // Добавляем bg-grey ТОЛЬКО если background_color === 'grey'
 if ($background_color === 'grey') {

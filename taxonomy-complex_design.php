@@ -12,6 +12,10 @@ $current_term = get_queried_object();
 $linked_categories = get_term_meta($current_term->term_id, 'linked_categories', true);
 $linked_categories = is_array($linked_categories) ? $linked_categories : array();
 
+// Получаем связанные товары
+$linked_products = get_term_meta($current_term->term_id, 'linked_products', true);
+$linked_products = is_array($linked_products) ? $linked_products : array();
+
 // Принудительно подключаем стили и скрипты для блока портфолио
 wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css', array(), '3.6.0');
 wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js', array(), '3.6.0', true);
@@ -50,9 +54,10 @@ wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
         <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
       </div>
 
-      <?php if (!empty($linked_categories)): ?>
+      <?php if (!empty($linked_categories) || !empty($linked_products)): ?>
         <div class="row row-cards">
           <?php
+          // Выводим связанные категории
           foreach ($linked_categories as $category_id) {
             $category = get_term($category_id, 'product_cat');
             if ($category && !is_wp_error($category)) {
@@ -69,7 +74,7 @@ wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
                 $thumbnail_url = wc_placeholder_img_src();
               }
               ?>
-              <div class="col-12 col-md-6 mb-4 mb-md-0">
+              <div class="col-12 col-md-6 mb-4">
                 <a href="<?php echo esc_url(get_term_link($category_id, 'product_cat')); ?>" class="card"
                   style="height: calc(100% - 12px);">
                   <div class="row g-0 align-items-center h-100">
@@ -98,12 +103,83 @@ wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
               <?php
             }
           }
+
+          // Выводим связанные товары в том же стиле
+          if (!empty($linked_products)) {
+            $products_query = new WP_Query(array(
+              'post_type' => 'product',
+              'post__in' => $linked_products,
+              'posts_per_page' => -1,
+              'orderby' => 'post__in',
+              'meta_query' => array(
+                array(
+                  'key' => '_stock_status',
+                  'value' => 'instock'
+                )
+              )
+            ));
+
+            if ($products_query->have_posts()) {
+            while ($products_query->have_posts()) {
+                $products_query->the_post();
+                global $product;
+
+                // Получаем изображение товара
+                $image_id = $product->get_image_id();
+                if ($image_id) {
+                $thumbnail_url = wp_get_attachment_image_url($image_id, 'medium');
+                } else {
+                $thumbnail_url = wc_placeholder_img_src();
+                }
+
+                // Получаем краткое описание
+                $excerpt = $product->get_short_description();
+                ?>
+                <div class="col-12 col-md-6 mb-4">
+                <a href="<?php echo esc_url(get_permalink($product->get_id())); ?>" class="card"
+                    style="height: calc(100% - 12px);">
+                    <div class="row g-0 align-items-center h-100">
+                    <div class="col-12 col-lg-4 text-center card-img-container">
+                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($product->get_name()); ?>"
+                        class="img-fluid" />
+                    </div>
+                    <div class="col-12 col-lg-8">
+                        <div class="card-body">
+                        <h5 class="card-title mb-3"><?php echo esc_html($product->get_name()); ?></h5>
+                        <p class="card-text">
+                            <?php
+                            if ($excerpt) {
+                            echo wp_trim_words($excerpt, 20, '...');
+                            } else {
+                            echo 'Краткое описание товара ' . esc_html($product->get_name());
+                            }
+                            ?>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price"><?php echo $product->get_price_html(); ?></span>
+                            <button type="button" class="btn btn-invert" data-bs-toggle="modal"
+                            data-bs-target="#callbackModalFour" data-product-id="<?php echo $product->get_id(); ?>"
+                            data-product-name="<?php echo esc_attr($product->get_name()); ?>"
+                            onclick="event.preventDefault(); event.stopPropagation();">
+                            Заказать
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </a>
+                </div>
+                <?php
+            }
+            wp_reset_postdata();
+            }
+          }
           ?>
         </div>
       <?php else: ?>
         <div class="row">
           <div class="col-12 text-center">
-            <p>К этому оформлению пока не привязаны категории товаров.</p>
+            <p>К этому оформлению пока не привязаны категории или товары.</p>
           </div>
         </div>
       <?php endif; ?>
@@ -114,7 +190,7 @@ wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
 <?php get_template_part('template-parts/blocks/forms/extended-form'); ?>
 
 <?php if ($current_term->description): ?>
-  <section class="section bg-grey">
+  <section class="section description bg-grey">
     <div class="container">
       <div class="row">
         <div class="col-12 col-lg-10 mx-auto text-lg-center">
@@ -147,7 +223,6 @@ if (file_exists($portfolio_template)) {
   remove_all_filters('acf/load_value');
 }
 ?>
-
 
 <?php
 get_footer('shop');

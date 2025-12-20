@@ -37,7 +37,7 @@ $section_class .= $background_color_general_info === 'grey' ? ' bg-grey' : '';
         <?php endif; ?>
 
         <div class="row">
-            <div class="col-12 col-lg-8 mx-auto">
+            <div class="col-12">
                 <?php if (!empty($main_content)): ?>
                     <div class="main-content">
                         <?php echo wp_kses_post($main_content); ?>

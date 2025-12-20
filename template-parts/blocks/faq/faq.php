@@ -6,9 +6,9 @@
 
 // Получаем поля
 $title = get_field('title') ?: 'Частые вопросы';
-$background_color = get_field('background_color_field_faq') ?: 'bg-grey';
+$background_color = get_query_var('faq_bg') ?: (get_field('background_color_field_faq') ?: 'bg-grey');
 $container_width = get_field('container_width') ?: 10;
-$questions = get_field('questions');
+$questions = get_query_var('faq_questions') ?: get_field('questions');
 
 // Генерируем уникальный ID для аккордеона
 $accordion_id = 'accordion-' . uniqid();

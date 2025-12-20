@@ -15,8 +15,8 @@ if (!empty($block['className'])) {
 }
 
 // Координаты маркера и центра карты 
-$lat = 55.755864;
-$lng = 37.617698;
+$lat = 55.889916;
+$lng = 37.634012;
 
 // Путь к иконке маркера
 $marker_icon = get_template_directory_uri() . '/assets/img/ico/placemark.png';

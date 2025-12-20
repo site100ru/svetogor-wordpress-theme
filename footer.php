@@ -206,6 +206,9 @@
 					<div id="im-in-footer">
 						Создание, продвижение и поддержка:
 						<a href="https://site100.ru" class="text-decoration-underline">site100.ru</a>
+                        <div class="policy-in-footer">
+                            <a href="<?php echo get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf" class="text-decoration-underline" target="_blank">Политика конфиденциальности</a> | <a class="text-decoration-underline" href="<?php echo get_template_directory_uri(); ?>/docs/Consent-to-the-processing-of-personal-data.pdf" target="_blank">Согласие на обработку персональных данных</a>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -273,9 +276,93 @@ if (isset($_SESSION['win'])) {
 	<?php endif; ?>
 </script>
 
-<script src="<?php echo get_template_directory_uri(); ?>/js/forms.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/global-recaptcha.js"></script>
 
+<style>
+    
+.popup-form.active {
+	bottom: 0;
+}
+
+.popup-form {
+	position: fixed;
+	bottom: -500px;
+	left: 0;
+	width: 100%;
+	background: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.2);
+	padding: 10px;
+	box-sizing: border-box;
+	transition: bottom 0.5s ease-out;
+	z-index: 1000;
+	max-width: 100%;
+}
+</style>
+
+<!-- Всплывающая форма Политики конфиденциальности -->
+<div class="popup-form py-3" id="popupForm">
+    <div class="form-content container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-9">
+                <p class="mb-md-0">
+                    На нашем сайте используются cookie-файлы, в том числе сервисов
+                    веб-аналитики. Используя сайт, вы соглашаетесь на <a
+                        href="<?= get_template_directory_uri(); ?>/docs/Consent-to-the-processing-of-personal-data.pdf"
+                        target="blank"
+                        >обработку персональных данных</a
+                    > при помощи cookie-файлов. Подробнее об обработке персональных данных
+                    вы можете узнать в <a
+                        href="<?= get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf"
+                        target="blank"
+                        >Политике конфиденциальности.</a
+                    >
+                </p>
+            </div>
+            <div class="col-md-3 text-md-center">
+                <button id="closeBtn" class="btn action-btn">Понятно</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const popupForm = document.getElementById('popupForm');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Проверяем нужно ли показывать форму
+        function shouldShowPopup() {
+            const lastClosed = localStorage.getItem('popupLastClosed');
+
+            // Если пользователь никогда не закрывал форму
+            if (!lastClosed) return true;
+
+            // Если прошло более 1 часа (3600000 миллисекунд) с последнего закрытия
+            const now = new Date().getTime();
+            return now - parseInt(lastClosed) > 3600000;
+        }
+
+        // Показываем форму если нужно
+        if (shouldShowPopup()) {
+            setTimeout(() => {
+                popupForm.classList.add('active');
+            }, 3000);
+        }
+
+        // Функция закрытия формы
+        function closePopup() {
+            popupForm.classList.remove('active');
+
+            // Сохраняем время закрытия
+            localStorage.setItem('popupLastClosed', new Date().getTime().toString());
+        }
+
+        // Закрытие по кнопке
+        closeBtn.addEventListener('click', closePopup);
+    });
+</script>
+<!-- /Всплывающая форма Политики конфиденциальности -->
 
 <?php wp_footer(); ?>
 

@@ -886,13 +886,24 @@ img {
 	margin-bottom: 1rem;
 }
 
+
+p a {
+	color: var(--color-accent-hover) !important;
+	transition: color 0.5s, opacity 0.5s !important;
+	text-decoration: none !important;
+}
+
+p a:hover {
+	opacity: 0.75 !important;
+}
+
 .section-product-list .row a:not(.btn) {
-	color: #323232;
-	transition: color 0.5s;
+	color: var(--color-accent-hover);
+	transition: color 0.5s, opacity 0.5s;
 }
 
 .section-product-list .row a:not(.btn):hover {
-	color: var(--color-accent-hover);
+	opacity: 0.75;
 }
 
 .section-product-list-img {
@@ -1004,6 +1015,10 @@ img {
 
 .section-works .card img {
 	border-radius: var(--border-radius);
+}
+
+.section-works h5{
+    font-size: clamp(1rem, 0.786rem + 0.95vw, 1.5rem);
 }
 
 /*** END SECTION WORKS ***/
@@ -1257,7 +1272,7 @@ img {
 }
 
 #im-in-footer {
-	margin-block: 30px;
+	margin-block: 15px;
 
 	font-family: var(--second-family);
 	font-weight: 300;
@@ -2457,6 +2472,12 @@ input[type='number'] {
 	height: 100%;
 }
 
+.card-services-arhive,
+.card-services-arhive .row {
+	border-radius: 10px;
+	overflow: hidden;
+}
+
 .card-services-arhive .card-img-container {
 	height: 100%;
 }
@@ -2546,4 +2567,34 @@ input[type='number'] {
 
 .grecaptcha-badge {
 	z-index: 9999;
+}
+
+
+strong {
+	font-weight: 700 !important;
+}
+
+.form-check-input:checked {
+    border-color: var(--color-accent-hover);
+    background-color: var(--color-accent-hover);
+}
+
+.section.general-info h3,
+.section.description h3 {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: clamp(1rem, 0.786rem + 0.95vw, 1.5rem);
+}
+
+.section.general-info h4,
+.section.description h4 {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: clamp(1rem, 0.839rem + 0.71vw, 1.375rem);
+    line-height: 1.35;
+}
+
+.section.general-info strong,
+.section.description strong {
+    font-weight: 500 !important;
 }

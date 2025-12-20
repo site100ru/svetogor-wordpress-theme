@@ -99,6 +99,14 @@
     <input type="hidden" name="g-recaptcha-response" value="" />
 
      <div class="row w-100 m-0">
+        <div class="col-12">
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="gridCheck-5" checked>
+                <label class="form-check-label" for="gridCheck-5">
+                    <p class="mb-0"><small>Даю согласие на обработку персональных данных. Подробнее об обработке персональных данных в <a href="<?php echo get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf" target="_blank">Политике конфиденциальности.</a></small></p>
+                </label>
+            </div>	
+        </div>
       <div class="col-md-6 col-xl-4 col-12 mb-0 ps-0">
         <button type="submit" class="btn btn-big me-auto pe-4 modal-btn w-100" style="max-width: 212px">
           Оставить заявку

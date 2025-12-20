@@ -74,19 +74,14 @@ function render_product_card($product)
             <h5 class="card-title"><?php echo esc_html($product->get_name()); ?></h5>
             <p class="card-text">
                 <?php
-                $excerpt = $product->get_short_description();
-                if ($excerpt) {
-                    echo wp_trim_words($excerpt, 15, '...');
+                $description = $product->get_description();
+                if ($description) {
+                    echo trim_html_words($description, 15);
                 } else {
-                    $description = $product->get_description();
-                    if ($description) {
-                        echo wp_trim_words($description, 15, '...');
-                    } else {
-                        echo 'Описание товара';
-                    }
+                    echo 'Краткое описание товара ' . esc_html($product->get_name());
                 }
                 ?>
-            </p>
+			</p>
             <div class="d-flex justify-content-between align-items-center mt-auto">
                 <span class="product-price"><?php echo $product->get_price_html(); ?></span>
                 <button type="button" class="btn btn-order btn-min" data-bs-toggle="modal"
@@ -99,6 +94,36 @@ function render_product_card($product)
         </div>
     </a>
     <?php
+}
+
+function trim_html_words($text, $num_words = 15, $more = '...') {
+    if (empty($text)) {
+        return '';
+    }
+    
+    $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+    
+    $words_array = preg_split('/(\s+)/', strip_tags($text, '<br><strong><em><b><i>'), -1, PREG_SPLIT_DELIM_CAPTURE);
+    $words_count = 0;
+    $result = '';
+    
+    foreach ($words_array as $word) {
+        if (trim($word) === '') {
+            $result .= $word; 
+        } else {
+            if ($words_count >= $num_words) {
+                break;
+            }
+            $result .= $word;
+            $words_count++;
+        }
+    }
+    
+    if ($words_count >= $num_words) {
+        $result .= $more;
+    }
+    
+    return $result;
 }
 
 /**

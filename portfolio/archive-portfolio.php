@@ -45,7 +45,7 @@ if ($portfolio_bg): ?>style="background-image: url('<?php echo esc_url($portfoli
 </section>
 
 <!-- КОНТЕНТ -->
-<section class="section section-portfolio">
+<section class="section section-portfolio box-shadow-main-img">
   <div class="container">
     <div class="section-content-cards">
       <!-- Заголовок -->
@@ -79,9 +79,9 @@ if ($portfolio_bg): ?>style="background-image: url('<?php echo esc_url($portfoli
 
             <div class="col-12 col-md-6 col-lg-4 mb-4">
               <div onclick="openPortfolioGallery(<?php echo $index; ?>, <?php echo $portfolio_id; ?>);"
-                class="card bg-transparent h-100 m-0 bg-linear-gradient-wrapper cursor-pointer"
+                class="card bg-transparent h-100 m-0 cursor-pointer"
                 data-post-id="<?php echo $portfolio_id; ?>">
-                <div class="card-img-container bg-linear-gradient">
+                <div class="card-img-container">
                   <?php if ($featured_image): ?>
                     <img src="<?php echo $featured_image; ?>" alt="<?php echo esc_attr($portfolio_title); ?>"
                       class="card-img-top" />

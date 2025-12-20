@@ -11,6 +11,10 @@ $display_type = get_field('display_type') ?: 'latest';
 $posts_count = get_field('posts_count') ?: 10;
 $custom_posts = get_field('custom_posts');
 $show_button = get_field('show_all_works_button');
+$show_button = isset($portfolio_data['show_button']) 
+    ? $portfolio_data['show_button'] 
+    : get_field('show_all_works_button');
+
 $button_text = get_field('button_text') ?: 'Все наши работы';
 $prev_arrow = get_field('carousel_prev_arrow', 'option');
 $next_arrow = get_field('carousel_next_arrow', 'option');
@@ -60,7 +64,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
 // Локализация переменных
 wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
   'ajax_url' => admin_url('admin-ajax.php'),
-  'nonce' => wp_create_nonce('portfolio_grid_nonce') // Используем тот же nonce, что в functions.php
+  'nonce' => wp_create_nonce('portfolio_grid_nonce')
 ));
 ?>
 
@@ -87,9 +91,9 @@ wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
             <li class="glide__slide">
               <div
                 onclick="openPortfolioGallery(<?php echo $index; ?>, <?php echo $post_id; ?>, '<?php echo esc_attr($modal_suffix); ?>');"
-                class="card bg-transparent bg-linear-gradient-wrapper cursor-pointer w-100"
+                class="card bg-transparent cursor-pointer w-100"
                 data-post-id="<?php echo $post_id; ?>">
-                <div class="card-img-container bg-linear-gradient">
+                <div class="card-img-container">
                   <img src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($post_title); ?>"
                     class="card-img-top" />
                 </div>

@@ -2825,8 +2825,7 @@ function add_complex_design_thumbnail_field($tag)
 		<input type="hidden" id="complex_design_thumbnail" name="complex_design_thumbnail" value="" />
 		<div id="complex_design_thumbnail_preview"></div>
 		<button type="button" class="button complex-design-thumbnail-upload">Выбрать изображение</button>
-		<button type="button" class="button complex-design-thumbnail-remove" style="display:none;">Удалить
-			изображение</button>
+		<button type="button" class="button complex-design-thumbnail-remove" style="display:none;">Удалить изображение</button>
 		<p>Выберите изображение для миниатюры оформления.</p>
 	</div>
 
@@ -2869,39 +2868,10 @@ function add_complex_design_thumbnail_field($tag)
 	<?php
 }
 
-// Поле связанных категорий для формы создания
-function add_complex_design_categories_field($tag)
-{
-	?>
-	<div class="form-field">
-		<label for="complex_design_categories">Связанные категории</label>
-		<?php
-		$categories = get_terms(array(
-			'taxonomy' => 'product_cat',
-			'hide_empty' => false,
-		));
-
-		if (!empty($categories) && !is_wp_error($categories)) {
-			echo '<div style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">';
-			foreach ($categories as $category) {
-				echo '<label style="display: block; margin-bottom: 5px;">';
-				echo '<input type="checkbox" name="complex_design_categories[]" value="' . $category->term_id . '" /> ';
-				echo esc_html($category->name);
-				echo '</label>';
-			}
-			echo '</div>';
-		}
-		?>
-		<p>Выберите категории товаров, которые относятся к этому оформлению.</p>
-	</div>
-	<?php
-}
-
-// Поле миниатюры для формы редактирования
+// Форма редактирования - миниатюра
 function edit_complex_design_thumbnail_field($tag)
 {
 	$thumbnail_id = get_term_meta($tag->term_id, 'thumbnail_id', true);
-
 	$thumbnail_url = '';
 	if ($thumbnail_id) {
 		$thumbnail_url = wp_get_attachment_image_url($thumbnail_id, 'thumbnail');
@@ -2964,6 +2934,151 @@ function edit_complex_design_thumbnail_field($tag)
 	<?php
 }
 
+// Поле выбора товаров для формы создания
+function add_complex_design_products_field($tag)
+{
+	?>
+	<div class="form-field">
+		<label for="complex_design_products">Связанные товары</label>
+		<input type="text" id="product_search" placeholder="Поиск товара..." style="width: 100%; margin-bottom: 10px;" />
+		<?php
+		$products = get_posts(array(
+			'post_type' => 'product',
+			'posts_per_page' => -1,
+			'orderby' => 'title',
+			'order' => 'ASC',
+		));
+
+		if (!empty($products)) {
+			echo '<div style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">';
+			foreach ($products as $product) {
+				echo '<label class="product-item" style="display: block; margin-bottom: 5px;">';
+				echo '<input type="checkbox" name="complex_design_products[]" value="' . $product->ID . '" /> ';
+				echo esc_html($product->post_title);
+				echo '</label>';
+			}
+			echo '</div>';
+		}
+		?>
+		<p>Выберите товары, которые относятся к этому оформлению.</p>
+	</div>
+
+	<script>
+		jQuery(document).ready(function($) {
+			$('#product_search').on('keyup', function() {
+				var searchText = $(this).val().toLowerCase();
+				$('.product-item').each(function() {
+					var productName = $(this).text().toLowerCase();
+					if (productName.indexOf(searchText) > -1) {
+						$(this).show();
+					} else {
+						$(this).hide();
+					}
+				});
+			});
+		});
+	</script>
+	<?php
+}
+
+// Поле выбора товаров для формы редактирования
+function edit_complex_design_products_field($tag)
+{
+	$selected_products = get_term_meta($tag->term_id, 'linked_products', true);
+	$selected_products = is_array($selected_products) ? $selected_products : array();
+	?>
+	<tr class="form-field">
+		<th scope="row" valign="top"><label for="complex_design_products">Связанные товары</label></th>
+		<td>
+			<input type="text" id="product_search" placeholder="Поиск товара..." style="width: 100%; margin-bottom: 10px;" />
+			<?php
+			$products = get_posts(array(
+				'post_type' => 'product',
+				'posts_per_page' => -1,
+				'orderby' => 'title',
+				'order' => 'ASC',
+			));
+
+			if (!empty($products)) {
+				echo '<div style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">';
+				foreach ($products as $product) {
+					$checked = in_array($product->ID, $selected_products) ? 'checked="checked"' : '';
+					echo '<label class="product-item" style="display: block; margin-bottom: 5px;">';
+					echo '<input type="checkbox" name="complex_design_products[]" value="' . $product->ID . '" ' . $checked . ' /> ';
+					echo esc_html($product->post_title);
+					echo '</label>';
+				}
+				echo '</div>';
+			}
+			?>
+			<br />
+			<span class="description">Товары, связанные с этим оформлением.</span>
+		</td>
+	</tr>
+
+	<script>
+		jQuery(document).ready(function($) {
+			$('#product_search').on('keyup', function() {
+				var searchText = $(this).val().toLowerCase();
+				$('.product-item').each(function() {
+					var productName = $(this).text().toLowerCase();
+					if (productName.indexOf(searchText) > -1) {
+						$(this).show();
+					} else {
+						$(this).hide();
+					}
+				});
+			});
+		});
+	</script>
+	<?php
+}
+
+// Поле связанных категорий для формы создания
+function add_complex_design_categories_field($tag)
+{
+	?>
+	<div class="form-field">
+		<label for="complex_design_categories">Связанные категории</label>
+		<input type="text" id="category_search" placeholder="Поиск категории..." style="width: 100%; margin-bottom: 10px;" />
+		<?php
+		$categories = get_terms(array(
+			'taxonomy' => 'product_cat',
+			'hide_empty' => false,
+		));
+
+		if (!empty($categories) && !is_wp_error($categories)) {
+			echo '<div style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">';
+			foreach ($categories as $category) {
+				echo '<label class="category-item" style="display: block; margin-bottom: 5px;">';
+				echo '<input type="checkbox" name="complex_design_categories[]" value="' . $category->term_id . '" /> ';
+				echo esc_html($category->name);
+				echo '</label>';
+			}
+			echo '</div>';
+		}
+		?>
+		<p>Выберите категории товаров, которые относятся к этому оформлению.</p>
+	</div>
+
+	<script>
+		jQuery(document).ready(function($) {
+			$('#category_search').on('keyup', function() {
+				var searchText = $(this).val().toLowerCase();
+				$('.category-item').each(function() {
+					var categoryName = $(this).text().toLowerCase();
+					if (categoryName.indexOf(searchText) > -1) {
+						$(this).show();
+					} else {
+						$(this).hide();
+					}
+				});
+			});
+		});
+	</script>
+	<?php
+}
+
 // Поле связанных категорий для формы редактирования
 function edit_complex_design_categories_field($tag)
 {
@@ -2973,6 +3088,7 @@ function edit_complex_design_categories_field($tag)
 	<tr class="form-field">
 		<th scope="row" valign="top"><label for="complex_design_categories">Связанные категории</label></th>
 		<td>
+			<input type="text" id="category_search" placeholder="Поиск категории..." style="width: 100%; margin-bottom: 10px;" />
 			<?php
 			$categories = get_terms(array(
 				'taxonomy' => 'product_cat',
@@ -2983,7 +3099,7 @@ function edit_complex_design_categories_field($tag)
 				echo '<div style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">';
 				foreach ($categories as $category) {
 					$checked = in_array($category->term_id, $selected_categories) ? 'checked="checked"' : '';
-					echo '<label style="display: block; margin-bottom: 5px;">';
+					echo '<label class="category-item" style="display: block; margin-bottom: 5px;">';
 					echo '<input type="checkbox" name="complex_design_categories[]" value="' . $category->term_id . '" ' . $checked . ' /> ';
 					echo esc_html($category->name);
 					echo '</label>';
@@ -2995,20 +3111,37 @@ function edit_complex_design_categories_field($tag)
 			<span class="description">Категории, связанные с этим оформлением.</span>
 		</td>
 	</tr>
+
+	<script>
+		jQuery(document).ready(function($) {
+			$('#category_search').on('keyup', function() {
+				var searchText = $(this).val().toLowerCase();
+				$('.category-item').each(function() {
+					var categoryName = $(this).text().toLowerCase();
+					if (categoryName.indexOf(searchText) > -1) {
+						$(this).show();
+					} else {
+						$(this).hide();
+					}
+				});
+			});
+		});
+	</script>
 	<?php
 }
 
-// Добавляем поддержку миниатюр для таксономии
-add_action('complex_design_add_form_fields', 'add_complex_design_thumbnail_field');
-add_action('complex_design_edit_form_fields', 'edit_complex_design_thumbnail_field');
-add_action('complex_design_add_form_fields', 'add_complex_design_categories_field');
-add_action('complex_design_edit_form_fields', 'edit_complex_design_categories_field');
+// Добавляем хуки
+add_action('complex_design_add_form_fields', 'add_complex_design_thumbnail_field', 20);
+add_action('complex_design_add_form_fields', 'add_complex_design_products_field', 30);
+add_action('complex_design_add_form_fields', 'add_complex_design_categories_field', 40);
 
-// Сохранение полей
-add_action('edited_complex_design', 'save_complex_design_fields');
-add_action('create_complex_design', 'save_complex_design_fields');
+add_action('complex_design_edit_form_fields', 'edit_complex_design_thumbnail_field', 20);
+add_action('complex_design_edit_form_fields', 'edit_complex_design_products_field', 30);
+add_action('complex_design_edit_form_fields', 'edit_complex_design_categories_field', 40);
 
-// Сохранение всех полей
+
+
+// Обновляем функцию сохранения
 function save_complex_design_fields($term_id)
 {
 	// Сохраняем миниатюру
@@ -3023,7 +3156,148 @@ function save_complex_design_fields($term_id)
 	} else {
 		delete_term_meta($term_id, 'linked_categories');
 	}
+
+	// Сохраняем связанные товары
+	if (isset($_POST['complex_design_products'])) {
+		$products = array_map('intval', $_POST['complex_design_products']);
+		update_term_meta($term_id, 'linked_products', $products);
+	} else {
+		delete_term_meta($term_id, 'linked_products');
+	}
 }
+
+// Сохранение полей
+add_action('edited_complex_design', 'save_complex_design_fields');
+add_action('create_complex_design', 'save_complex_design_fields');
+
+
+// Разрешаем HTML в описании таксономии
+remove_filter('pre_term_description', 'wp_filter_kses');
+remove_filter('term_description', 'wp_kses_data');
+
+
+
+// Удаляем стандартное поле описания
+add_action('admin_init', 'remove_complex_design_description_field');
+function remove_complex_design_description_field() {
+	remove_action('complex_design_edit_form_fields', 'taxonomy_metadata_wpdbfix_edit', 9);
+}
+
+// Скрываем стандартное описание через CSS
+add_action('admin_head-term.php', 'hide_default_description_css');
+add_action('admin_head-edit-tags.php', 'hide_default_description_css');
+function hide_default_description_css() {
+	global $current_screen;
+	if ($current_screen && $current_screen->taxonomy == 'complex_design') {
+		echo '<style>
+			.term-description-wrap { display: none !important; }
+			.term-description-wrap.custom-description-wrap { display: table-row !important; }
+		</style>';
+	}
+}
+
+// Добавляем свой визуальный редактор для редактирования
+add_action('complex_design_edit_form_fields', 'add_complex_design_description_editor');
+function add_complex_design_description_editor($term)
+{
+	?>
+	<tr class="form-field term-description-wrap custom-description-wrap">
+		<th scope="row"><label for="custom_description">Описание</label></th>
+		<td>
+			<?php
+			$content = htmlspecialchars_decode($term->description, ENT_QUOTES);
+			
+			$settings = array(
+				'textarea_name' => 'description',
+				'textarea_rows' => 10,
+				'wpautop' => true,
+				'media_buttons' => false,
+				'tinymce' => array(
+					'toolbar1' => 'formatselect,bold,italic,underline,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,unlink,removeformat',
+				),
+				'quicktags' => true,
+			);
+			
+			wp_editor($content, 'custom_description', $settings);
+			?>
+			<p class="description">Описание оформления с поддержкой форматирования.</p>
+		</td>
+	</tr>
+	<script>
+		jQuery(document).ready(function($) {
+			// Копируем значение из визуального редактора в скрытое поле description перед отправкой формы
+			$('#edittag').on('submit', function() {
+				var editor_content = '';
+				if (typeof tinyMCE !== 'undefined' && tinyMCE.get('custom_description')) {
+					editor_content = tinyMCE.get('custom_description').getContent();
+				} else {
+					editor_content = $('#custom_description').val();
+				}
+				
+				// Создаем скрытое поле с именем description для отправки
+				$('<input>').attr({
+					type: 'hidden',
+					name: 'description',
+					value: editor_content
+				}).appendTo('#edittag');
+			});
+		});
+	</script>
+	<?php
+}
+
+// Для формы добавления нового термина
+add_action('complex_design_add_form_fields', 'add_complex_design_description_editor_add');
+function add_complex_design_description_editor_add()
+{
+	?>
+	<div class="form-field term-description-wrap custom-description-wrap">
+		<label for="custom_description">Описание</label>
+		<?php
+		$settings = array(
+			'textarea_name' => 'description',
+			'textarea_rows' => 10,
+			'wpautop' => true,
+			'media_buttons' => false,
+			'tinymce' => array(
+				'toolbar1' => 'formatselect,bold,italic,underline,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,unlink,removeformat',
+			),
+			'quicktags' => true,
+		);
+		
+		wp_editor('', 'custom_description', $settings);
+		?>
+		<p class="description">Описание оформления с поддержкой форматирования.</p>
+	</div>
+	<script>
+		jQuery(document).ready(function($) {
+			// Копируем значение из визуального редактора в скрытое поле description перед отправкой формы
+			$('#addtag').on('submit', function() {
+				var editor_content = '';
+				if (typeof tinyMCE !== 'undefined' && tinyMCE.get('custom_description')) {
+					editor_content = tinyMCE.get('custom_description').getContent();
+				} else {
+					editor_content = $('#custom_description').val();
+				}
+				
+				// Создаем скрытое поле с именем description для отправки
+				$('<input>').attr({
+					type: 'hidden',
+					name: 'description',
+					value: editor_content
+				}).appendTo('#addtag');
+			});
+		});
+	</script>
+	<style>
+		.term-description-wrap:not(.custom-description-wrap) { 
+			display: none !important; 
+		}
+	</style>
+	<?php
+}
+
+
 
 // Подключаем медиабиблиотеку в админке
 add_action('admin_enqueue_scripts', 'enqueue_complex_design_admin_scripts');
