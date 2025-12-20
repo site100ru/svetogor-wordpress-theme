@@ -18,8 +18,5 @@ jobs:
             #cd /var/www/u1538455/data/www/site100svetogor.site/wp-content/themes/site100svetogor
             #git clone git@github.com:site100ru/svetogor-wp.git .
             
-            # git pull
             cd /var/www/u1538455/data/www/site100svetogor.site/wp-content/themes/site100svetogor
-            git stash
-            git pull origin main
-            git stash pop
+            git pull
