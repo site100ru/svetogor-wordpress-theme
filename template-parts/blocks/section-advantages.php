@@ -34,7 +34,7 @@ $section_class .= $background_color === 'bg-grey' ? ' bg-grey' : '';
         <div class="section-title text-center">
           <h2><?php echo esc_html($section_title); ?></h2>
 
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="" />
+          <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="" />
         </div>
       <?php endif; ?>
 
@@ -44,7 +44,7 @@ $section_class .= $background_color === 'bg-grey' ? ' bg-grey' : '';
             <div class="row">
               <div class="col-3 col-md-2">
                 <?php if (!empty($advantage['icon'])): ?>
-                  <img src="<?php echo esc_url($advantage['icon']['url']); ?>"
+                  <img loading="lazy" src="<?php echo esc_url($advantage['icon']['url']); ?>"
                     alt="<?php echo esc_attr($advantage['icon']['alt'] ?: 'Преимущество'); ?>" class="img-fluid">
                 <?php endif; ?>
               </div>

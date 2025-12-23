@@ -157,7 +157,7 @@ function portfolio_gallery_meta_box_callback($post)
         ?>
         <div class="gallery-image-item" data-id="<?php echo $image_id; ?>">
           <!-- Если URL существует, выводим изображение, иначе пустое изображение -->
-          <img src="<?php echo esc_url($image_url); ?>" style="width: 100px; height: 100px; object-fit: cover;" alt="<?php echo esc_attr($alt_text); ?>" >
+          <img loading="lazy" src="<?php echo esc_url($image_url); ?>" style="width: 100px; height: 100px; object-fit: cover;" alt="<?php echo esc_attr($alt_text); ?>" >
           <button type="button" class="remove-gallery-image" data-id="<?php echo $image_id; ?>">×</button>
         </div>
       <?php endforeach; ?>

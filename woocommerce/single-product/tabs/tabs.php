@@ -18,7 +18,7 @@ if ( ! empty( $product_tabs ) ) : ?>
         <?php foreach ( $product_tabs as $key => $product_tab ) : ?>
             <?php if ($tab_count > 0): ?>
                 <li class="nav-item">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/menu-decoration-point.svg" 
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/menu-decoration-point.svg" 
                          alt="Декоративная точка - разделитель"
                          class="img-fluid py-3" />
                 </li>

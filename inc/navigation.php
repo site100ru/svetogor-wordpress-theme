@@ -187,7 +187,7 @@ function svetogor_output_second_level_categories()
 
       echo '<a class="nav-link' . $active_class . '" href="' . get_term_link($category) . '" data-target="' . $category->term_id . '">';
       echo '<span class="category-icon">';
-      echo '<img src="' . esc_url($icon_url) . '" alt="Иконка ' . esc_attr($category->name) . '" />';
+      echo '<img loading="lazy" src="' . esc_url($icon_url) . '" alt="Иконка ' . esc_attr($category->name) . '" />';
       echo '</span>';
       echo '<span>' . esc_html($category->name) . '</span>';
       echo '<span class="category-arrow"></span>';
@@ -425,7 +425,7 @@ function svetogor_output_safe_menu_final()
       
       if ($counter > 0 && !$previous_was_products) {
         echo '<li class="nav-item d-none d-lg-inline align-content-center">';
-        echo '<img class="nav-link" src="' . get_template_directory_uri() . '/assets/img/ico/menu-decoration-point.svg" alt="Декоративная точка - разделитель" />';
+        echo '<img loading="lazy" class="nav-link" src="' . get_template_directory_uri() . '/assets/img/ico/menu-decoration-point.svg" alt="Декоративная точка - разделитель" />';
         echo '</li>';
       }
 
@@ -508,7 +508,7 @@ function svetogor_output_mobile_second_level()
 
         echo '<div class="mobile-menu-item" data-view="' . $category->term_id . '-menu-view">';
         echo '<div class="d-flex align-items-center">';
-        echo '<img src="' . esc_url($icon_url) . '" alt="Иконка ' . esc_attr($category->name) . '" style="width: 20px; height: 20px; margin-right: 10px;" />';
+        echo '<img loading="lazy" src="' . esc_url($icon_url) . '" alt="Иконка ' . esc_attr($category->name) . '" style="width: 20px; height: 20px; margin-right: 10px;" />';
         echo '<span>' . esc_html($category->name) . '</span>';
         echo '</div>';
         echo '<span class="arrow"></span>';
@@ -593,22 +593,22 @@ function svetogor_output_mobile_footer_info()
 {
   echo '<li class="nav-item d-lg-none py-2">';
   echo '<div class="d-flex align-items-center gap-2">';
-  echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/location-ico.svg" alt="Иконка карты" style="max-height: 14px" />';
+  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/location-ico.svg" alt="Иконка карты" style="max-height: 14px" />';
   echo '<span style="font-size: 14px">г. Москва, ул. Полярная, 31В, оф. 141</span>';
   echo '</div>';
   echo '<a class="top-menu-tel nav-link price-text" style="font-size: 18px" href="tel:+74952450325">+7 (495) 245-03-25</a>';
   echo '<a href="mailto:svetogor.sv@mail.ru" class="d-flex align-items-center gap-2">';
-  echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/email-ico.svg" alt="Иконка почтовой собаки" style="max-height: 16px" />';
+  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/email-ico.svg" alt="Иконка почтовой собаки" style="max-height: 16px" />';
   echo '<span style="font-size: 14px">svetogor.sv@mail.ru</span>';
   echo '</a>';
   echo '</li>';
 
   echo '<li class="nav-item">';
   echo '<a class="ico-button pe-2" href="https://wa.me/" target="_blank">';
-  echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/whatsapp.svg" alt="WhatsApp" />';
+  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/whatsapp.svg" alt="WhatsApp" />';
   echo '</a>';
   echo '<a class="ico-button pe-0" href="https://t.me/+79511014610" target="_blank">';
-  echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/telegram.svg" alt="Telegram" />';
+  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/telegram.svg" alt="Telegram" />';
   echo '</a>';
   echo '</li>';
 }
@@ -657,7 +657,7 @@ function svetogor_safe_navigation_v5()
 
     // Логотип
     echo '<a class="navbar-brand mx-lg-auto ms-xxl-0" href="' . home_url() . '">';
-    echo '<img src="' . get_template_directory_uri() . '/assets/img/logo.svg" alt="Логотип" />';
+    echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/logo.svg" alt="Логотип" />';
     echo '</a>';
 
     // Кнопка мобильного меню

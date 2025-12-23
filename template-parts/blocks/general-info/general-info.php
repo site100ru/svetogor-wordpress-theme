@@ -32,7 +32,7 @@ $section_class .= $background_color_general_info === 'grey' ? ' bg-grey' : '';
         <?php if (!empty($section_title_general_info)): ?>
             <div class="section-title text-center">
                 <h3><?php echo esc_html($section_title_general_info); ?></h3>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="" />
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="" />
             </div>
         <?php endif; ?>
 

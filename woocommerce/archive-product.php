@@ -54,7 +54,7 @@ function render_product_card($product)
                     'alt' => $product->get_name()
                 ));
             } else {
-                echo '<img src="' . wc_placeholder_img_src() . '" alt="' . esc_attr($product->get_name()) . '" class="card-img-top product-image-main" />';
+                echo '<img loading="lazy" src="' . wc_placeholder_img_src() . '" alt="' . esc_attr($product->get_name()) . '" class="card-img-top product-image-main" />';
             }
 
             // Второе изображение из галереи
@@ -140,8 +140,7 @@ function render_products_section($products_query, $slider_id, $section_title = '
                 <?php if ($section_title): ?>
                     <div class="section-title text-center">
                         <h3><?php echo esc_html($section_title); ?></h3>
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки"
-                            class="img-fluid">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
                     </div>
                 <?php endif; ?>
 
@@ -201,16 +200,16 @@ function render_slider_arrows()
     <div class="glide__arrows" data-glide-el="controls">
         <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
             <?php if ($prev_arrow): ?>
-                <img src="<?php echo esc_url($prev_arrow['url']); ?>" alt="Назад" />
+                <img loading="lazy" src="<?php echo esc_url($prev_arrow['url']); ?>" alt="Назад" />
             <?php else: ?>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/arrow-left.svg" alt="Назад" />
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/arrow-left.svg" alt="Назад" />
             <?php endif; ?>
         </button>
         <button class="glide__arrow glide__arrow--right" data-glide-dir=">">
             <?php if ($next_arrow): ?>
-                <img src="<?php echo esc_url($next_arrow['url']); ?>" alt="Вперед" />
+                <img loading="lazy" src="<?php echo esc_url($next_arrow['url']); ?>" alt="Вперед" />
             <?php else: ?>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/arrow-right.svg" alt="Вперед" />
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/arrow-right.svg" alt="Вперед" />
             <?php endif; ?>
         </button>
     </div>
@@ -259,7 +258,7 @@ function render_no_products_placeholder($category_name = '')
                 <!-- Иконка главной -->
                 <li class="breadcrumb-item">
                     <a href="<?php echo home_url('/'); ?>">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Изображение домика"/>
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика"/>
                     </a>
                 </li>
 

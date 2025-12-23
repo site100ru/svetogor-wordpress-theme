@@ -47,8 +47,7 @@ $column_class = 'col-md-6 col-lg-' . (12 / intval($columns));
             <?php if (!empty($section_title)): ?>
                 <div class="section-title text-center">
                     <h3><?php echo esc_html($section_title); ?></h3>
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid"
-                        alt="Точки" />
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="Точки" />
                 </div>
             <?php endif; ?>
 
@@ -60,14 +59,12 @@ $column_class = 'col-md-6 col-lg-' . (12 / intval($columns));
                             <div class="row align-items-center">
                                 <div class="col-4 text-center">
                                     <?php if (!empty($step['number_icon'])): ?>
-                                        <img src="<?php echo esc_url($step['number_icon']['url']); ?>"
-                                            alt="<?php echo esc_attr($step['number_icon']['alt'] ?: 'Шаг'); ?>" class="img-fluid">
+                                        <img loading="lazy" src="<?php echo esc_url($step['number_icon']['url']); ?>" alt="<?php echo esc_attr($step['number_icon']['alt'] ?: 'Шаг'); ?>" class="img-fluid">
                                     <?php endif; ?>
                                 </div>
                                 <div class="col-4">
                                     <?php if (!empty($step['process_icon'])): ?>
-                                        <img src="<?php echo esc_url($step['process_icon']['url']); ?>"
-                                            alt="<?php echo esc_attr($step['process_icon']['alt'] ?: 'Процесс'); ?>" class="img-fluid">
+                                        <img loading="lazy" src="<?php echo esc_url($step['process_icon']['url']); ?>" alt="<?php echo esc_attr($step['process_icon']['alt'] ?: 'Процесс'); ?>" class="img-fluid">
                                     <?php endif; ?>
                                 </div>
                             </div>

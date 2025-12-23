@@ -73,10 +73,8 @@ while (have_posts()): the_post();
                     <div class="carousel-item gallery-product-wrapper gallery-<?php echo $portfolio_id; ?>-wrapper <?php echo $active_class; ?>">
                       <button class="gallery-product gallery-<?php echo $portfolio_id; ?> bg-transparent">
                         <div class="single-product-img approximation img-wrapper position-relative">
-                          <img src="<?php echo esc_url($image_url[0]); ?>" 
-                               class="d-block w-100 h-100" 
-                               loading="lazy"
-                               alt="<?php echo esc_attr($image_alt ?: $portfolio_title); ?>">
+                          <img loading="lazy" src="<?php echo esc_url($image_url[0]); ?>" 
+                               class="d-block w-100 h-100" alt="<?php echo esc_attr($image_alt ?: $portfolio_title); ?>">
                         </div>
                       </button>
                     </div>
@@ -114,7 +112,7 @@ while (have_posts()): the_post();
                   if ($thumb_url): ?>
 
                     <div class="col">
-                      <img src="<?php echo esc_url($thumb_url[0]); ?>"
+                      <img loading="lazy" src="<?php echo esc_url($thumb_url[0]); ?>"
                            class="img-fluid rounded cursor-pointer preview-image shadow-box w-100 <?php echo $active_class; ?>"
                            data-slide-index="<?php echo $index; ?>"
                            alt="<?php echo esc_attr($thumb_alt ?: 'Превью ' . ($index + 1)); ?>">

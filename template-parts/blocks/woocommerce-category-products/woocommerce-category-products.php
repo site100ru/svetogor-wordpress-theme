@@ -60,8 +60,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
     <div class="section-content-cards">
       <div class="section-title text-center">
         <h3><?php echo esc_html($selected_category->name); ?></h3>
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки"
-          class="img-fluid" />
+        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
       </div>
 
       <!-- Десктопная версия -->
@@ -77,8 +76,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
           <article class="col-lg-4">
             <a href="<?php echo esc_url(get_permalink()); ?>" class="card card-img-container">
               <div class="card-img-container">
-                <img src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>"
-                  class="card-img-top" />
+                <img loading="lazy" src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="card-img-top" />
               </div>
               <div class="card-body">
                 <h5 class="card-title"><?php the_title(); ?></h5>
@@ -124,8 +122,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                 <article class="glide__slide">
                   <a href="<?php echo esc_url(get_permalink()); ?>" class="card card-img-container">
                     <div class="card-img-container">
-                      <img src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>"
-                        class="card-img-top" />
+                      <img loading="lazy" src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="card-img-top" />
                     </div>
                     <div class="card-body">
                       <h5 class="card-title"><?php the_title(); ?></h5>
@@ -154,14 +151,14 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
           <!-- Стрелки навигации -->
           <div class="glide__arrows" data-glide-el="controls">
             <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
-              <img
+              <img loading="lazy"
                 src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>"
-                alt="Назад" loading="lazy" />
+                alt="Назад"  />
             </button>
             <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
-              <img
+              <img loading="lazy"
                 src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>"
-                alt="Вперед" loading="lazy" />
+                alt="Вперед"  />
             </button>
           </div>
         </div>

@@ -122,7 +122,7 @@ function add_category_custom_fields() {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
                 
                 $('#category_photo_id').val(attachment.id);
-                $('#category_photo_preview').html('<img src="' + attachment.sizes.medium.url + '" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;">');
+                $('#category_photo_preview').html('<img loading="lazy" src="' + attachment.sizes.medium.url + '" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;">');
                 $('#remove-category-photo').show();
             });
             
@@ -190,7 +190,7 @@ function edit_category_custom_fields($term) {
             <div id="category_photo_container">
                 <div id="category_photo_preview" style="margin-bottom: 15px;">
                     <?php if ($photo_url): ?>
-                        <img src="<?php echo $photo_url; ?>" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;" alt="Изображение товара категории">
+                        <img loading="lazy" src="<?php echo $photo_url; ?>" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;" alt="Изображение товара категории">
                     <?php else: ?>
                         <div style="width: 200px; height: 120px; background: #f0f0f0; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
                             <span style="color: #666;">Фото не выбрано</span>
@@ -287,7 +287,7 @@ function edit_category_custom_fields($term) {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
                 
                 $('#category_photo_id').val(attachment.id);
-                $('#category_photo_preview').html('<img src="' + attachment.sizes.medium.url + '" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;">');
+                $('#category_photo_preview').html('<img loading="lazy" src="' + attachment.sizes.medium.url + '" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;">');
                 $('#remove-category-photo').show();
             });
             

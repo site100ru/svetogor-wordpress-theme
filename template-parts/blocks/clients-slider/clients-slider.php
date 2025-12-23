@@ -34,7 +34,7 @@ $bg_class = ($clients_background === 'bg-grey') ? 'bg-grey' : '';
     <div class="container">
         <div class="section-title text-center">
             <h2><?php echo esc_html($clients_title); ?></h2>
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
         </div>
 
         <div class="glide glide-auto"      data-glide-perview="6"
@@ -58,12 +58,12 @@ $bg_class = ($clients_background === 'bg-grey') ? 'bg-grey' : '';
                                 <a href="<?php echo esc_url($client_website); ?>" target="_blank" rel="noopener noreferrer"
                                     class="client-link">
 
-                                    <img src="<?php echo esc_url($client_logo['url']); ?>" class="img-fluid client-logo mx-auto"
-                                        alt="<?php echo esc_attr($client_name); ?>" loading="lazy" />
+                                    <img loading="lazy" src="<?php echo esc_url($client_logo['url']); ?>" class="img-fluid client-logo mx-auto"
+                                        alt="<?php echo esc_attr($client_name); ?>"  />
                                 </a>
                             <?php else: ?>
-                                <img src="<?php echo esc_url($client_logo['url']); ?>" class="img-fluid client-logo  mx-auto"
-                                    alt="<?php echo esc_attr($client_name); ?>" loading="lazy" />
+                                <img loading="lazy" src="<?php echo esc_url($client_logo['url']); ?>" class="img-fluid client-logo  mx-auto"
+                                    alt="<?php echo esc_attr($client_name); ?>"  />
                             <?php endif; ?>
                         </li>
                     <?php endforeach; ?>
@@ -74,15 +74,15 @@ $bg_class = ($clients_background === 'bg-grey') ? 'bg-grey' : '';
                 <div class="glide__arrows" data-glide-el="controls">
                     <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;" data-glide-el="controls"
                         aria-label="Предыдущий слайд">
-                        <img
+                        <img loading="lazy"
                             src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>"
-                            alt="Назад" loading="lazy" />
+                            alt="Назад"  />
                     </button>
                     <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;" data-glide-el="controls"
                         aria-label="Следующий слайд">
-                        <img
+                        <img loading="lazy"
                             src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>"
-                            alt="Вперед" loading="lazy" />
+                            alt="Вперед"  />
                     </button>
                 </div>
             <?php endif; ?>

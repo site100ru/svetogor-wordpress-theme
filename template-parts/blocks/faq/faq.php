@@ -22,7 +22,7 @@ $bg_class = ($background_color == 'bg-grey') ? 'bg-grey' : '';
   <div class="container">
     <div class="section-title text-center">
       <h2><?php echo esc_html($title); ?></h2>
-      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
     </div>
 
     <div class="col-lg-<?php echo $container_width; ?> text-center mx-auto">

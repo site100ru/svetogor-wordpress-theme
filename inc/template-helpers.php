@@ -17,7 +17,7 @@ function render_breadcrumbs($items = array())
                     <!-- Домашняя страница -->
                     <li class="breadcrumb-item">
                         <a href="<?php echo home_url(); ?>" class="text-decoration-none text-secondary">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Изображение домика" />
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика" />
                         </a>
                     </li>
 
@@ -136,7 +136,7 @@ function render_card($post_id, $post_type = 'post')
         <a href="<?php echo esc_url($link); ?>" class="card h-100 m-0 bg-linear-gradient-wrapper text-decoration-none">
             <div class="card-img-container">
                 <?php if ($featured_image): ?>
-                    <img src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($title); ?>" class="card-img-top">
+                    <img loading="lazy" src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($title); ?>" class="card-img-top">
                 <?php endif; ?>
             </div>
             <div class="card-body d-flex flex-column">
@@ -168,9 +168,9 @@ function render_service_card($post_id)
             <div class="row g-0 align-items-center h-100">
                 <div class="col-12 col-lg-4 text-center card-img-container">
                     <?php if ($featured_image): ?>
-                        <img src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($title); ?>" class="img-fluid" />
+                        <img loading="lazy" src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($title); ?>" class="img-fluid" />
                     <?php else: ?>
-                        <img src="<?php echo wc_placeholder_img_src(); ?>" alt="<?php echo esc_attr($title); ?>" class="img-fluid" />
+                        <img loading="lazy" src="<?php echo wc_placeholder_img_src(); ?>" alt="<?php echo esc_attr($title); ?>" class="img-fluid" />
                     <?php endif; ?>
                 </div>
                 <div class="col-12 col-lg-8">
@@ -227,7 +227,7 @@ function render_archive_template($args = array())
                 <!-- Заголовок -->
                 <div class="section-title text-center">
                     <h3><?php echo esc_html($args['title']); ?></h3>
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
                 </div>
 
                 <!-- Карточки -->
@@ -287,7 +287,7 @@ function render_related_posts($current_id, $post_type, $title, $archive_link, $b
         <div class="container">
             <div class="section-title text-center">
                 <h2><?php echo esc_html($title); ?></h2>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
             </div>
 
             <div class="tab-pane fade show active">

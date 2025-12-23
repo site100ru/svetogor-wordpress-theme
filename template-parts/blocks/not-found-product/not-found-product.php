@@ -30,7 +30,7 @@ $image_alt = $background_image ? $background_image['alt'] : 'Изображен�
 
     <!-- Правая часть с картинкой (скрывается на мобилках) -->
     <div class="right-part d-none d-md-block">
-      <img src="<?php echo esc_url($image_src); ?>" alt="<?php echo esc_attr($image_alt); ?>" class="img-cover" />
+      <img loading="lazy" src="<?php echo esc_url($image_src); ?>" alt="<?php echo esc_attr($image_alt); ?>" class="img-cover" />
     </div>
   </div>
 
@@ -43,8 +43,7 @@ $image_alt = $background_image ? $background_image['alt'] : 'Изображен�
           <?php echo wp_kses_post($description); ?>
         </div>
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки"
-          class="img-fluid mb-5" />
+        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid mb-5" />
 
         <br />
 
@@ -71,8 +70,7 @@ $image_alt = $background_image ? $background_image['alt'] : 'Изображен�
                     <li class="nav-item">
                       <a class="nav-link ico-button" href="<?php echo esc_url($social['url']); ?>"
                         title="<?php echo esc_attr($social['name']); ?>">
-                        <img src="<?php echo esc_url($social['icon']['url']); ?>"
-                          alt="<?php echo esc_attr($social['name']); ?>" />
+                        <img loading="lazy" src="<?php echo esc_url($social['icon']['url']); ?>" alt="<?php echo esc_attr($social['name']); ?>" />
                       </a>
                     </li>
                   <?php endforeach; ?>

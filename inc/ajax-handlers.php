@@ -43,7 +43,7 @@ function ajax_preview_related_categories() {
             }
 
             echo '<div style="width: 80px; text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: #f9f9f9;">';
-            echo '<img src="' . esc_url($photo_url) . '" alt="' . esc_attr($category->name) . '" style="width: 60px; height: 40px; object-fit: cover; border-radius: 2px;">';
+            echo '<img loading="lazy" src="' . esc_url($photo_url) . '" alt="' . esc_attr($category->name) . '" style="width: 60px; height: 40px; object-fit: cover; border-radius: 2px;">';
             echo '<div style="font-size: 11px; margin-top: 5px; line-height: 1.2;">' . esc_html($category->name) . '</div>';
             echo '</div>';
         }

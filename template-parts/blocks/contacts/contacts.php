@@ -9,7 +9,7 @@
   <div class="container">
     <div class="section-title text-center">
       <h3>Контакты</h3>
-      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
     </div>
 
     <!-- Контактный контент -->
@@ -18,22 +18,19 @@
       <div class="col-12 col-md-6 col-xl-4">
         <!-- Адрес -->
         <div class="d-flex align-items-center mb-3">
-          <img src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" alt="Адрес"
-            class="me-3 img-fluid" />
+          <img loading="lazy" src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" alt="Адрес" class="me-3 img-fluid" />
           <p class="mb-0"><?php echo esc_html(get_company_address()); ?></p>
         </div>
 
         <!-- Время работы -->
         <div class="d-flex align-items-center mb-3">
-          <img src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>" alt="Время работы"
-            class="me-3 img-fluid" />
+          <img loading="lazy" src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>" alt="Время работы" class="me-3 img-fluid" />
           <p class="mb-0"><?php echo esc_html(get_company_work_hours()); ?></p>
         </div>
 
         <!-- Email -->
         <div class="d-flex align-items-center mb-3">
-          <img src="<?php echo esc_url(get_contact_icon_url('email_icon', 'email-ico.svg')); ?>" alt="Email"
-            class="me-3 img-fluid" />
+          <img loading="lazy" src="<?php echo esc_url(get_contact_icon_url('email_icon', 'email-ico.svg')); ?>" alt="Email" class="me-3 img-fluid" />
           <a href="mailto:<?php echo esc_attr(get_company_email()); ?>" class="text-decoration-none">
             <?php echo esc_html(get_company_email()); ?>
           </a>
@@ -51,7 +48,7 @@
               $phone_icon_url = $phone['phone_icon'] ? $phone['phone_icon']['url'] : get_contact_icon_url('phone_icon', 'mobile-phone-ico.svg');
               ?>
               <div class="d-flex align-items-start mb-3">
-                <img src="<?php echo esc_url($phone_icon_url); ?>" alt="Телефон" class="me-3 img-fluid" aria-hidden="true" />
+                <img loading="lazy" src="<?php echo esc_url($phone_icon_url); ?>" alt="Телефон" class="me-3 img-fluid" aria-hidden="true" />
                 <div>
                   <div class="d-flex flex-wrap">
                     <a href="tel:<?php echo esc_attr(format_phone_for_href($phone['phone_number'])); ?>"
@@ -96,8 +93,7 @@
           if ($social['icon'] && $social['url']):
             ?>
             <a href="<?php echo esc_url($social['url']); ?>" target="_blank" rel="noopener">
-              <img src="<?php echo esc_url($social['icon']['url']); ?>" alt="<?php echo esc_attr($social['name']); ?>"
-                style="width: 40px" />
+              <img loading="lazy" src="<?php echo esc_url($social['icon']['url']); ?>" alt="<?php echo esc_attr($social['name']); ?>" style="width: 40px" />
             </a>
             <?php
           endif;

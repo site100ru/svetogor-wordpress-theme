@@ -57,8 +57,7 @@ if ($image_position === 'left') {
         <div
           class="col-12 col-md-<?php echo esc_attr($image_col_md); ?> col-xl-<?php echo esc_attr($image_col_xl); ?> <?php echo esc_attr($image_order_mobile . ' ' . $image_order_desktop); ?> section-image">
           <?php if (!empty($image)): ?>
-            <img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt'] ?: 'Изображение'); ?>"
-              class="img-fluid card-img-container">
+            <img loading="lazy" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt'] ?: 'Изображение'); ?>" class="img-fluid card-img-container">
           <?php endif; ?>
         </div>
 
@@ -93,8 +92,7 @@ if ($image_position === 'left') {
         <div
           class="col-12 col-md-<?php echo esc_attr($image_col_md); ?> col-xl-<?php echo esc_attr($image_col_xl); ?> text-center section-image">
           <?php if (!empty($image)): ?>
-            <img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt'] ?: 'Изображение'); ?>"
-              class="img-fluid card-img-container">
+            <img loading="lazy" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt'] ?: 'Изображение'); ?>" class="img-fluid card-img-container">
           <?php endif; ?>
         </div>
       <?php endif; ?>

@@ -25,7 +25,7 @@ if (!empty($alignment)) {
   <div class="container">
     <div class="section-title text-center">
       <h3><?php echo esc_html($title); ?></h3>
-      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
     </div>
 
     <div class="row <?php echo $justify_class; ?>">
@@ -36,8 +36,7 @@ if (!empty($alignment)) {
           ?>
           <div class="col-12 col-md-6 col-lg-4 mb-4">
             <div class="card-img-container">
-              <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($image_alt); ?>" class="card-img-top"
-                loading="lazy" />
+              <img loading="lazy" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($image_alt); ?>" class="card-img-top"/>
             </div>
           </div>
         <?php endforeach; ?>

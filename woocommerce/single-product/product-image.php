@@ -46,8 +46,7 @@ $carousel_id = 'carousel-' . $product_id;
         <button class="gallery-product gallery-<?php echo esc_attr($product_id); ?> bg-transparent"
           onclick="galleryOn('gallery-<?php echo esc_attr($product_id); ?>');">
           <div class="single-product-img approximation img-wrapper position-relative">
-            <img src="<?php echo esc_url($image_url); ?>" class="d-block w-100 h-100" loading="lazy"
-              alt="<?php echo esc_attr($image_alt); ?>">
+            <img loading="lazy" src="<?php echo esc_url($image_url); ?>" class="d-block w-100 h-100" alt="<?php echo esc_attr($image_alt); ?>">
           </div>
         </button>
       </div>
@@ -84,7 +83,7 @@ $carousel_id = 'carousel-' . $product_id;
           }
         ?>
           <div class="col">
-            <img src="<?php echo esc_url($thumb_url); ?>"
+            <img loading="lazy" src="<?php echo esc_url($thumb_url); ?>"
               class="img-fluid rounded cursor-pointer preview-image shadow-box <?php echo $global_index === 0 ? 'active' : ''; ?>"
               onclick="$('#<?php echo esc_attr($carousel_id); ?>').carousel(<?php echo $global_index; ?>)"
               alt="<?php echo esc_attr($image_alt); ?>">

@@ -17,7 +17,7 @@ get_header('shop'); ?>
                     <!-- Иконка главной -->
                     <li class="breadcrumb-item">
                         <a href="<?php echo home_url('/'); ?>">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Изображение домика" />
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика" />
                         </a>
                     </li>
                     <?php
@@ -112,8 +112,7 @@ get_header('shop'); ?>
                     <div class="col-12 col-lg-4 product-descriprion">
                         <div class="section-title mb-0">
                             <h2 class="product_title"><?php the_title(); ?></h2>
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки"
-                                class="img-fluid">
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
                         </div>
 
                         <?php

@@ -40,8 +40,7 @@
 							<li class="nav-item me-3 me-md-1 me-xl-3">
 								<div
 									class="nav-link d-flex align-items-center gap-3 gap-md-2 gap-xl-3 lh-1 nav-link-text nav-link-email">
-									<img src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>"
-										alt="Адрес" />
+									<img loading="lazy" src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" alt="Адрес" />
 									<span>
 										<?php echo esc_html(get_company_address()); ?>
 									</span>
@@ -52,7 +51,7 @@
 							<li class="nav-item me-3 me-md-1 me-xl-3">
 								<a href="mailto:<?php echo esc_attr(get_company_email()); ?>"
 									class="nav-link d-flex align-items-center gap-3 gap-md-2 gap-xl-3 lh-1 nav-link-text">
-									<img src="<?php echo esc_url(get_contact_icon_url('email_icon', 'email-ico.svg')); ?>" alt="Email" />
+									<img loading="lazy" src="<?php echo esc_url(get_contact_icon_url('email_icon', 'email-ico.svg')); ?>" alt="Email" />
 									<?php echo esc_html(get_company_email()); ?>
 								</a>
 							</li>
@@ -61,8 +60,7 @@
 							<li class="nav-item me-3 me-md-1 me-xl-3">
 								<button class="nav-link d-flex align-items-center gap-3 gap-md-2 gap-xl-3 lh-1" data-bs-toggle="modal"
 									data-bs-target="#callbackModal">
-									<img src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>"
-										alt="Обратный звонок" />
+									<img loading="lazy" src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>" alt="Обратный звонок" />
 									Обратный звонок
 								</button>
 							</li>
@@ -75,8 +73,7 @@
 								?>
 								<button class="nav-link d-flex align-items-center gap-3 gap-md-2 gap-xl-3 lh-1" data-bs-toggle="modal"
 									data-bs-target="<?php echo $target_modal; ?>">
-									<img src="<?php echo esc_url(get_contact_icon_url('calculator_icon', 'calculator.svg')); ?>"
-										alt="Калькулятор" />
+									<img loading="lazy" src="<?php echo esc_url(get_contact_icon_url('calculator_icon', 'calculator.svg')); ?>" alt="Калькулятор" />
 									Рассчитать стоимость
 								</button>
 							</li>
@@ -88,8 +85,7 @@
 								<li class="nav-item ms-auto me-3 me-md-1 me-xl-3">
 									<a class="top-menu-tel nav-link gap-3"
 										href="tel:<?php echo esc_attr(format_phone_for_href($main_phone_data['phone_number'])); ?>">
-										<img src="<?php echo esc_url(get_contact_icon_url('global_phone_icon', 'mobile-phone-ico.svg')); ?>"
-											alt="Телефон" />
+										<img loading="lazy" src="<?php echo esc_url(get_contact_icon_url('global_phone_icon', 'mobile-phone-ico.svg')); ?>" alt="Телефон" />
 										<?php echo esc_html($main_phone_data['phone_number']); ?>
 									</a>
 								</li>
@@ -104,8 +100,7 @@
 										?>
 										<li class="nav-item">
 											<a class="nav-link ico-button" href="<?php echo esc_url($social['url']); ?>" target="_blank">
-												<img src="<?php echo esc_url($social['icon']['url']); ?>"
-													alt="<?php echo esc_attr($social['name']); ?>" />
+												<img loading="lazy" src="<?php echo esc_url($social['icon']['url']); ?>" alt="<?php echo esc_attr($social['name']); ?>" />
 											</a>
 										</li>
 										<?php

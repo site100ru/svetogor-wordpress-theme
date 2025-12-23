@@ -52,23 +52,21 @@ $block_id = 'carousel_' . $block['id'];
     <button class="carousel-control-prev" type="button" data-bs-target="#<?php echo esc_attr($block_id); ?>"
       data-bs-slide="prev">
       <?php if ($prev_arrow): ?>
-        <img src="<?php echo esc_url($prev_arrow['url']); ?>"
-          alt="<?php echo esc_attr($prev_arrow['alt'] ?: 'Previous'); ?>" class="carousel-control-icon">
+        <img loading="lazy" src="<?php echo esc_url($prev_arrow['url']); ?>" alt="<?php echo esc_attr($prev_arrow['alt'] ?: 'Назад'); ?>" class="carousel-control-icon">
       <?php else: ?>
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <?php endif; ?>
-      <span class="visually-hidden">Previous</span>
+      <span class="visually-hidden">Назад</span>
     </button>
 
     <button class="carousel-control-next" type="button" data-bs-target="#<?php echo esc_attr($block_id); ?>"
       data-bs-slide="next">
       <?php if ($next_arrow): ?>
-        <img src="<?php echo esc_url($next_arrow['url']); ?>" alt="<?php echo esc_attr($next_arrow['alt'] ?: 'Next'); ?>"
-          class="carousel-control-icon">
+        <img loading="lazy" src="<?php echo esc_url($next_arrow['url']); ?>" alt="<?php echo esc_attr($next_arrow['alt'] ?: 'Далее'); ?>" class="carousel-control-icon">
       <?php else: ?>
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <?php endif; ?>
-      <span class="visually-hidden">Next</span>
+      <span class="visually-hidden">Далее</span>
     </button>
   <?php endif; ?>
 </div>

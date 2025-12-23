@@ -62,7 +62,7 @@ if ($show_articles) {
   <div class="container">
     <div class="section-title text-center">
       <h2><?php echo esc_html($block_title); ?></h2>
-      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
     </div>
 
     <!-- Табуляция -->
@@ -82,8 +82,7 @@ if ($show_articles) {
 
         <?php if ($show_news && $show_articles): ?>
           <li class="nav-item">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/menu-decoration-point.svg"
-              alt="Декоративная точка - разделитель" class="img-fluid py-3" />
+            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/menu-decoration-point.svg" alt="Декоративная точка - разделитель" class="img-fluid py-3" />
           </li>
         <?php endif; ?>
 
@@ -119,7 +118,7 @@ if ($show_articles) {
                       <?php if (has_post_thumbnail()): ?>
                         <?php the_post_thumbnail('medium', array('class' => 'card-img-top', 'alt' => get_the_title())); ?>
                       <?php else: ?>
-                        <img src="<?php echo wc_placeholder_img_src(); ?>" alt="<?php the_title(); ?>" class="card-img-top" />
+                        <img loading="lazy" src="<?php echo wc_placeholder_img_src(); ?>" alt="<?php the_title(); ?>" class="card-img-top" />
                       <?php endif; ?>
                     </div>
                     <div class="card-body d-flex flex-column">
@@ -167,7 +166,7 @@ if ($show_articles) {
                       <?php if (has_post_thumbnail()): ?>
                         <?php the_post_thumbnail('medium', array('class' => 'card-img-top', 'alt' => get_the_title())); ?>
                       <?php else: ?>
-                        <img src="<?php echo wc_placeholder_img_src(); ?>" alt="<?php the_title(); ?>" class="card-img-top" />
+                        <img loading="lazy" src="<?php echo wc_placeholder_img_src(); ?>" alt="<?php the_title(); ?>" class="card-img-top" />
                       <?php endif; ?>
                     </div>
                     <div class="card-body d-flex flex-column">

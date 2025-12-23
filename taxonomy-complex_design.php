@@ -27,7 +27,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
       <ol class="breadcrumb bg-transparent p-0 m-0">
         <li class="breadcrumb-item">
           <a href="<?php echo esc_url(home_url('/')); ?>" class="text-decoration-none text-secondary">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Изображение домика"  />
+            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика"  />
           </a>
         </li>
         <li class="breadcrumb-item">Комплексное оформление</li>
@@ -46,7 +46,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
           Комплексное оформление <br />
           <?php echo esc_html(mb_strtolower($current_term->name)); ?>
         </h3>
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
       </div>
 
       <?php if (!empty($linked_categories) || !empty($linked_products)): ?>
@@ -74,8 +74,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                   style="height: calc(100% - 12px);">
                   <div class="row g-0 align-items-center h-100">
                     <div class="col-12 col-lg-4 text-center card-img-container">
-                      <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($category->name); ?>"
-                        class="img-fluid" />
+                      <img loading="lazy" src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($category->name); ?>" class="img-fluid" />
                     </div>
                     <div class="col-12 col-lg-8">
                       <div class="card-body">
@@ -135,8 +134,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                     style="height: calc(100% - 12px);">
                     <div class="row g-0 align-items-center h-100">
                     <div class="col-12 col-lg-4 text-center card-img-container">
-                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($product->get_name()); ?>"
-                        class="img-fluid" />
+                        <img loading="lazy" src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($product->get_name()); ?>" class="img-fluid" />
                     </div>
                     <div class="col-12 col-lg-8">
                         <div class="card-body">

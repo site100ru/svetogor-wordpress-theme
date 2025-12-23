@@ -66,8 +66,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
   <div class="container">
     <div class="section-title text-center">
       <h3><?php echo esc_html($slider_title); ?></h3>
-      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Описание изображения"
-        class="img-fluid" />
+      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Описание изображения" class="img-fluid" />
     </div>
 
     <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable"      data-glide-perview="3"
@@ -95,8 +94,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                 class="card bg-transparent cursor-pointer w-100"
                 data-post-id="<?php echo $post_id; ?>">
                 <div class="card-img-container">
-                  <img src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($post_title); ?>"
-                    class="card-img-top" />
+                  <img loading="lazy" src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($post_title); ?>" class="card-img-top" />
                 </div>
                 <div class="card-body text-center">
                   <h5 class="card-title"><?php echo esc_html($post_title); ?></h5>
@@ -109,14 +107,14 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
 
       <div class="glide__arrows" data-glide-el="controls">
         <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
-          <img
+          <img loading="lazy"
             src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>"
-            alt="Назад" loading="lazy" />
+            alt="Назад"  />
         </button>
         <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
-          <img
+          <img loading="lazy"
             src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>"
-            alt="Вперед" loading="lazy" />
+            alt="Вперед"  />
         </button>
       </div>
     </div>
