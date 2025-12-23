@@ -6,17 +6,17 @@
   <div class="row mb-4">
     <div class="col-md-4 col-12 mb-3 mb-md-0">
       <label for="name-input" class="form-label">Имя</label>
-      <input type="text" class="form-control" name="your-name" id="name-input" required />
+      <input type="text" class="form-control" name="your-name" id="name-input" required>
       <div class="invalid-feedback">Введите ваше имя</div>
     </div>
     <div class="col-md-4 col-12 mb-3 mb-md-0">
       <label for="phone-input" class="form-label">Телефон</label>
-      <input type="tel" class="form-control" name="your-phone" id="phone-input" required />
+      <input type="tel" class="form-control" name="your-phone" id="phone-input" required>
       <div class="invalid-feedback">Введите корректный телефон</div>
     </div>
     <div class="col-md-4 col-12">
       <label for="email-input" class="form-label">Email</label>
-      <input type="email" class="form-control" name="your-email" id="email-input" required />
+      <input type="email" class="form-control" name="your-email" id="email-input" required>
       <div class="invalid-feedback">Введите корректный email</div>
     </div>
   </div>
@@ -26,17 +26,17 @@
     <p>Хочу получить расчет на:</p>
     <div class="d-flex gap-4">
       <label class="image-checkbox-container">
-        <input type="checkbox" name="contact-methods[]" value="WhatsApp" />
+        <input type="checkbox" name="contact-methods[]" value="WhatsApp">
         <span class="custom-checkbox"></span>
         <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/whatsapp.svg" alt="WhatsApp" />
       </label>
       <label class="image-checkbox-container">
-        <input type="checkbox" name="contact-methods[]" value="Telegram" />
+        <input type="checkbox" name="contact-methods[]" value="Telegram">
         <span class="custom-checkbox"></span>
         <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/telegram.svg" alt="Telegram" />
       </label>
       <label class="image-checkbox-container">
-        <input type="checkbox" name="contact-methods[]" value="Email" />
+        <input type="checkbox" name="contact-methods[]" value="Email">
         <span class="custom-checkbox"></span>
         <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/message.svg" alt="Email" />
       </label>
@@ -58,16 +58,16 @@
         <button type="button" class="btn btn-invert btn-big file-upload-btn">
           Прикрепить файл
         </button>
-        <input type="file" name="your-file" class="file-upload" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx" />
+        <input type="file" name="your-file" class="file-upload" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx">
         <span class="file-name">Файл не прикреплен</span>
       </div>
     </div>
   </div>
 
   <!-- Скрытые поля -->
-  <input type="hidden" name="page-url" value="" />
-  <input type="hidden" name="page-title" value="" />
-  <input type="hidden" name="referrer" value="" />
+  <input type="hidden" name="page-url" value="">
+  <input type="hidden" name="page-title" value="">
+  <input type="hidden" name="referrer" value="">
 
   <!-- Седьмая строка: Кнопка отправить -->
   <div class="row">

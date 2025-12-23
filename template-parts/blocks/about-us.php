@@ -49,7 +49,7 @@ $section_class .= $background_color === 'bg-grey' ? ' bg-grey' : '';
           <h2 class="mb-1"><?php echo esc_html($section_title); ?></h2>
 
           <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
-          <br />
+          <br>
         <?php endif; ?>
 
         <?php if (!empty($description)): ?>

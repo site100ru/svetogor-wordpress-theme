@@ -57,7 +57,7 @@ function add_complex_design_thumbnail_field($tag) {
     ?>
     <div class="form-field">
         <label for="complex_design_thumbnail">Миниатюра</label>
-        <input type="hidden" id="complex_design_thumbnail" name="complex_design_thumbnail" value="" />
+        <input type="hidden" id="complex_design_thumbnail" name="complex_design_thumbnail" value="">
         <div id="complex_design_thumbnail_preview"></div>
         <button type="button" class="button complex-design-thumbnail-upload">Выбрать изображение</button>
         <button type="button" class="button complex-design-thumbnail-remove" style="display:none;">Удалить изображение</button>
@@ -85,7 +85,7 @@ function add_complex_design_thumbnail_field($tag) {
                 mediaUploader.on('select', function () {
                     var attachment = mediaUploader.state().get('selection').first().toJSON();
                     $('#complex_design_thumbnail').val(attachment.id);
-                    $('#complex_design_thumbnail_preview').html('<img loading="lazy" src="' + attachment.sizes.thumbnail.url + '" style="max-width: 150px;" />');
+                    $('#complex_design_thumbnail_preview').html('<img loading="lazy" src="' + attachment.sizes.thumbnail.url + '" style="max-width: 150px;">');
                     $('.complex-design-thumbnail-remove').show();
                 });
 
@@ -125,7 +125,7 @@ function edit_complex_design_thumbnail_field($tag) {
             </div>
             <button type="button" class="button complex-design-thumbnail-upload">Выбрать изображение</button>
             <button type="button" class="button complex-design-thumbnail-remove" style="<?php echo $thumbnail_url ? '' : 'display:none;'; ?>">Удалить изображение</button>
-            <br />
+            <br>
             <span class="description">Миниатюра оформления.</span>
         </td>
     </tr>
@@ -151,7 +151,7 @@ function edit_complex_design_thumbnail_field($tag) {
                 mediaUploader.on('select', function () {
                     var attachment = mediaUploader.state().get('selection').first().toJSON();
                     $('#complex_design_thumbnail').val(attachment.id);
-                    $('#complex_design_thumbnail_preview').html('<img loading="lazy" src="' + attachment.sizes.thumbnail.url + '" style="max-width: 150px;" />');
+                    $('#complex_design_thumbnail_preview').html('<img loading="lazy" src="' + attachment.sizes.thumbnail.url + '" style="max-width: 150px;">');
                     $('.complex-design-thumbnail-remove').show();
                 });
 
@@ -181,7 +181,7 @@ function add_complex_design_products_field($tag) {
     ?>
     <div class="form-field">
         <label for="complex_design_products">Связанные товары</label>
-        <input type="text" id="product_search" placeholder="Поиск товара..." style="width: 100%; margin-bottom: 10px;" />
+        <input type="text" id="product_search" placeholder="Поиск товара..." style="width: 100%; margin-bottom: 10px;">
         <?php
         $products = get_posts(array(
             'post_type' => 'product',
@@ -233,7 +233,7 @@ function edit_complex_design_products_field($tag) {
     <tr class="form-field">
         <th scope="row" valign="top"><label for="complex_design_products">Связанные товары</label></th>
         <td>
-            <input type="text" id="product_search" placeholder="Поиск товара..." style="width: 100%; margin-bottom: 10px;" />
+            <input type="text" id="product_search" placeholder="Поиск товара..." style="width: 100%; margin-bottom: 10px;">
             <?php
             $products = get_posts(array(
                 'post_type' => 'product',
@@ -254,7 +254,7 @@ function edit_complex_design_products_field($tag) {
                 echo '</div>';
             }
             ?>
-            <br />
+            <br>
             <span class="description">Товары, связанные с этим оформлением.</span>
         </td>
     </tr>
@@ -289,7 +289,7 @@ function add_complex_design_categories_field($tag) {
     ?>
     <div class="form-field">
         <label for="complex_design_categories">Связанные категории</label>
-        <input type="text" id="category_search" placeholder="Поиск категории..." style="width: 100%; margin-bottom: 10px;" />
+        <input type="text" id="category_search" placeholder="Поиск категории..." style="width: 100%; margin-bottom: 10px;">
         <?php
         $categories = get_terms(array(
             'taxonomy' => 'product_cat',
@@ -339,7 +339,7 @@ function edit_complex_design_categories_field($tag) {
     <tr class="form-field">
         <th scope="row" valign="top"><label for="complex_design_categories">Связанные категории</label></th>
         <td>
-            <input type="text" id="category_search" placeholder="Поиск категории..." style="width: 100%; margin-bottom: 10px;" />
+            <input type="text" id="category_search" placeholder="Поиск категории..." style="width: 100%; margin-bottom: 10px;">
             <?php
             $categories = get_terms(array(
                 'taxonomy' => 'product_cat',
@@ -358,7 +358,7 @@ function edit_complex_design_categories_field($tag) {
                 echo '</div>';
             }
             ?>
-            <br />
+            <br>
             <span class="description">Категории, связанные с этим оформлением.</span>
         </td>
     </tr>

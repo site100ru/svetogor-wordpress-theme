@@ -4,15 +4,15 @@
 <div class="row mb-4">
   <div class="col-md-4 col-12 mb-3 mb-md-0">
     <label for="name-input" class="form-label">Имя</label>
-    <input type="text" class="form-control" name="your-name" id="name-input" required />
+    <input type="text" class="form-control" name="your-name" id="name-input" required>
   </div>
   <div class="col-md-4 col-12 mb-3 mb-md-0">
     <label for="phone-input" class="form-label">Телефон</label>
-    <input type="tel" class="form-control" name="your-phone" id="phone-input" required />
+    <input type="tel" class="form-control" name="your-phone" id="phone-input" required>
   </div>
   <div class="col-md-4 col-12">
     <label for="email-input" class="form-label">Email</label>
-    <input type="email" class="form-control" name="your-email" id="email-input" required />
+    <input type="email" class="form-control" name="your-email" id="email-input" required>
   </div>
 </div>
 
@@ -21,17 +21,17 @@
   <p>Хочу получить расчет на:</p>
   <div class="d-flex gap-4">
     <label class="image-checkbox-container">
-      <input type="checkbox" name="contact-methods[]" value="WhatsApp" />
+      <input type="checkbox" name="contact-methods[]" value="WhatsApp">
       <span class="custom-checkbox"></span>
       <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/whatsapp.svg" alt="WhatsApp" />
     </label>
     <label class="image-checkbox-container">
-      <input type="checkbox" name="contact-methods[]" value="Telegram" />
+      <input type="checkbox" name="contact-methods[]" value="Telegram">
       <span class="custom-checkbox"></span>
       <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/telegram.svg" alt="Telegram" />
     </label>
     <label class="image-checkbox-container">
-      <input type="checkbox" name="contact-methods[]" value="Email" />
+      <input type="checkbox" name="contact-methods[]" value="Email">
       <span class="custom-checkbox"></span>
       <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/message.svg" alt="Email" />
     </label>
@@ -102,22 +102,22 @@
   <p class="form-label">Так же мне нужно:</p>
   <div class="col-12 d-flex gap-4 flex-wrap">
     <label class="custom-checkbox-container">
-      <input type="checkbox" name="additional-services[]" value="Выезд на замер" />
+      <input type="checkbox" name="additional-services[]" value="Выезд на замер">
       <span class="custom-checkbox"></span>
       <span>Выезд на замер</span>
     </label>
     <label class="custom-checkbox-container">
-      <input type="checkbox" name="additional-services[]" value="Разработка дизайна" />
+      <input type="checkbox" name="additional-services[]" value="Разработка дизайна">
       <span class="custom-checkbox"></span>
       <span>Разработка дизайна</span>
     </label>
     <label class="custom-checkbox-container">
-      <input type="checkbox" name="additional-services[]" value="Монтаж" />
+      <input type="checkbox" name="additional-services[]" value="Монтаж">
       <span class="custom-checkbox"></span>
       <span>Монтаж</span>
     </label>
     <label class="custom-checkbox-container">
-      <input type="checkbox" name="additional-services[]" value="Доставка" />
+      <input type="checkbox" name="additional-services[]" value="Доставка">
       <span class="custom-checkbox"></span>
       <span>Доставка</span>
     </label>
@@ -131,18 +131,18 @@
       <button type="button" class="btn btn-invert btn-big file-upload-btn">
         Прикрепить файл
       </button>
-      <input type="file" name="your-file" class="file-upload" />
+      <input type="file" name="your-file" class="file-upload">
       <span class="file-name">Файл не прикреплен</span>
     </div>
   </div>
 </div>
 
 <!-- Скрытые поля -->
-<input type="hidden" name="page-url" value="" />
-<input type="hidden" name="page-title" value="" />
+<input type="hidden" name="page-url" value="">
+<input type="hidden" name="page-title" value="">
 
-<input type="hidden" name="referrer" value="" />
-<input type="hidden" name="g-recaptcha-response" value="" />
+<input type="hidden" name="referrer" value="">
+<input type="hidden" name="g-recaptcha-response" value="">
 
 <!-- Кнопка отправки -->
 <div class="row">

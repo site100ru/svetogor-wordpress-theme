@@ -104,7 +104,7 @@ function render_seo_meta_box($post) {
                     
                     <p class="description" style="margin: 0;">
                         <?php if ($default_image_url): ?>
-                            По умолчанию используется: <br/>
+                            По умолчанию используется: <br>
                             <strong>
                             <?php 
                             if (get_post_type($post->ID) === 'portfolio') {
@@ -117,7 +117,7 @@ function render_seo_meta_box($post) {
                         <?php else: ?>
                             Если не выбрать, будет использован логотип сайта
                         <?php endif; ?>
-                        <br/>Рекомендуемый размер: 1200×630 px
+                        <br>Рекомендуемый размер: 1200×630 px
                     </p>
                 </div>
             </div>
@@ -166,7 +166,7 @@ function render_seo_meta_box($post) {
             mediaUploader.on('select', function() {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
                 $('#seo_image').val(attachment.id);
-                $('#seo_image_preview').html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;" />');
+                $('#seo_image_preview').html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;">');
                 $('#remove_seo_image_button').show();
             });
             
@@ -302,7 +302,7 @@ function render_taxonomy_seo_fields_add($taxonomy) {
     
     <div class="form-field">
         <label for="term_seo_title">SEO Title</label>
-        <input type="text" id="term_seo_title" name="term_seo_title" value="" maxlength="70" style="width: 95%;" />
+        <input type="text" id="term_seo_title" name="term_seo_title" value="" maxlength="70" style="width: 95%;">
         <p>Оптимальная длина: 50-60 символов. Если пусто, будет использовано название термина.</p>
     </div>
     
@@ -315,7 +315,7 @@ function render_taxonomy_seo_fields_add($taxonomy) {
     <div class="form-field">
         <label>Open Graph изображение</label>
         <div style="margin-top: 10px;">
-            <input type="hidden" id="term_seo_image" name="term_seo_image" value="" />
+            <input type="hidden" id="term_seo_image" name="term_seo_image" value="">
             <div id="term_seo_image_preview" style="margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; background: #f9f9f9;">
                 <span style="color: #999; font-size: 12px;">Нет изображения</span>
             </div>
@@ -342,7 +342,7 @@ function render_taxonomy_seo_fields_add($taxonomy) {
             mediaUploader.on('select', function() {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
                 $('#term_seo_image').val(attachment.id);
-                $('#term_seo_image_preview').html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;" />');
+                $('#term_seo_image_preview').html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;">');
                 $('#term_remove_seo_image_button').show();
             });
             
@@ -484,7 +484,7 @@ function render_taxonomy_seo_fields_edit($term) {
             mediaUploader.on('select', function() {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
                 $('#term_seo_image').val(attachment.id);
-                $('#term_seo_image_preview').html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;" />');
+                $('#term_seo_image_preview').html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;">');
                 $('#term_remove_seo_image_button').show();
             });
             
@@ -825,7 +825,7 @@ function render_archive_seo_settings_page() {
             mediaUploader.on('select', function() {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
                 $('input[name="archive_seo_image_' + archiveKey + '"]').val(attachment.id);
-                $('#preview-' + archiveKey).html('<img loading="lazy" src="' + attachment.url + '" />');
+                $('#preview-' + archiveKey).html('<img loading="lazy" src="' + attachment.url + '">');
                 $('#remove-image-' + archiveKey).show();
             });
             

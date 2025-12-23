@@ -45,7 +45,7 @@ $image_alt = $background_image ? $background_image['alt'] : 'Изображен�
 
         <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid mb-5" />
 
-        <br />
+        <br>
 
         <?php if (!empty($button_text)): ?>
           <button type="button" class="btn mb-4" data-bs-toggle="modal" data-bs-target="#callbackModal">

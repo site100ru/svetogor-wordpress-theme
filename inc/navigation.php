@@ -425,7 +425,7 @@ function svetogor_output_safe_menu_final()
       
       if ($counter > 0 && !$previous_was_products) {
         echo '<li class="nav-item d-none d-lg-inline align-content-center">';
-        echo '<img loading="lazy" class="nav-link" src="' . get_template_directory_uri() . '/assets/img/ico/menu-decoration-point.svg" alt="Декоративная точка - разделитель" />';
+        echo '<img loading="lazy" class="nav-link" src="' . get_template_directory_uri() . '/assets/img/ico/menu-decoration-point.svg" alt="Декоративная точка - разделитель">';
         echo '</li>';
       }
 
@@ -593,22 +593,22 @@ function svetogor_output_mobile_footer_info()
 {
   echo '<li class="nav-item d-lg-none py-2">';
   echo '<div class="d-flex align-items-center gap-2">';
-  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/location-ico.svg" alt="Иконка карты" style="max-height: 14px" />';
+  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/location-ico.svg" alt="Иконка карты" style="max-height: 14px">';
   echo '<span style="font-size: 14px">г. Москва, ул. Полярная, 31В, оф. 141</span>';
   echo '</div>';
   echo '<a class="top-menu-tel nav-link price-text" style="font-size: 18px" href="tel:+74952450325">+7 (495) 245-03-25</a>';
   echo '<a href="mailto:svetogor.sv@mail.ru" class="d-flex align-items-center gap-2">';
-  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/email-ico.svg" alt="Иконка почтовой собаки" style="max-height: 16px" />';
+  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/email-ico.svg" alt="Иконка почтовой собаки" style="max-height: 16px">';
   echo '<span style="font-size: 14px">svetogor.sv@mail.ru</span>';
   echo '</a>';
   echo '</li>';
 
   echo '<li class="nav-item">';
   echo '<a class="ico-button pe-2" href="https://wa.me/" target="_blank">';
-  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/whatsapp.svg" alt="WhatsApp" />';
+  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/whatsapp.svg" alt="WhatsApp">';
   echo '</a>';
   echo '<a class="ico-button pe-0" href="https://t.me/+79511014610" target="_blank">';
-  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/telegram.svg" alt="Telegram" />';
+  echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/ico/telegram.svg" alt="Telegram">';
   echo '</a>';
   echo '</li>';
 }
@@ -657,7 +657,7 @@ function svetogor_safe_navigation_v5()
 
     // Логотип
     echo '<a class="navbar-brand mx-lg-auto ms-xxl-0" href="' . home_url() . '">';
-    echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/logo.svg" alt="Логотип" />';
+    echo '<img loading="lazy" src="' . get_template_directory_uri() . '/assets/img/logo.svg" alt="Логотип">';
     echo '</a>';
 
     // Кнопка мобильного меню

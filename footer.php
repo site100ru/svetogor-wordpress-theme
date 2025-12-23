@@ -196,7 +196,7 @@
 		</div>
 	</div>
 
-	<hr />
+	<hr>
 
 	<!-- Footer -->
 	<footer id="colophon" class="site-footer">

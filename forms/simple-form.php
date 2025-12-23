@@ -9,17 +9,17 @@
     <div class="row">
       <div class="col-md-6 mb-3 mb-md-0">
         <label for="name-input" class="form-label">Имя</label>
-        <input type="text" name="name" id="name-input" class="form-control" required />
+        <input type="text" name="name" id="name-input" class="form-control" required>
       </div>
       <div class="col-md-6">
         <label for="tel-input" class="form-label">Телефон</label>
-        <input type="text" name="tel" id="tel-input" class="form-control telMask" required />
+        <input type="text" name="tel" id="tel-input" class="form-control telMask" required>
       </div>
     </div>
 
     <!-- Скрытые поля -->
-    <input type="hidden" name="page-url" value="" />
-    <input type="hidden" name="page-title" value="" />
+    <input type="hidden" name="page-url" value="">
+    <input type="hidden" name="page-title" value="">
   </div>
   <div class="modal-footer justify-content-">
     <div class="row w-100 m-0">

@@ -175,7 +175,7 @@ $ajax_nonce = wp_create_nonce('portfolio_gallery_nonce');
                     <div class="col text-center">
                         <img src="${image.url}" class="img-fluid" loading="lazy" 
                              style="max-width: ${config.imageMaxWidth}; max-height: ${config.imageMaxHeight}" 
-                             alt="${altText}" />
+                             alt="${altText}">
                         ${config.showAltText ? `<p style="color: #c8c8c8">${altText}</p>` : ''}
                     </div>
                 </div>

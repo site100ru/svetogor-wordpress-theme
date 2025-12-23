@@ -10,11 +10,11 @@
         <div class="row">
             <div class="callback-modal-free-col mb-3">
                 <label for="name-input" class="form-label">Имя</label>
-                <input type="text" name="name" id="name-input" class="form-control" required />
+                <input type="text" name="name" id="name-input" class="form-control" required>
             </div>
             <div class="callback-modal-free-col mb-3">
                 <label for="tel-input" class="form-label">Телефон</label>
-                <input type="text" name="tel" id="tel-input" class="form-control telMask" required />
+                <input type="text" name="tel" id="tel-input" class="form-control telMask" required>
             </div>
 
             <div class="callback-modal-free-col-input mb-md-0">
@@ -22,17 +22,17 @@
                 <div class="input-group">
                     <button type="button" class="btn btn-quantity-minus">−</button>
                     <input type="number" class="form-control text-center" id="quantity-input" name="quantity" value="1" min="1"
-                        max="100" required />
+                        max="100" required>
                     <button type="button" class="btn btn-quantity-plus">+</button>
                 </div>
             </div>
         </div>
 
         <!-- Скрытые поля -->
-        <input type="hidden" name="page-url" value="" />
-        <input type="hidden" name="page-title" value="" />
-        <input type="hidden" name="product-id" value="" />
-        <input type="hidden" name="product-name" value="" />
+        <input type="hidden" name="page-url" value="">
+        <input type="hidden" name="page-title" value="">
+        <input type="hidden" name="product-id" value="">
+        <input type="hidden" name="product-name" value="">
     </div>
 
     <div class="modal-footer justify-content-">
