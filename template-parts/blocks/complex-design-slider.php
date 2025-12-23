@@ -46,8 +46,6 @@ if (empty($design_terms)) {
   return;
 }
 
-wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css', array(), '3.6.0');
-wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js', array(), '3.6.0', true);
 wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js', array('jquery'), filemtime(get_template_directory() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js'), true);
 
 ?>
@@ -64,8 +62,12 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
       <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
     </div>
 
-    <div class="glide glide--ltr glide--carousel glide--swipeable glide-comprehensive"
-      id="<?php echo esc_attr($slider_id); ?>">
+    <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable glide-comprehensive"
+           data-glide-perview="4"
+          data-glide-gap="12"
+          data-glide-perview-md="3"
+          data-glide-perview-sm="1"
+     id="<?php echo esc_attr($slider_id); ?>">
       <div class="glide__track" data-glide-el="track">
         <ul class="glide__slides">
           <?php foreach ($design_terms as $term): ?>
@@ -125,29 +127,3 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
     </div>
   </div>
 </section>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Инициализируем Glide слайдер для этого блока
-    if (typeof Glide !== 'undefined') {
-      const glideSlider = new Glide('#<?php echo esc_js($slider_id); ?>', {
-        type: 'carousel',
-        perView: 4,
-        gap: 12,
-        breakpoints: {
-          992: {
-            perView: 3,
-          },
-          768: {
-            perView: 2,
-          },
-          590: {
-            perView: 1,
-          },
-        }
-      });
-
-      glideSlider.mount();
-    }
-  });
-</script>

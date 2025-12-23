@@ -21,7 +21,7 @@ function register_portfolio_categories_taxonomy()
   );
 
   $args = array(
-    'hierarchical' => true, // true = как рубрики, false = как теги
+    'hierarchical' => true,
     'labels' => $labels,
     'show_ui' => true,
     'show_admin_column' => true,
@@ -33,7 +33,6 @@ function register_portfolio_categories_taxonomy()
   register_taxonomy('portfolio_category', array('portfolio'), $args);
 }
 add_action('init', 'register_portfolio_categories_taxonomy');
-
 
 // Регистрация кастомного типа записей "Portfolio"
 function create_portfolio_post_type()
@@ -163,93 +162,6 @@ function portfolio_gallery_meta_box_callback($post)
     <input type="hidden" id="portfolio-gallery-ids" name="portfolio_gallery"
       value="<?php echo implode(',', $gallery_images); ?>">
   </div>
-
-  <script type="text/javascript">
-    jQuery(document).ready(function ($) {
-      var mediaUploader;
-
-      $('#add-portfolio-gallery-images').on('click', function (e) {
-        e.preventDefault();
-
-        if (mediaUploader) {
-          mediaUploader.open();
-          return;
-        }
-
-        mediaUploader = wp.media({
-          title: 'Выберите изображения для галереи',
-          button: {
-            text: 'Добавить в галерею'
-          },
-          multiple: true
-        });
-
-        mediaUploader.on('select', function () {
-          var attachments = mediaUploader.state().get('selection').toJSON();
-          var currentIds = $('#portfolio-gallery-ids').val().split(',').filter(Boolean);
-
-          attachments.forEach(function (attachment) {
-            if (currentIds.indexOf(attachment.id.toString()) === -1) {
-              currentIds.push(attachment.id);
-
-              var imageHtml = '<div class="gallery-image-item" data-id="' + attachment.id + '">';
-              imageHtml += '<img src="' + attachment.sizes.thumbnail.url + '" style="width: 100px; height: 100px; object-fit: cover;">';
-              imageHtml += '<button type="button" class="remove-gallery-image" data-id="' + attachment.id + '">×</button>';
-              imageHtml += '</div>';
-
-              $('#portfolio-gallery-images').append(imageHtml);
-            }
-          });
-
-          $('#portfolio-gallery-ids').val(currentIds.join(','));
-        });
-
-        mediaUploader.open();
-      });
-
-      $(document).on('click', '.remove-gallery-image', function () {
-        var imageId = $(this).data('id');
-        var currentIds = $('#portfolio-gallery-ids').val().split(',').filter(Boolean);
-        var index = currentIds.indexOf(imageId.toString());
-
-        if (index > -1) {
-          currentIds.splice(index, 1);
-        }
-
-        $('#portfolio-gallery-ids').val(currentIds.join(','));
-        $(this).parent().remove();
-      });
-    });
-  </script>
-
-  <style>
-    #portfolio-gallery-images {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .gallery-image-item {
-      position: relative;
-      display: inline-block;
-    }
-
-    .remove-gallery-image {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #dc3545;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      font-size: 12px;
-      line-height: 1;
-    }
-  </style>
   <?php
 }
 
@@ -287,10 +199,10 @@ function save_portfolio_gallery_meta_box($post_id)
 }
 add_action('save_post', 'save_portfolio_gallery_meta_box');
 
-// AJAX endpoint для получения изображений галереи (исправленный)
+// AJAX endpoint для получения изображений галереи
 function get_portfolio_gallery_images()
 {
-  // Проверяем nonce (поддерживаем оба варианта для совместимости)
+  // Проверяем nonce
   if (isset($_GET['nonce'])) {
     $nonce_valid = wp_verify_nonce($_GET['nonce'], 'portfolio_grid_nonce') ||
       wp_verify_nonce($_GET['nonce'], 'portfolio_gallery_nonce');
@@ -339,8 +251,6 @@ function get_portfolio_gallery_images()
 }
 add_action('wp_ajax_get_portfolio_gallery', 'get_portfolio_gallery_images');
 add_action('wp_ajax_nopriv_get_portfolio_gallery', 'get_portfolio_gallery_images');
-add_action('wp_ajax_get_portfolio_gallery', 'get_portfolio_gallery_images');
-add_action('wp_ajax_nopriv_get_portfolio_gallery', 'get_portfolio_gallery_images');
 
 // Обновление rewrite rules при активации темы
 function portfolio_rewrite_flush()
@@ -349,4 +259,19 @@ function portfolio_rewrite_flush()
   flush_rewrite_rules();
 }
 register_activation_hook(__FILE__, 'portfolio_rewrite_flush');
-?>
+
+/**
+ * Подключение скриптов для одиночной страницы портфолио
+ */
+function enqueue_portfolio_single_scripts() {
+  if (is_singular('portfolio')) {
+    wp_enqueue_script(
+      'portfolio-single',
+      get_template_directory_uri() . '/assets/js/portfolio-single.js',
+      ['jquery'],
+      '1.0.0',
+      true
+    );
+  }
+}
+add_action('wp_enqueue_scripts', 'enqueue_portfolio_single_scripts');

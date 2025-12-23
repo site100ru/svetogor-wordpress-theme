@@ -17,12 +17,7 @@ $linked_products = get_term_meta($current_term->term_id, 'linked_products', true
 $linked_products = is_array($linked_products) ? $linked_products : array();
 
 // Принудительно подключаем стили и скрипты для блока портфолио
-wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css', array(), '3.6.0');
-wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js', array(), '3.6.0', true);
 wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js', array('jquery'), filemtime(get_template_directory() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js'), true);
-wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
-  'ajax_url' => admin_url('admin-ajax.php')
-));
 ?>
 
 <!-- ХЛЕБНЫЕ КРОШКИ -->

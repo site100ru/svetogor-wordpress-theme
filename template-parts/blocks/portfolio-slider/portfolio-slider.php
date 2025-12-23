@@ -57,15 +57,9 @@ if (empty($portfolio_posts)) {
 }
 
 // Подключаем стили и скрипты
-wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css', array(), '3.6.0');
-wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js', array(), '3.6.0', true);
 wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js', array('jquery'), filemtime(get_template_directory() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js'), true);
 
 // Локализация переменных
-wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
-  'ajax_url' => admin_url('admin-ajax.php'),
-  'nonce' => wp_create_nonce('portfolio_grid_nonce')
-));
 ?>
 
 <section class="section section-works section-glide <?php echo esc_attr($bg_class); ?>">
@@ -76,7 +70,14 @@ wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
         class="img-fluid" />
     </div>
 
-    <div class="glide glide--ltr glide--carousel glide--swipeable" id="<?php echo esc_attr($slider_id); ?>">
+    <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable"      data-glide-perview="3"
+          data-glide-gap="30"
+          data-glide-autoplay="4000"
+          data-glide-perview-md="2"
+          data-glide-gap-md="20"
+          data-glide-perview-sm="1"
+          data-glide-gap-sm="15"
+     id="<?php echo esc_attr($slider_id); ?>">
       <div class="glide__track" data-glide-el="track">
         <ul class="glide__slides">
           <?php foreach ($portfolio_posts as $index => $post):
@@ -135,41 +136,3 @@ wp_localize_script('portfolio-slider-js', 'portfolio_ajax', array(
 $modal_id = 'portfolioModal-' . $modal_suffix;
 include get_template_directory() . '/template-parts/blocks/portfolio-slider/portfolio-gallery-modal.php';
 ?>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Проверяем наличие переменной portfolio_ajax
-    if (typeof portfolio_ajax === 'undefined') {
-      window.portfolio_ajax = {
-        ajax_url: '<?php echo admin_url('admin-ajax.php'); ?>',
-        nonce: '<?php echo wp_create_nonce('portfolio_gallery_nonce'); ?>'
-      };
-    }
-
-    // Инициализируем Glide слайдер для этого блока
-    if (typeof Glide !== 'undefined') {
-      const glideSlider = new Glide('#<?php echo esc_js($slider_id); ?>', {
-        type: 'carousel',
-        startAt: 0,
-        perView: 3,
-        gap: 30,
-        autoplay: 4000,
-        hoverpause: true,
-        breakpoints: {
-          1024: {
-            perView: 2,
-            gap: 20
-          },
-          768: {
-            perView: 1,
-            gap: 15
-          }
-        }
-      });
-
-      glideSlider.mount();
-    } else {
-      console.error('Portfolio Slider Error: Glide is not available!');
-    }
-  });
-</script>

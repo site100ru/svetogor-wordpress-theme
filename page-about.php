@@ -135,7 +135,12 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
             </div>
         </div>
 
-        <div class="glide glide--ltr glide--carousel glide--swipeable" id="<?php echo esc_attr($slider_id); ?>">
+        <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable"      data-glide-perview="3"
+          data-glide-gap="30"
+          data-glide-autoplay="4000"
+          data-glide-perview-md="2"
+          data-glide-perview-sm="1"
+     id="<?php echo esc_attr($slider_id); ?>">
             <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
                     <?php foreach ($portfolio_items as $item): ?>
@@ -166,34 +171,6 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
     </div>
 </section>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if (typeof Glide !== 'undefined') {
-            const glideSlider = new Glide('#<?php echo esc_js($slider_id); ?>', {
-                type: 'carousel',
-                startAt: 0,
-                perView: 3,
-                gap: 30,
-                autoplay: 4000,
-                hoverpause: true,
-                breakpoints: {
-                    1024: {
-                        perView: 2,
-                        gap: 20
-                    },
-                    768: {
-                        perView: 1,
-                        gap: 15
-                    }
-                }
-            });
-
-            glideSlider.mount();
-        } else {
-            console.error('Portfolio Slider Error: Glide is not available!');
-        }
-    });
-</script>
 
 
 <section class="section bg-grey">
@@ -295,7 +272,12 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
         </div>
 
-        <div class="glide glide--ltr glide--carousel glide--swipeable" id="<?php echo esc_attr($slider_id); ?>">
+        <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable"      data-glide-perview="3"
+          data-glide-gap="30"
+          data-glide-autoplay="4000"
+          data-glide-perview-md="2"
+          data-glide-perview-sm="1"
+     id="<?php echo esc_attr($slider_id); ?>">
             <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
                     <?php foreach ($portfolio_items_people as $item): ?>
@@ -326,34 +308,6 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
     </div>
 </section>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if (typeof Glide !== 'undefined') {
-            const glideSlider = new Glide('#<?php echo esc_js($slider_id); ?>', {
-                type: 'carousel',
-                startAt: 0,
-                perView: 3,
-                gap: 30,
-                autoplay: 4000,
-                hoverpause: true,
-                breakpoints: {
-                    1024: {
-                        perView: 2,
-                        gap: 20
-                    },
-                    768: {
-                        perView: 1,
-                        gap: 15
-                    }
-                }
-            });
-
-            glideSlider.mount();
-        } else {
-            console.error('Portfolio Slider Error: Glide is not available!');
-        }
-    });
-</script>
 
 <style>
     .card.card-portfolio-aboutUs {
@@ -453,7 +407,12 @@ $images = array(
 <!-- Модалка с Glide -->
 <div id="galleryModal" class="portfolio-gallery-modal" style="background: rgba(0, 0, 0, 0.85); display: none; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 9999;">
     
-    <div class="glide" id="galleryGlide" style="width: 100%; height: 100%;">
+    <div class="glide glide-auto"      data-glide-perview="3"
+          data-glide-gap="30"
+          data-glide-autoplay="4000"
+          data-glide-perview-md="2"
+          data-glide-perview-sm="1"
+     id="galleryGlide" style="width: 100%; height: 100%;">
         <div class="glide__track" data-glide-el="track" style="height: 100%;">
             <ul class="glide__slides" style="height: 100%;">
                 <?php foreach($images as $img): ?>
@@ -477,39 +436,6 @@ $images = array(
     <button onclick="closeGallery()" class="btn-close btn-close-white" style="position: fixed; top: 25px; right: 25px; z-index: 99999;" aria-label="Close"></button>
 </div>
 
-<script>
-let galleryGlide;
-
-function openGallery(index) {
-    document.getElementById('galleryModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    
-    if (!galleryGlide) {
-        galleryGlide = new Glide('#galleryGlide', {
-            type: 'carousel',
-            startAt: 0,
-            perView: 1,
-            keyboard: true
-        });
-        galleryGlide.mount();
-    }
-    
-    galleryGlide.go('=' + index);
-}
-
-function closeGallery() {
-    document.getElementById('galleryModal').style.display = 'none';
-    document.body.style.overflow = '';
-}
-
-document.getElementById('galleryModal').addEventListener('click', function(e) {
-    if (e.target === this) closeGallery();
-});
-
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeGallery();
-});
-</script>
 
 <?php get_template_part('template-parts/blocks/news-articles-tabs'); ?>
 

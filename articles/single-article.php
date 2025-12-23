@@ -1,151 +1,56 @@
 <?php
+
+/**
+ * Шаблон одиночной статьи
+ */
 get_header();
 
-// Получаем данные текущей статьи
-$article_id = get_the_ID();
-$article_title = get_the_title();
-$article_content = get_the_content();
-$hero_bg_id = get_post_meta($article_id, 'article_hero_bg', true);
-$hero_bg_url = '';
+while (have_posts()): the_post();
 
-// Получаем URL фонового изображения
-if ($hero_bg_id) {
-  $hero_bg_data = wp_get_attachment_image_src($hero_bg_id, 'full');
-  if ($hero_bg_data) {
-    $hero_bg_url = $hero_bg_data[0];
-  }
-}
+    // HERO секция с универсальной функцией
+    render_hero_section(get_the_title(), get_hero_bg());
+
+    // Хлебные крошки
+    render_breadcrumbs([
+        [
+            'title' => 'Статьи',
+            'url' => get_permalink(get_option('page_for_posts'))
+        ],
+        [
+            'title' => wp_trim_words(get_the_title(), 6)
+        ]
+    ]);
+
+    // Основной контент
+    $content = get_the_content();
+
+    if (!empty($content)) {
+        render_universal_content($content, 'post');
+    } else {
 ?>
-
-<!-- HERO СЕКЦИЯ -->
-<section class="hero-section hero-section" <?php if ($hero_bg_url): ?>style="background-image: url('<?php echo esc_url($hero_bg_url); ?>');" <?php endif; ?>>
-  <div class="container position-relative">
-    <div class="row">
-      <div class="col hero-content">
-        <h1><?php echo $article_title; ?></h1>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ХЛЕБНЫЕ КРОШКИ -->
-<section class="section-mini">
-  <div class="container">
-    <!-- Хлебные крошки -->
-    <nav aria-label="breadcrumb" class="mb-0">
-      <ol class="breadcrumb bg-transparent p-0 m-0">
-        <li class="breadcrumb-item">
-          <a href="<?php echo home_url(); ?>" class="text-decoration-none text-secondary">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy" />
-          </a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo get_permalink(get_option('page_for_posts')); ?>"
-            class="text-decoration-none text-secondary">
-            Статьи
-          </a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-          <?php echo wp_trim_words($article_title, 6); ?>
-        </li>
-      </ol>
-    </nav>
-  </div>
-</section>
-
-<!-- ОСНОВНОЙ КОНТЕНТ -->
-<?php
-// Оптимизированное решение через WordPress hooks
-if (!empty($article_content)) {
-  render_article_content($article_content);
-} else {
-  // Если контента нет, показываем заглушку
-  ?>
-  <section class="section single-article-content">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-8">
-          <div class="article-content">
-            <p class="text-muted">Содержимое статьи не добавлено.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <?php
-}
-?>
-
-<!-- Другие статьи -->
-<?php
-// Получаем последние 3 статьи, исключая текущую
-$recent_articles = new WP_Query(array(
-  'post_type' => 'post',
-  'posts_per_page' => 3,
-  'post__not_in' => array($article_id),
-  'post_status' => 'publish',
-  'orderby' => 'date',
-  'order' => 'DESC'
-));
-
-// Выводим блок только если есть другие статьи
-if ($recent_articles->have_posts()): ?>
-  <section class="section section-glide box-shadow-main no-border bg-grey">
-    <div class="container">
-      <div class="section-title text-center">
-        <h2>Другие статьи</h2>
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
-      </div>
-
-      <!-- Статьи -->
-      <div class="tab-pane fade show active" id="articles" role="tabpanel" aria-labelledby="articles-tab">
-        <div class="row g-4 justify-content-center">
-
-          <?php
-          while ($recent_articles->have_posts()):
-            $recent_articles->the_post();
-            $other_article_id = get_the_ID();
-            $other_article_title = get_the_title();
-            $other_article_excerpt = get_article_excerpt($other_article_id);
-            $other_article_date = get_the_date('d/m/Y');
-            $other_featured_image = get_the_post_thumbnail_url($other_article_id, 'medium');
-            $other_article_link = get_permalink($other_article_id);
-            ?>
-
-            <!-- Карточка статьи -->
-            <div class="col-12 col-md-6 col-lg-4">
-              <a href="<?php echo $other_article_link; ?>"
-                class="card h-100 bg-linear-gradient-wrapper text-decoration-none">
-                <div class="card-img-container">
-                  <?php if ($other_featured_image): ?>
-                    <img src="<?php echo $other_featured_image; ?>" alt="<?php echo esc_attr($other_article_title); ?>"
-                      class="card-img-top">
-                  <?php endif; ?>
+        <section class="section single-article-content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-8">
+                        <div class="article-content">
+                            <p class="text-muted">Содержимое статьи не добавлено.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title"><?php echo $other_article_title; ?></h5>
-                  <p class="card-text mb-0">
-                    <?php echo $other_article_excerpt; ?>
-                  </p>
-                  <div class="mt-auto d-flex justify-content-start align-items-center">
-                    <span class="text-muted small"><?php echo $other_article_date; ?></span>
-                  </div>
-                </div>
-              </a>
             </div>
+        </section>
+<?php
+    }
 
-          <?php endwhile; ?>
+    // Другие статьи
+    render_related_posts(
+        get_the_ID(),
+        'post',
+        'Другие статьи',
+        get_permalink(get_option('page_for_posts')),
+        'Все статьи'
+    );
 
-        </div>
+endwhile;
 
-        <!-- Кнопка Все статьи -->
-        <div class="mt-5 text-center">
-          <a href="<?php echo get_permalink(get_option('page_for_posts')); ?>" class="btn">Все статьи</a>
-        </div>
-      </div>
-    </div>
-  </section>
-<?php endif;
-wp_reset_postdata(); ?>
-
-<?php get_footer(); ?>
+get_footer();

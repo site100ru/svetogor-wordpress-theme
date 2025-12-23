@@ -1477,8 +1477,7 @@ p a:hover {
 	margin-bottom: clamp(0rem, -17.885rem + 28.85vw, 3.75rem) !important;
 }
 
-.section-page-comprehensive .row-cards > div:last-child,
-.section-page-comprehensive .row-cards > div:nth-last-child(2) {
+.section-page-comprehensive .row-cards > div:last-child {
 	margin-bottom: 0 !important;
 }
 

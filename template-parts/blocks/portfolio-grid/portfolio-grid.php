@@ -97,16 +97,9 @@ if (empty($portfolio_posts)) {
 }
 
 // Принудительно подключаем стили и скрипты для блока портфолио
-wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css', array(), '3.6.0');
-wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js', array(), '3.6.0', true);
 wp_enqueue_script('portfolio-grid-js', get_template_directory_uri() . '/template-parts/blocks/portfolio-grid/portfolio-grid.js', array('jquery'), filemtime(get_template_directory() . '/template-parts/blocks/portfolio-grid/portfolio-grid.js'), true);
 
 // ВАЖНО: Локализуем переменные для JavaScript
-wp_localize_script('portfolio-grid-js', 'portfolio_grid_ajax', array(
-  'ajax_url' => admin_url('admin-ajax.php'),
-  'nonce' => wp_create_nonce('portfolio_grid_nonce')
-));
-
 ?>
 
 <section class="section section-product box-shadow-main-img <?php echo esc_attr($bg_class); ?>">

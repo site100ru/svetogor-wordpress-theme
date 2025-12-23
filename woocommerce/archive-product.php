@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Шаблон архива товаров / категории товаров с подкатегориями
  */
@@ -36,15 +37,12 @@ if ($is_category && $current_category) {
 }
 
 // Принудительно подключаем стили и скрипты
-wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css', array(), '3.6.0');
-wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js', array(), '3.6.0', true);
-
 /**
  * Функция для вывода карточки товара
  */
 function render_product_card($product)
 {
-    ?>
+?>
     <a href="<?php echo esc_url(get_permalink($product->get_id())); ?>" class="card card-hover-images">
         <div class="product-image-hover position-relative">
             <?php
@@ -81,7 +79,7 @@ function render_product_card($product)
                     echo 'Краткое описание товара ' . esc_html($product->get_name());
                 }
                 ?>
-			</p>
+            </p>
             <div class="d-flex justify-content-between align-items-center mt-auto">
                 <span class="product-price"><?php echo $product->get_price_html(); ?></span>
                 <button type="button" class="btn btn-order btn-min" data-bs-toggle="modal"
@@ -93,23 +91,24 @@ function render_product_card($product)
             </div>
         </div>
     </a>
-    <?php
+<?php
 }
 
-function trim_html_words($text, $num_words = 15, $more = '...') {
+function trim_html_words($text, $num_words = 15, $more = '...')
+{
     if (empty($text)) {
         return '';
     }
-    
+
     $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-    
+
     $words_array = preg_split('/(\s+)/', strip_tags($text, '<br><strong><em><b><i>'), -1, PREG_SPLIT_DELIM_CAPTURE);
     $words_count = 0;
     $result = '';
-    
+
     foreach ($words_array as $word) {
         if (trim($word) === '') {
-            $result .= $word; 
+            $result .= $word;
         } else {
             if ($words_count >= $num_words) {
                 break;
@@ -118,11 +117,11 @@ function trim_html_words($text, $num_words = 15, $more = '...') {
             $words_count++;
         }
     }
-    
+
     if ($words_count >= $num_words) {
         $result .= $more;
     }
-    
+
     return $result;
 }
 
@@ -134,7 +133,7 @@ function render_products_section($products_query, $slider_id, $section_title = '
     if (!$products_query->have_posts()) {
         return false;
     }
-    ?>
+?>
     <section class="section section-glide section-catalog-product box-shadow-main" <?php echo $section_id ? 'id="' . esc_attr($section_id) . '"' : ''; ?>>
         <div class="container">
             <div class="section-content-cards">
@@ -152,7 +151,7 @@ function render_products_section($products_query, $slider_id, $section_title = '
                     while ($products_query->have_posts()):
                         $products_query->the_post();
                         global $product;
-                        ?>
+                    ?>
                         <article class="col-lg-4">
                             <?php render_product_card($product); ?>
                         </article>
@@ -169,7 +168,7 @@ function render_products_section($products_query, $slider_id, $section_title = '
                                 while ($products_query->have_posts()):
                                     $products_query->the_post();
                                     global $product;
-                                    ?>
+                                ?>
                                     <article class="glide__slide">
                                         <div class="card-img-container product-image-hover position-relative">
                                             <?php render_product_card($product); ?>
@@ -187,27 +186,8 @@ function render_products_section($products_query, $slider_id, $section_title = '
         </div>
     </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if (typeof Glide !== 'undefined') {
-                new Glide('#<?php echo esc_js($slider_id); ?>', {
-                    type: 'carousel',
-                    perView: 2,
-                    gap: 20,
-                    breakpoints: {
-                        992: {
-                            perView: 2
-                        },
-                        590: {
-                            perView: 1
-                        }
-                    }
-                }).mount();
-            }
-        });
-    </script>
 
-    <?php
+<?php
     return true;
 }
 
@@ -217,7 +197,7 @@ function render_products_section($products_query, $slider_id, $section_title = '
 function render_slider_arrows()
 {
     global $prev_arrow, $next_arrow;
-    ?>
+?>
     <div class="glide__arrows" data-glide-el="controls">
         <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
             <?php if ($prev_arrow): ?>
@@ -234,7 +214,7 @@ function render_slider_arrows()
             <?php endif; ?>
         </button>
     </div>
-    <?php
+<?php
 }
 
 /**
@@ -242,7 +222,7 @@ function render_slider_arrows()
  */
 function render_no_products_placeholder($category_name = '')
 {
-    ?>
+?>
     <section class="section section-catalog-product box-shadow-main">
         <div class="container">
             <div class="section-content-cards">
@@ -266,7 +246,7 @@ function render_no_products_placeholder($category_name = '')
             </div>
         </div>
     </section>
-    <?php
+<?php
 }
 ?>
 
@@ -414,7 +394,7 @@ function render_no_products_placeholder($category_name = '')
             // Выводим заглушку если нет товаров
             render_no_products_placeholder($current_category->name);
         }
-    ?>
+        ?>
     <?php endif; ?>
 <?php endif; ?>
 
@@ -521,12 +501,12 @@ if (function_exists('render_archive_faq') && $category_id) {
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Обработчик для кнопок "Заказать"
         const orderButtons = document.querySelectorAll('.btn-order[data-product-id]');
 
-        orderButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
+        orderButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
                 const productId = this.getAttribute('data-product-id');
                 const productName = this.getAttribute('data-product-name');
 

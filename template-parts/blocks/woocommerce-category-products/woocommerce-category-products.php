@@ -49,8 +49,6 @@ if (!$products->have_posts()) {
 $slider_id = 'slider-category-' . $selected_category->term_id . '-' . uniqid();
 
 // Принудительно подключаем стили и скрипты для блока портфолио
-wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css', array(), '3.6.0');
-wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js', array(), '3.6.0', true);
 wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js', array('jquery'), filemtime(get_template_directory() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js'), true);
 ?>
 
@@ -172,24 +170,6 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
   </div>
 </section>
 
-<script>
-  // Инициализация слайдера для данного блока
-  document.addEventListener('DOMContentLoaded', function () {
-    const slider = document.querySelector('#<?php echo esc_js($slider_id); ?>');
-    if (slider && typeof Glide !== 'undefined') {
-      new Glide('#<?php echo esc_js($slider_id); ?>', {
-        type: 'carousel',
-        perView: 2,
-        gap: 24,
-        breakpoints: {
-          767: {
-            perView: 1,
-          },
-        }
-      }).mount();
-    }
-  });
-</script>
 
 
 <script>
