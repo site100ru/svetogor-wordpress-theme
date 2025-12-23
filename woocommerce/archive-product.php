@@ -259,8 +259,7 @@ function render_no_products_placeholder($category_name = '')
                 <!-- Иконка главной -->
                 <li class="breadcrumb-item">
                     <a href="<?php echo home_url('/'); ?>">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg"
-                            loading="lazy" alt="Главная" />
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Изображение домика"/>
                     </a>
                 </li>
 

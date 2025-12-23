@@ -19,7 +19,7 @@ if ( ! empty( $product_tabs ) ) : ?>
             <?php if ($tab_count > 0): ?>
                 <li class="nav-item">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/menu-decoration-point.svg" 
-                         alt="Иконка между табами" 
+                         alt="Декоративная точка - разделитель"
                          class="img-fluid py-3" />
                 </li>
             <?php endif; ?>

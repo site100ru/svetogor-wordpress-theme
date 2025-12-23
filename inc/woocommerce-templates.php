@@ -207,7 +207,7 @@ function custom_product_breadcrumbs() {
     // Домой с картинкой
     echo '<li class="breadcrumb-item">';
     echo '<a href="' . home_url() . '">';
-    echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Главная" />';
+    echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Изображение домика" />';
     echo '</a>';
     echo '</li>';
 

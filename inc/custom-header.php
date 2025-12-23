@@ -13,8 +13,6 @@
 
 /**
  * Set up the WordPress core custom header feature.
- *
- * @uses svetogor_header_style()
  */
 function svetogor_custom_header_setup() {
 	add_theme_support(

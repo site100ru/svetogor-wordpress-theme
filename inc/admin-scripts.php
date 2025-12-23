@@ -46,7 +46,7 @@ function enqueue_admin_metabox_scripts($hook) {
 add_action('admin_enqueue_scripts', 'enqueue_admin_metabox_scripts');
 
 /**
- * Подключение CSS для мета-боксов (опционально)
+ * Подключение CSS для мета-боксов 
  */
 function enqueue_admin_metabox_styles($hook) {
   if (!in_array($hook, array('post.php', 'post-new.php'))) {

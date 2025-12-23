@@ -135,7 +135,7 @@ function add_footer_menu_separators_js() {
                 const img = document.createElement('img');
                 img.className = 'nav-link';
                 img.src = '<?php echo get_template_directory_uri(); ?>/assets/img/ico/menu-decoration-point.svg';
-                img.alt = 'Разделитель меню';
+                img.alt = 'Декоративная точка - разделитель';
 
                 separator.appendChild(img);
 

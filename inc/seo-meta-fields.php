@@ -82,9 +82,9 @@ function render_seo_meta_box($post) {
                     <?php if ($seo_image): 
                         $image_url = wp_get_attachment_url($seo_image);
                     ?>
-                        <img src="<?php echo esc_url($image_url); ?>" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <img src="<?php echo esc_url($image_url); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Изображение для Open Graph" />
                     <?php elseif ($default_image_url): ?>
-                        <img src="<?php echo esc_url($default_image_url); ?>" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;" />
+                        <img src="<?php echo esc_url($default_image_url); ?>" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;" alt="Изображение для Open Graph" />
                         <div style="position: absolute; bottom: 5px; left: 5px; font-size: 11px; color: #666; background: rgba(255,255,255,0.9); padding: 2px 5px; border-radius: 3px;">по умолчанию</div>
                     <?php else: ?>
                         <span style="color: #999; font-size: 12px;">Нет изображения</span>
@@ -419,7 +419,7 @@ function render_taxonomy_seo_fields_edit($term) {
                     <?php if ($seo_image): 
                         $image_url = wp_get_attachment_url($seo_image);
                     ?>
-                        <img src="<?php echo esc_url($image_url); ?>" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <img src="<?php echo esc_url($image_url); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Изображение для Open Graph" />
                     <?php else: ?>
                         <span style="color: #999; font-size: 12px;">Нет изображения</span>
                     <?php endif; ?>
@@ -661,4 +661,351 @@ function output_seo_meta_tags() {
     
     // Twitter Card
     echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+}
+
+// Регистрируем страницу в меню админки
+function register_archive_seo_settings_page() {
+    add_menu_page(
+        'SEO Архивов',           // Заголовок страницы
+        'SEO Архивов',           // Название в меню
+        'manage_options',         // Права доступа
+        'archive-seo-settings',   // Slug страницы
+        'render_archive_seo_settings_page', // Функция рендера
+        'dashicons-search',       // Иконка
+        30                        // Позиция в меню
+    );
+}
+add_action('admin_menu', 'register_archive_seo_settings_page');
+
+// Подключаем медиа-библиотеку
+function enqueue_archive_seo_media_scripts($hook) {
+    if ('toplevel_page_archive-seo-settings' !== $hook) {
+        return;
+    }
+    wp_enqueue_media();
+}
+add_action('admin_enqueue_scripts', 'enqueue_archive_seo_media_scripts');
+
+// Рендерим страницу настроек
+function render_archive_seo_settings_page() {
+    // Проверка прав
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+    
+    // Сохранение данных
+    if (isset($_POST['archive_seo_submit']) && check_admin_referer('archive_seo_nonce_action', 'archive_seo_nonce_field')) {
+        save_archive_seo_settings();
+        echo '<div class="notice notice-success is-dismissible"><p>Настройки сохранены!</p></div>';
+    }
+    
+    // Получаем все публичные типы записей
+    $post_types = get_post_types(['public' => true, '_builtin' => false], 'objects');
+    $post_types['post'] = get_post_type_object('post'); // Добавляем встроенный тип "Записи"
+    
+    ?>
+    <div class="wrap">
+        <h1>⚙️ SEO настройки архивных страниц</h1>
+        <p>Настройте SEO данные для страниц архивов ваших типов контента</p>
+        
+        <form method="post" action="">
+            <?php wp_nonce_field('archive_seo_nonce_action', 'archive_seo_nonce_field'); ?>
+            
+            <div class="archive-seo-tabs">
+                <h2 class="nav-tab-wrapper">
+                    <?php 
+                    $first = true;
+                    foreach ($post_types as $post_type => $post_type_obj) {
+                        $active = $first ? 'nav-tab-active' : '';
+                        echo '<a href="#tab-' . esc_attr($post_type) . '" class="nav-tab ' . $active . '" data-tab="' . esc_attr($post_type) . '">' 
+                             . esc_html($post_type_obj->labels->name) . '</a>';
+                        $first = false;
+                    }
+                    
+                    // Добавляем вкладку для WooCommerce, если активен
+                    if (class_exists('WooCommerce')) {
+                        echo '<a href="#tab-shop" class="nav-tab" data-tab="shop">Магазин (WooCommerce)</a>';
+                    }
+                    ?>
+                </h2>
+                
+                <?php 
+                $first = true;
+                foreach ($post_types as $post_type => $post_type_obj) {
+                    $archive_key = get_archive_key_by_post_type($post_type);
+                    $display = $first ? 'block' : 'none';
+                    render_archive_seo_tab($archive_key, $post_type_obj->labels->name, $display);
+                    $first = false;
+                }
+                
+                // Вкладка для WooCommerce
+                if (class_exists('WooCommerce')) {
+                    render_archive_seo_tab('shop', 'Магазин', 'none');
+                }
+                ?>
+            </div>
+            
+            <p class="submit">
+                <input type="submit" name="archive_seo_submit" class="button button-primary" value="Сохранить все настройки">
+            </p>
+        </form>
+    </div>
+    
+    <style>
+        .archive-seo-tab-content { padding: 20px; background: #fff; border: 1px solid #ccd0d4; border-top: none; }
+        .archive-seo-field { margin-bottom: 25px; }
+        .archive-seo-field label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+        .archive-seo-field input[type="text"],
+        .archive-seo-field textarea { width: 100%; max-width: 600px; padding: 8px; font-size: 14px; }
+        .archive-seo-field .description { margin-top: 5px; color: #666; font-size: 13px; }
+        .seo-counter { font-size: 12px; color: #666; margin-top: 5px; }
+        .seo-preview { background: #f9f9f9; padding: 15px; border-radius: 4px; border-left: 4px solid #0073aa; max-width: 600px; margin-top: 20px; }
+        .seo-preview h4 { margin: 0 0 10px 0; font-size: 13px; color: #0073aa; }
+        .preview-title { color: #1a0dab; font-size: 18px; margin-bottom: 5px; line-height: 1.2; }
+        .preview-url { color: #006621; font-size: 14px; margin-bottom: 5px; }
+        .preview-description { color: #545454; font-size: 13px; line-height: 1.4; }
+        .image-preview-wrapper { display: flex; gap: 15px; align-items: flex-start; }
+        .image-preview { width: 150px; height: 150px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #f9f9f9; }
+        .image-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .image-preview-empty { color: #999; font-size: 12px; }
+    </style>
+    
+    <script>
+    jQuery(document).ready(function($) {
+        // Переключение вкладок
+        $('.nav-tab').on('click', function(e) {
+            e.preventDefault();
+            var tabId = $(this).data('tab');
+            
+            $('.nav-tab').removeClass('nav-tab-active');
+            $(this).addClass('nav-tab-active');
+            
+            $('.archive-seo-tab-content').hide();
+            $('#tab-' + tabId).show();
+        });
+        
+        // Счетчики символов и предпросмотр
+        $('input[name*="seo_title"], textarea[name*="seo_description"]').on('input', function() {
+            var $field = $(this);
+            var length = $field.val().length;
+            var $counter = $field.closest('.archive-seo-field').find('.seo-counter span');
+            $counter.text(length);
+            
+            // Обновляем предпросмотр
+            var tabId = $field.closest('.archive-seo-tab-content').attr('id').replace('tab-', '');
+            updatePreview(tabId);
+        });
+        
+        function updatePreview(tabId) {
+            var $tab = $('#tab-' + tabId);
+            var title = $tab.find('input[name*="seo_title"]').val() || $tab.find('.preview-title').data('default');
+            var description = $tab.find('textarea[name*="seo_description"]').val();
+            
+            $tab.find('.preview-title').text(title);
+            
+            if (description) {
+                $tab.find('.preview-description').html(description);
+            } else {
+                $tab.find('.preview-description').html('<em style="color: #999;">Описание не задано</em>');
+            }
+        }
+        
+        // Загрузка изображений
+        $('.upload-archive-image').on('click', function(e) {
+            e.preventDefault();
+            var $button = $(this);
+            var archiveKey = $button.data('archive');
+            
+            var mediaUploader = wp.media({
+                title: 'Выберите изображение для Open Graph',
+                button: { text: 'Использовать это изображение' },
+                multiple: false
+            });
+            
+            mediaUploader.on('select', function() {
+                var attachment = mediaUploader.state().get('selection').first().toJSON();
+                $('input[name="archive_seo_image_' + archiveKey + '"]').val(attachment.id);
+                $('#preview-' + archiveKey).html('<img src="' + attachment.url + '" />');
+                $('#remove-image-' + archiveKey).show();
+            });
+            
+            mediaUploader.open();
+        });
+        
+        // Удаление изображений
+        $('.remove-archive-image').on('click', function(e) {
+            e.preventDefault();
+            var archiveKey = $(this).data('archive');
+            $('input[name="archive_seo_image_' + archiveKey + '"]').val('');
+            $('#preview-' + archiveKey).html('<span class="image-preview-empty">Нет изображения</span>');
+            $(this).hide();
+        });
+    });
+    </script>
+    <?php
+}
+
+// Рендерим отдельную вкладку
+function render_archive_seo_tab($archive_key, $archive_name, $display = 'block') {
+    $seo_title = get_option("archive_seo_title_{$archive_key}", '');
+    $seo_description = get_option("archive_seo_description_{$archive_key}", '');
+    $seo_image = get_option("archive_seo_image_{$archive_key}", '');
+    
+    $default_title = $archive_name . ' - ' . get_bloginfo('name');
+    $archive_url = get_archive_url_by_key($archive_key);
+    
+    ?>
+    <div id="tab-<?php echo esc_attr($archive_key); ?>" class="archive-seo-tab-content" style="display: <?php echo $display; ?>;">
+        <h3>Настройки SEO для: <?php echo esc_html($archive_name); ?></h3>
+        
+        <div class="archive-seo-field">
+            <label for="archive_seo_title_<?php echo esc_attr($archive_key); ?>">
+                SEO Title
+                <span style="font-weight: normal; color: #666; font-size: 12px;">(рекомендуется 50-60 символов)</span>
+            </label>
+            <input type="text" 
+                   id="archive_seo_title_<?php echo esc_attr($archive_key); ?>" 
+                   name="archive_seo_title_<?php echo esc_attr($archive_key); ?>" 
+                   value="<?php echo esc_attr($seo_title); ?>" 
+                   placeholder="<?php echo esc_attr($default_title); ?>"
+                   maxlength="70" />
+            <p class="description seo-counter">
+                Текущая длина: <span><?php echo strlen($seo_title); ?></span> символов
+                <br>Если оставить пустым, будет использован заголовок по умолчанию
+            </p>
+        </div>
+        
+        <div class="archive-seo-field">
+            <label for="archive_seo_description_<?php echo esc_attr($archive_key); ?>">
+                Meta Description
+                <span style="font-weight: normal; color: #666; font-size: 12px;">(рекомендуется 150-160 символов)</span>
+            </label>
+            <textarea id="archive_seo_description_<?php echo esc_attr($archive_key); ?>" 
+                      name="archive_seo_description_<?php echo esc_attr($archive_key); ?>" 
+                      rows="3" 
+                      maxlength="320"><?php echo esc_textarea($seo_description); ?></textarea>
+            <p class="description seo-counter">
+                Текущая длина: <span><?php echo strlen($seo_description); ?></span> символов
+            </p>
+        </div>
+        
+        <div class="archive-seo-field">
+            <label>Open Graph изображение</label>
+            <div class="image-preview-wrapper">
+                <div id="preview-<?php echo esc_attr($archive_key); ?>" class="image-preview">
+                    <?php if ($seo_image): 
+                        $image_url = wp_get_attachment_url($seo_image);
+                    ?>
+                        <img src="<?php echo esc_url($image_url); ?>" alt="Изображение для Open Graph" />
+                    <?php else: ?>
+                        <span class="image-preview-empty">Нет изображения</span>
+                    <?php endif; ?>
+                </div>
+                <div>
+                    <input type="hidden" name="archive_seo_image_<?php echo esc_attr($archive_key); ?>" value="<?php echo esc_attr($seo_image); ?>" />
+                    <button type="button" class="button upload-archive-image" data-archive="<?php echo esc_attr($archive_key); ?>">
+                        Выбрать изображение
+                    </button>
+                    <button type="button" class="button remove-archive-image" id="remove-image-<?php echo esc_attr($archive_key); ?>" 
+                            data-archive="<?php echo esc_attr($archive_key); ?>" 
+                            style="<?php echo $seo_image ? '' : 'display:none;'; ?>">
+                        Удалить
+                    </button>
+                    <p class="description">Рекомендуемый размер: 1200×630 px</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="seo-preview">
+            <h4>Предпросмотр в поисковой выдаче</h4>
+            <div style="font-family: Arial, sans-serif;">
+                <div class="preview-title" data-default="<?php echo esc_attr($default_title); ?>">
+                    <?php echo esc_html($seo_title ?: $default_title); ?>
+                </div>
+                <div class="preview-url">
+                    <?php echo esc_url($archive_url); ?>
+                </div>
+                <div class="preview-description">
+                    <?php 
+                    if ($seo_description) {
+                        echo esc_html($seo_description);
+                    } else {
+                        echo '<em style="color: #999;">Описание не задано</em>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+// Сохраняем настройки
+function save_archive_seo_settings() {
+    $post_types = get_post_types(['public' => true], 'names');
+    
+    foreach ($post_types as $post_type) {
+        $archive_key = get_archive_key_by_post_type($post_type);
+        
+        if (isset($_POST["archive_seo_title_{$archive_key}"])) {
+            update_option("archive_seo_title_{$archive_key}", sanitize_text_field($_POST["archive_seo_title_{$archive_key}"]));
+        }
+        
+        if (isset($_POST["archive_seo_description_{$archive_key}"])) {
+            update_option("archive_seo_description_{$archive_key}", sanitize_textarea_field($_POST["archive_seo_description_{$archive_key}"]));
+        }
+        
+        if (isset($_POST["archive_seo_image_{$archive_key}"])) {
+            update_option("archive_seo_image_{$archive_key}", absint($_POST["archive_seo_image_{$archive_key}"]));
+        }
+    }
+    
+    // WooCommerce
+    if (class_exists('WooCommerce')) {
+        if (isset($_POST['archive_seo_title_shop'])) {
+            update_option('archive_seo_title_shop', sanitize_text_field($_POST['archive_seo_title_shop']));
+        }
+        if (isset($_POST['archive_seo_description_shop'])) {
+            update_option('archive_seo_description_shop', sanitize_textarea_field($_POST['archive_seo_description_shop']));
+        }
+        if (isset($_POST['archive_seo_image_shop'])) {
+            update_option('archive_seo_image_shop', absint($_POST['archive_seo_image_shop']));
+        }
+    }
+}
+
+// Получаем ключ архива по типу записи
+function get_archive_key_by_post_type($post_type) {
+    $keys = [
+        'post' => 'blog',
+        'portfolio' => 'portfolio',
+        'news' => 'news',
+        'services' => 'services',
+        'product' => 'products'
+    ];
+    
+    return isset($keys[$post_type]) ? $keys[$post_type] : $post_type;
+}
+
+// Получаем URL архива
+function get_archive_url_by_key($archive_key) {
+    if ($archive_key === 'shop' && function_exists('wc_get_page_permalink')) {
+        return wc_get_page_permalink('shop');
+    }
+    
+    $post_type_keys = [
+        'blog' => 'post',
+        'portfolio' => 'portfolio',
+        'news' => 'news',
+        'services' => 'services',
+        'products' => 'product'
+    ];
+    
+    $post_type = isset($post_type_keys[$archive_key]) ? $post_type_keys[$archive_key] : $archive_key;
+    
+    if ($post_type === 'post') {
+        return home_url('/blog/');
+    }
+    
+    return get_post_type_archive_link($post_type) ?: home_url('/');
 }

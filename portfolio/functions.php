@@ -149,10 +149,15 @@ function portfolio_gallery_meta_box_callback($post)
   <div id="portfolio-gallery-container">
     <div id="portfolio-gallery-images">
       <?php foreach ($gallery_images as $image_id):
-        $image_url = wp_get_attachment_image_src($image_id, 'thumbnail')[0];
+        // Получаем URL изображения (миниатюра)
+        $image_url = wp_get_attachment_image_src($image_id, 'thumbnail');
+        $image_url = $image_url ? $image_url[0] : ''; // Если изображение найдено
+        // Получаем текст для alt
+        $alt_text = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: get_the_title($post->ID);
         ?>
         <div class="gallery-image-item" data-id="<?php echo $image_id; ?>">
-          <img src="<?php echo $image_url; ?>" style="width: 100px; height: 100px; object-fit: cover;">
+          <!-- Если URL существует, выводим изображение, иначе пустое изображение -->
+          <img src="<?php echo esc_url($image_url); ?>" style="width: 100px; height: 100px; object-fit: cover;" alt="<?php echo esc_attr($alt_text); ?>" >
           <button type="button" class="remove-gallery-image" data-id="<?php echo $image_id; ?>">×</button>
         </div>
       <?php endforeach; ?>

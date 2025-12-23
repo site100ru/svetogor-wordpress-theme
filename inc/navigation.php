@@ -425,7 +425,7 @@ function svetogor_output_safe_menu_final()
       
       if ($counter > 0 && !$previous_was_products) {
         echo '<li class="nav-item d-none d-lg-inline align-content-center">';
-        echo '<img class="nav-link" src="' . get_template_directory_uri() . '/assets/img/ico/menu-decoration-point.svg" />';
+        echo '<img class="nav-link" src="' . get_template_directory_uri() . '/assets/img/ico/menu-decoration-point.svg" alt="Декоративная точка - разделитель" />';
         echo '</li>';
       }
 
@@ -593,12 +593,12 @@ function svetogor_output_mobile_footer_info()
 {
   echo '<li class="nav-item d-lg-none py-2">';
   echo '<div class="d-flex align-items-center gap-2">';
-  echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/location-ico.svg" style="max-height: 14px" />';
+  echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/location-ico.svg" alt="Иконка карты" style="max-height: 14px" />';
   echo '<span style="font-size: 14px">г. Москва, ул. Полярная, 31В, оф. 141</span>';
   echo '</div>';
   echo '<a class="top-menu-tel nav-link price-text" style="font-size: 18px" href="tel:+74952450325">+7 (495) 245-03-25</a>';
   echo '<a href="mailto:svetogor.sv@mail.ru" class="d-flex align-items-center gap-2">';
-  echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/email-ico.svg" style="max-height: 16px" />';
+  echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/email-ico.svg" alt="Иконка почтовой собаки" style="max-height: 16px" />';
   echo '<span style="font-size: 14px">svetogor.sv@mail.ru</span>';
   echo '</a>';
   echo '</li>';

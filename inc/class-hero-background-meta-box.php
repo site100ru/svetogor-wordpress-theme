@@ -88,8 +88,7 @@ class Hero_Background_Meta_Box {
         <div id="<?php echo $label; ?>-hero-bg-container">
             <div id="<?php echo $label; ?>-hero-bg-preview" style="margin-bottom: 15px;">
                 <?php if ($hero_bg_url): ?>
-                    <img src="<?php echo esc_url($hero_bg_url); ?>"
-                        style="width: 100%; max-height: 150px; object-fit: cover; border-radius: 4px;">
+                    <img src="<?php echo esc_url($hero_bg_url); ?>" style="width: 100%; max-height: 150px; object-fit: cover; border-radius: 4px;" alt="Изображение главной секции">
                 <?php else: ?>
                     <div style="width: 100%; height: 80px; background: #f0f0f0; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
                         <span style="color: #666;">Фон не выбран</span>

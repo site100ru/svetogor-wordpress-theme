@@ -27,7 +27,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
       <ol class="breadcrumb bg-transparent p-0 m-0">
         <li class="breadcrumb-item">
           <a href="<?php echo esc_url(home_url('/')); ?>" class="text-decoration-none text-secondary">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy" />
+            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Изображение домика"  />
           </a>
         </li>
         <li class="breadcrumb-item">Комплексное оформление</li>

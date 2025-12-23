@@ -189,22 +189,22 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
 
         <div class="row mt-4">
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-1.jpg" class="img-fluid w-100" style="border-radius: 5px;">
+                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-1.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Выгодная, гибкая ценовая политика" >
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-2.jpg" class="img-fluid w-100" style="border-radius: 5px;">
+                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-2.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Надежно! Гарантированно получите свой заказ в срок" >
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-3.jpg" class="img-fluid w-100" style="border-radius: 5px;">
+                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-3.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Мы используем только лучшие комплектующие" >
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-4.jpg" class="img-fluid w-100" style="border-radius: 5px;">
+                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-4.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Мы следим за качеством наших изделий" >
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-5.jpg" class="img-fluid w-100" style="border-radius: 5px;">
+                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-5.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Один час на рассчет вашего заказа" >
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-6.jpg" class="img-fluid w-100" style="border-radius: 5px;">
+                <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-6.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Пять дней срок реализации заказа" >
             </div>
         </div>
     </div>
@@ -347,56 +347,56 @@ $images = array(
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(0)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-1.jpg" class="card-img-top">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-1.jpg" class="card-img-top" alt="Объемная световая буква А">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(1)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-2.jpg" class="card-img-top">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-2.jpg" class="card-img-top" alt="На изображении представлена производственная площадка с несколькими современными широкоформатными принтерами, которые используются для печати рекламной продукции.">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(2)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-3.jpg" class="card-img-top">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-3.jpg" class="card-img-top" alt="На изображении видно, как мастер собирает объемные световые буквы">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(3)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-4.jpg" class="card-img-top">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-4.jpg" class="card-img-top" alt="Печать любой сложности и на любом оборудовании">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(4)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-5.jpg" class="card-img-top">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-5.jpg" class="card-img-top" alt="Печать любой сложности и на любом оборудовании">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(5)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-6.jpg" class="card-img-top">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-6.jpg" class="card-img-top" alt="Объемная световая буква А">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(6)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-7.jpg" class="card-img-top">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-7.jpg" class="card-img-top" alt="На изображении видно, как мастер собирает объемные световые буквы">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(7)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-8.jpg" class="card-img-top">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-8.jpg" class="card-img-top" alt="Печать любой сложности и на любом оборудовании">
                     </div>
                 </div>
             </div>
@@ -407,30 +407,35 @@ $images = array(
 <!-- Модалка с Glide -->
 <div id="galleryModal" class="portfolio-gallery-modal" style="background: rgba(0, 0, 0, 0.85); display: none; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 9999;">
     
-    <div class="glide glide-auto"      data-glide-perview="3"
-          data-glide-gap="30"
-          data-glide-autoplay="4000"
-          data-glide-perview-md="2"
-          data-glide-perview-sm="1"
-     id="galleryGlide" style="width: 100%; height: 100%;">
+    <div class="glide glide-auto" 
+        data-glide-perview="3"
+        data-glide-gap="30"
+        data-glide-autoplay="4000"
+        data-glide-perview-md="2"
+        data-glide-perview-sm="1"
+        id="galleryGlide" style="width: 100%; height: 100%;">
         <div class="glide__track" data-glide-el="track" style="height: 100%;">
             <ul class="glide__slides" style="height: 100%;">
-                <?php foreach($images as $img): ?>
-                <li class="glide__slide" style="display: flex; align-items: center; justify-content: center;">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/<?php echo $img; ?>" style="max-width: 90%; max-height: 90vh; object-fit: contain;">
-                </li>
+                <?php foreach($images as $img_id): ?>
+                    <?php 
+                    // Получаем атрибут alt для изображения
+                    $alt_text = get_post_meta($img_id, '_wp_attachment_image_alt', true) ?: 'Изображение портфолио';
+                    ?>
+                    <li class="glide__slide" style="display: flex; align-items: center; justify-content: center;">
+                        <img src="<?php echo wp_get_attachment_url($img_id); ?>" alt="<?php echo esc_attr($alt_text); ?>" style="max-width: 90%; max-height: 90vh; object-fit: contain;">
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </div>
         
         <div class="glide__arrows" data-glide-el="controls">
             <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
-                    <img src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" loading="lazy" style="top: 50%;" />
-                </button>
-                <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
-                    <img src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" loading="lazy" style="top: 50%;" />
-                </button>
-            </div>
+                <img src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" loading="lazy" style="top: 50%;" />
+            </button>
+            <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
+                <img src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" loading="lazy" style="top: 50%;" />
+            </button>
+        </div>
     </div>
 
     <button onclick="closeGallery()" class="btn-close btn-close-white" style="position: fixed; top: 25px; right: 25px; z-index: 99999;" aria-label="Close"></button>

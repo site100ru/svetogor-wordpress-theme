@@ -11,8 +11,6 @@ if (!defined('ABSPATH')) {
 
 /**
  * Универсальная проверка ACF
- * 
- * @return bool
  */
 function is_acf_available() {
     static $available = null;
@@ -26,9 +24,6 @@ function is_acf_available() {
 
 /**
  * Форматирование телефона для href
- * 
- * @param string $phone Номер телефона
- * @return string
  */
 function format_phone_for_href($phone) {
     if (empty($phone)) {
@@ -41,11 +36,6 @@ function format_phone_for_href($phone) {
 
 /**
  * Универсальный получатель данных категории
- * 
- * @param int    $category_id ID категории
- * @param string $field_name  Название поля ACF
- * @param string $taxonomy    Таксономия (по умолчанию product_cat)
- * @return mixed|false
  */
 function get_category_custom_data($category_id, $field_name, $taxonomy = 'product_cat') {
     if (!is_acf_available()) {
@@ -63,11 +53,6 @@ function get_category_custom_data($category_id, $field_name, $taxonomy = 'produc
 
 /**
  * Универсальный получатель иконок с fallback
- * 
- * @param string $icon_field      Название поля иконки
- * @param string $default_filename Имя файла по умолчанию
- * @param string $context         Контекст (по умолчанию 'option')
- * @return string URL иконки
  */
 function get_icon_url($icon_field, $default_filename = '', $context = 'option') {
     $icon = get_field($icon_field, $context);
@@ -85,10 +70,6 @@ function get_icon_url($icon_field, $default_filename = '', $context = 'option') 
 
 /**
  * Универсальная функция для получения данных с fallback
- * 
- * @param string $field_name Название поля
- * @param mixed  $default    Значение по умолчанию
- * @return mixed
  */
 function get_option_field($field_name, $default = '') {
     if (!is_acf_available()) {
@@ -101,10 +82,6 @@ function get_option_field($field_name, $default = '') {
 
 /**
  * Получает URL иконки контакта с fallback
- * 
- * @param string $icon_field      Название поля иконки
- * @param string $default_filename Имя файла по умолчанию
- * @return string
  */
 function get_contact_icon_url($icon_field, $default_filename) {
     return get_icon_url($icon_field, $default_filename, 'option');
@@ -112,9 +89,6 @@ function get_contact_icon_url($icon_field, $default_filename) {
 
 /**
  * Получает уровень вложенности категории
- * 
- * @param int $category_id ID категории
- * @return int
  */
 function get_category_level($category_id) {
     $level = 0;
@@ -135,10 +109,6 @@ function get_category_level($category_id) {
 
 /**
  * Получает фото категории
- * 
- * @param int    $category_id ID категории
- * @param string $size        Размер изображения
- * @return string|false
  */
 function get_category_photo_url($category_id, $size = 'medium') {
     $photo_id = get_category_custom_data($category_id, 'category_photo');
@@ -155,9 +125,6 @@ function get_category_photo_url($category_id, $size = 'medium') {
 
 /**
  * Получает связанные категории
- * 
- * @param int $category_id ID категории
- * @return array
  */
 function get_related_categories($category_id) {
     $related_category_ids = get_category_custom_data($category_id, 'related_categories');
@@ -183,9 +150,6 @@ function get_related_categories($category_id) {
 
 /**
  * Проверяет наличие связанных категорий
- * 
- * @param int $category_id ID категории
- * @return bool
  */
 function has_related_categories($category_id) {
     $related_categories = get_related_categories($category_id);
@@ -194,9 +158,6 @@ function has_related_categories($category_id) {
 
 /**
  * Получает количество связанных категорий
- * 
- * @param int $category_id ID категории
- * @return int
  */
 function get_related_categories_count($category_id) {
     $related_categories = get_related_categories($category_id);
@@ -205,9 +166,6 @@ function get_related_categories_count($category_id) {
 
 /**
  * Безопасная проверка наличия блока
- * 
- * @param string $block_name Название блока
- * @return bool
  */
 function safe_has_block($block_name) {
     if (!function_exists('has_block')) {
@@ -219,9 +177,6 @@ function safe_has_block($block_name) {
 
 /**
  * Получает данные раскрывающегося текста категории
- * 
- * @param int $category_id ID категории
- * @return array|false
  */
 function get_category_expanding_text_data($category_id) {
     if (!is_acf_available()) {
@@ -239,9 +194,6 @@ function get_category_expanding_text_data($category_id) {
 
 /**
  * Проверяет наличие раскрывающегося текста в категории
- * 
- * @param int $category_id ID категории
- * @return bool
  */
 function has_category_expanding_text($category_id) {
     $data = get_category_expanding_text_data($category_id);
@@ -256,8 +208,6 @@ function has_category_expanding_text($category_id) {
 
 /**
  * Проверяет, является ли текущая страница шаблоном с хлебными крошками
- * 
- * @return bool
  */
 function is_breadcrumbs_page_template() {
     global $post;
@@ -272,9 +222,6 @@ function is_breadcrumbs_page_template() {
 
 /**
  * Проверяет принадлежность товара к категории "shop"
- * 
- * @param int|null $product_id ID товара
- * @return bool
  */
 function is_product_in_shop_category($product_id = null) {
     if (!$product_id) {
@@ -296,9 +243,6 @@ function is_product_in_shop_category($product_id = null) {
 
 /**
  * Проверяет принадлежность товара к категории "product"
- * 
- * @param int|null $product_id ID товара
- * @return bool
  */
 function is_product_in_product_category($product_id = null) {
     if (!$product_id) {
@@ -320,8 +264,6 @@ function is_product_in_product_category($product_id = null) {
 
 /**
  * Проверяет, находимся ли в категории "shop"
- * 
- * @return bool
  */
 function is_shop_category() {
     if (is_product_category()) {
@@ -334,8 +276,6 @@ function is_shop_category() {
 
 /**
  * Проверяет, находимся ли в категории "product"
- * 
- * @return bool
  */
 function is_product_category_page() {
     if (is_product_category()) {
@@ -348,9 +288,6 @@ function is_product_category_page() {
 
 /**
  * Получает тип категории товара
- * 
- * @param int|null $product_id ID товара
- * @return string 'shop', 'product' или 'other'
  */
 function get_product_category_type($product_id = null) {
     if (!$product_id) {

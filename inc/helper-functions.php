@@ -263,7 +263,7 @@ function render_page_breadcrumbs($page_title = '') {
     // Главная страница
     echo '<li class="breadcrumb-item">';
     echo '<a href="' . home_url() . '" class="text-decoration-none text-secondary">';
-    echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/breadcrumbs.svg" loading="lazy" />';
+    echo '<img src="' . get_template_directory_uri() . '/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Изображение домика" />';
     echo '</a>';
     echo '</li>';
 

@@ -17,8 +17,7 @@ function render_breadcrumbs($items = array())
                     <!-- Домашняя страница -->
                     <li class="breadcrumb-item">
                         <a href="<?php echo home_url(); ?>" class="text-decoration-none text-secondary">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy"
-                                alt="Главная" />
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" loading="lazy" alt="Изображение домика" />
                         </a>
                     </li>
 
@@ -228,8 +227,7 @@ function render_archive_template($args = array())
                 <!-- Заголовок -->
                 <div class="section-title text-center">
                     <h3><?php echo esc_html($args['title']); ?></h3>
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки"
-                        class="img-fluid">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
                 </div>
 
                 <!-- Карточки -->
