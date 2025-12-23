@@ -289,7 +289,7 @@ function svetogor_output_products_dropdown_final($title)
     echo '</a>';
 
     // МЕГА-МЕНЮ СТРУКТУРА
-    echo '<div class="dropdown-menu mega-menu" aria-labelledby="productsDropdown">';
+    echo '<div class="dropdown-menu mega-menu" role="region" aria-labelledby="productsDropdown">';
     echo '<div class="container">';
     echo '<div class="row">';
 
@@ -619,7 +619,7 @@ function svetogor_output_mobile_footer_info()
 function svetogor_add_mobile_menu_final()
 {
   try {
-    echo '<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">';
+    echo '<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu" role="region" aria-labelledby="mobileMenuLabel">';
     echo '<div class="offcanvas-header">';
     echo '<h5 class="offcanvas-title" id="mobileMenuLabel">Меню</h5>';
     echo '<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>';

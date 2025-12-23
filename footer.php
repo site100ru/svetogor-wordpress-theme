@@ -68,7 +68,7 @@
 					?>
 					<a href="tel:<?php echo esc_attr(format_phone_for_href($main_phone_data['phone_number'])); ?>"
 						class="top-menu-tel nav-link">
-						<img src="<?php echo esc_url(get_contact_icon_url('global_phone_icon', 'mobile-phone-ico.svg')); ?>"class="me-2" alt="Телефон" >
+						<img src="<?php echo esc_url(get_contact_icon_url('global_phone_icon', 'mobile-phone-ico.svg')); ?>" class="me-2" alt="Телефон" >
 						<?php echo esc_html($main_phone_data['phone_number']); ?>
 					</a>
 				<?php endif; ?>
@@ -113,7 +113,7 @@
 	<div class="container d-xl-none">
 		<div class="row">
 			<div class="col py-5">
-				<a href="<?php echo esc_url(home_url('/')); ?>" id="navbar-brand-img">
+				<a href="<?php echo esc_url(home_url('/')); ?>" id="navbar-brand-img-mobile">
 					<?php
 					$company_logo = get_company_logo();
 					if ($company_logo):
@@ -355,7 +355,7 @@ if (isset($_SESSION['win'])) {
 <!-- /Всплывающая форма Политики конфиденциальности -->
 
 <?php wp_footer(); ?>
-
+</div>
 </body>
 
 </html>

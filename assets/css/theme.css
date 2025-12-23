@@ -1258,7 +1258,8 @@ p a:hover {
 	padding-top: 26px;
 }
 
-#navbar-brand-img {
+#navbar-brand-img,
+#navbar-brand-img-mobile {
 	display: block;
 	width: 230px;
 }
