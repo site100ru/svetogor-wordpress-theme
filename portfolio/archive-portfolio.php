@@ -29,7 +29,7 @@ render_breadcrumbs(array(
       <!-- Заголовок -->
       <div class="section-title text-center">
         <h3>Все наши работы</h3>
-        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
       </div>
 
       <!-- Карточки -->
@@ -58,7 +58,7 @@ render_breadcrumbs(array(
                 class="card bg-transparent h-100 m-0 cursor-pointer" data-post-id="<?php echo $portfolio_id; ?>">
                 <div class="card-img-container">
                   <?php if ($featured_image): ?>
-                    <img loading="lazy" src="<?php echo $featured_image; ?>" alt="<?php echo esc_attr($portfolio_title); ?>" class="card-img-top" />
+                    <img loading="lazy" src="<?php echo $featured_image; ?>" alt="<?php echo esc_attr($portfolio_title); ?>" class="card-img-top">
                   <?php endif; ?>
                 </div>
                 <div class="card-body text-center pb-0">

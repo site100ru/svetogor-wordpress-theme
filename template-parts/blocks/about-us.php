@@ -34,7 +34,7 @@ $section_class .= $background_color === 'bg-grey' ? ' bg-grey' : '';
     <!-- Левая часть с картинкой (скрывается на мобилках) -->
     <div class="right-part d-none d-md-block">
       <?php if (!empty($background_image)): ?>
-        <img loading="lazy" src="<?php echo esc_url($background_image['url']); ?>" alt="<?php echo esc_attr($background_image['alt'] ?: 'О нас'); ?>" class="img-cover" />
+        <img loading="lazy" src="<?php echo esc_url($background_image['url']); ?>" alt="<?php echo esc_attr($background_image['alt'] ?: 'О нас'); ?>" class="img-cover">
       <?php endif; ?>
     </div>
     <!-- Правая часть с фоном -->
@@ -48,7 +48,7 @@ $section_class .= $background_color === 'bg-grey' ? ' bg-grey' : '';
         <?php if (!empty($section_title)): ?>
           <h2 class="mb-1"><?php echo esc_html($section_title); ?></h2>
 
-          <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+          <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
           <br>
         <?php endif; ?>
 

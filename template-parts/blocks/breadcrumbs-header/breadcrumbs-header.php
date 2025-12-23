@@ -27,7 +27,7 @@ if (!$page_title) {
                 <!-- Иконка главной -->
                 <li class="breadcrumb-item">
                     <a href="<?php echo home_url('/'); ?>" class="text-decoration-none text-secondary">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика" />
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика">
                     </a>
                 </li>
 

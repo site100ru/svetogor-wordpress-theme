@@ -17,7 +17,7 @@ get_header('shop'); ?>
                     <!-- Иконка главной -->
                     <li class="breadcrumb-item">
                         <a href="<?php echo home_url('/'); ?>">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика" />
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика">
                         </a>
                     </li>
                     <?php

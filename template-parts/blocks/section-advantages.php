@@ -34,7 +34,7 @@ $section_class .= $background_color === 'bg-grey' ? ' bg-grey' : '';
         <div class="section-title text-center">
           <h2><?php echo esc_html($section_title); ?></h2>
 
-          <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="" />
+          <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="Точки">
         </div>
       <?php endif; ?>
 
@@ -56,9 +56,9 @@ $section_class .= $background_color === 'bg-grey' ? ' bg-grey' : '';
                 <?php endif; ?>
 
                 <?php if (!empty($advantage['description'])): ?>
-                  <p class="advantage-text text-start">
+                  <div class="advantage-text text-start">
                     <?php echo wp_kses_post($advantage['description']); ?>
-                  </p>
+                  </div>
                 <?php endif; ?>
               </div>
             </div>

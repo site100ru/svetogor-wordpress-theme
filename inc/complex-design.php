@@ -120,7 +120,7 @@ function edit_complex_design_thumbnail_field($tag) {
             <input type="hidden" id="complex_design_thumbnail" name="complex_design_thumbnail" value="<?php echo esc_attr($thumbnail_id); ?>" />
             <div id="complex_design_thumbnail_preview">
                 <?php if ($thumbnail_url): ?>
-                    <img loading="lazy" src="<?php echo esc_url($thumbnail_url); ?>" style="max-width: 150px;" alt="Превью изображения" />
+                    <img loading="lazy" src="<?php echo esc_url($thumbnail_url); ?>" style="max-width: 150px;" alt="Превью изображения" >
                 <?php endif; ?>
             </div>
             <button type="button" class="button complex-design-thumbnail-upload">Выбрать изображение</button>

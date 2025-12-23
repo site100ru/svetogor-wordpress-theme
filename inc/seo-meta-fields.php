@@ -82,9 +82,9 @@ function render_seo_meta_box($post) {
                     <?php if ($seo_image): 
                         $image_url = wp_get_attachment_url($seo_image);
                     ?>
-                        <img loading="lazy" src="<?php echo esc_url($image_url); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Изображение для Open Graph" />
+                        <img loading="lazy" src="<?php echo esc_url($image_url); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Изображение для Open Graph">
                     <?php elseif ($default_image_url): ?>
-                        <img loading="lazy" src="<?php echo esc_url($default_image_url); ?>" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;" alt="Изображение для Open Graph" />
+                        <img loading="lazy" src="<?php echo esc_url($default_image_url); ?>" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;" alt="Изображение для Open Graph">
                         <div style="position: absolute; bottom: 5px; left: 5px; font-size: 11px; color: #666; background: rgba(255,255,255,0.9); padding: 2px 5px; border-radius: 3px;">по умолчанию</div>
                     <?php else: ?>
                         <span style="color: #999; font-size: 12px;">Нет изображения</span>
@@ -178,7 +178,7 @@ function render_seo_meta_box($post) {
             $('#seo_image').val('');
             
             <?php if ($default_image_url): ?>
-                $('#seo_image_preview').html('<img loading="lazy" src="<?php echo esc_url($default_image_url); ?>" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;" /><div style="position: absolute; bottom: 5px; left: 5px; font-size: 11px; color: #666; background: rgba(255,255,255,0.9); padding: 2px 5px; border-radius: 3px;">по умолчанию</div>');
+                $('#seo_image_preview').html('<img loading="lazy" src="<?php echo esc_url($default_image_url); ?>" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;" ><div style="position: absolute; bottom: 5px; left: 5px; font-size: 11px; color: #666; background: rgba(255,255,255,0.9); padding: 2px 5px; border-radius: 3px;">по умолчанию</div>');
             <?php else: ?>
                 $('#seo_image_preview').html('<span style="color: #999; font-size: 12px;">Нет изображения</span>');
             <?php endif; ?>
@@ -419,7 +419,7 @@ function render_taxonomy_seo_fields_edit($term) {
                     <?php if ($seo_image): 
                         $image_url = wp_get_attachment_url($seo_image);
                     ?>
-                        <img loading="lazy" src="<?php echo esc_url($image_url); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Изображение для Open Graph" />
+                        <img loading="lazy" src="<?php echo esc_url($image_url); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Изображение для Open Graph">
                     <?php else: ?>
                         <span style="color: #999; font-size: 12px;">Нет изображения</span>
                     <?php endif; ?>
@@ -896,7 +896,7 @@ function render_archive_seo_tab($archive_key, $archive_name, $display = 'block')
                     <?php if ($seo_image): 
                         $image_url = wp_get_attachment_url($seo_image);
                     ?>
-                        <img loading="lazy" src="<?php echo esc_url($image_url); ?>" alt="Изображение для Open Graph" />
+                        <img loading="lazy" src="<?php echo esc_url($image_url); ?>" alt="Изображение для Open Graph">
                     <?php else: ?>
                         <span class="image-preview-empty">Нет изображения</span>
                     <?php endif; ?>

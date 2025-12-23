@@ -93,7 +93,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                 style="text-decoration: none; color: inherit; display: block">
                 <div class="card">
                   <div class="card-img-container">
-                    <img loading="lazy" src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($term->name); ?>" class="card-img-top" />
+                    <img loading="lazy" src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($term->name); ?>" class="card-img-top">
                   </div>
                   <div class="card-body text-center">
                     <h5 class="card-title"><?php echo esc_html($term->name); ?></h5>
@@ -112,14 +112,14 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
             data-glide-el="controls">
             <img loading="lazy"
               src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>"
-              alt="Назад"  />
+              alt="Назад">
           </button>
 
           <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;"
             data-glide-el="controls">
             <img loading="lazy"
               src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>"
-              alt="Вперед"  />
+              alt="Вперед">
           </button>
         </div>
       <?php endif; ?>

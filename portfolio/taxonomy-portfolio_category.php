@@ -39,7 +39,7 @@ render_breadcrumbs(array(
         <?php if (!empty($current_term->description)): ?>
           <p class="category-description"><?php echo $current_term->description; ?></p>
         <?php endif; ?>
-        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
       </div>
 
       <!-- Карточки -->
@@ -76,7 +76,7 @@ render_breadcrumbs(array(
                 data-post-id="<?php echo $portfolio_id; ?>">
                 <div class="card-img-container bg-linear-gradient">
                   <?php if ($featured_image): ?>
-                    <img loading="lazy" src="<?php echo $featured_image; ?>" alt="<?php echo esc_attr($portfolio_title); ?>" class="card-img-top" />
+                    <img loading="lazy" src="<?php echo $featured_image; ?>" alt="<?php echo esc_attr($portfolio_title); ?>" class="card-img-top">
                   <?php endif; ?>
                 </div>
                 <div class="card-body text-center pb-0">

@@ -126,7 +126,7 @@ if (!empty($block['className'])) {
     <?php if ($show_section_title): ?>
       <div class="section-title text-center">
         <h3><?php echo esc_html($section_title); ?></h3>
-        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Декоративные точки" class="img-fluid" />
+        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Декоративные точки" class="img-fluid">
       </div>
     <?php endif; ?>
 
@@ -172,7 +172,7 @@ if (!empty($block['className'])) {
           <a href="<?php echo esc_url($category_link); ?>" class="card-link card-categories">
             <div class="card">
               <div class="card-img-container">
-                <img loading="lazy" src="<?php echo esc_url($category_photo_url); ?>" alt="<?php echo esc_attr($category_name); ?>" class="img-fluid"  />
+                <img loading="lazy" src="<?php echo esc_url($category_photo_url); ?>" alt="<?php echo esc_attr($category_name); ?>" class="img-fluid">
               </div>
 
               <div class="card-body text-center">

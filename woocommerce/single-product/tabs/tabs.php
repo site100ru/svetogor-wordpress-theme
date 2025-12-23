@@ -20,7 +20,7 @@ if ( ! empty( $product_tabs ) ) : ?>
                 <li class="nav-item">
                     <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/menu-decoration-point.svg" 
                          alt="Декоративная точка - разделитель"
-                         class="img-fluid py-3" />
+                         class="img-fluid py-3">
                 </li>
             <?php endif; ?>
             

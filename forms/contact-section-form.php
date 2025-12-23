@@ -28,17 +28,17 @@
       <label class="image-checkbox-container">
         <input type="checkbox" name="contact-methods[]" value="WhatsApp">
         <span class="custom-checkbox"></span>
-        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/whatsapp.svg" alt="WhatsApp" />
+        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/whatsapp.svg" alt="WhatsApp">
       </label>
       <label class="image-checkbox-container">
         <input type="checkbox" name="contact-methods[]" value="Telegram">
         <span class="custom-checkbox"></span>
-        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/telegram.svg" alt="Telegram" />
+        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/telegram.svg" alt="Telegram">
       </label>
       <label class="image-checkbox-container">
         <input type="checkbox" name="contact-methods[]" value="Email">
         <span class="custom-checkbox"></span>
-        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/message.svg" alt="Email" />
+        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/message.svg" alt="Email">
       </label>
     </div>
   </div>

@@ -47,7 +47,7 @@ $column_class = 'col-md-6 col-lg-' . (12 / intval($columns));
             <?php if (!empty($section_title)): ?>
                 <div class="section-title text-center">
                     <h3><?php echo esc_html($section_title); ?></h3>
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="Точки" />
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="Точки" >
                 </div>
             <?php endif; ?>
 
@@ -71,7 +71,7 @@ $column_class = 'col-md-6 col-lg-' . (12 / intval($columns));
                             <div class="row pt-3">
                                 <div class="col text-start">
                                     <?php if (!empty($step['description'])): ?>
-                                        <p class="mb-0"><?php echo wp_kses_post($step['description']); ?></p>
+                                        <div class="mb-0"><?php echo wp_kses_post($step['description']); ?></div>
                                     <?php endif; ?>
                                 </div>
                             </div>

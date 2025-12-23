@@ -17,7 +17,7 @@ function render_breadcrumbs($items = array())
                     <!-- Домашняя страница -->
                     <li class="breadcrumb-item">
                         <a href="<?php echo home_url(); ?>" class="text-decoration-none text-secondary">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика" />
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика">
                         </a>
                     </li>
 
@@ -168,9 +168,9 @@ function render_service_card($post_id)
             <div class="row g-0 align-items-center h-100">
                 <div class="col-12 col-lg-4 text-center card-img-container">
                     <?php if ($featured_image): ?>
-                        <img loading="lazy" src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($title); ?>" class="img-fluid" />
+                        <img loading="lazy" src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($title); ?>" class="img-fluid">
                     <?php else: ?>
-                        <img loading="lazy" src="<?php echo wc_placeholder_img_src(); ?>" alt="<?php echo esc_attr($title); ?>" class="img-fluid" />
+                        <img loading="lazy" src="<?php echo wc_placeholder_img_src(); ?>" alt="<?php echo esc_attr($title); ?>" class="img-fluid">
                     <?php endif; ?>
                 </div>
                 <div class="col-12 col-lg-8">

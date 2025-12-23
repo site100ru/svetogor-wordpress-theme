@@ -21,8 +21,7 @@
 					$company_logo = get_company_logo();
 					if ($company_logo):
 						?>
-						<img src="<?php echo esc_url($company_logo['url']); ?>" class="img-fluid"
-							alt="<?php echo esc_attr($company_logo['alt'] ?: get_bloginfo('name')); ?>" />
+						<img src="<?php echo esc_url($company_logo['url']); ?>" class="img-fluid" alt="<?php echo esc_attr($company_logo['alt'] ?: get_bloginfo('name')); ?>" >
 					<?php endif; ?>
 				</a>
 			</div>
@@ -32,8 +31,7 @@
 						<!-- Company Address -->
 						<li class="nav-item me-3">
 							<div class="d-flex align-items-center gap-3 lh-1 nav-link-email">
-								<img src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>"
-									alt="Адрес" />
+								<img src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" alt="Адрес">
 								<span>
 									<?php echo nl2br(esc_html(get_company_address())); ?>
 								</span>
@@ -43,8 +41,7 @@
 						<!-- Work Hours -->
 						<li class="nav-item me-3">
 							<div class="d-flex align-items-center gap-3 lh-1 nav-link-hourse">
-								<img src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>"
-									alt="Время работы" />
+								<img src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>" alt="Время работы">
 								<span>
 									<?php echo nl2br(esc_html(get_company_work_hours())); ?>
 								</span>
@@ -55,8 +52,7 @@
 						<li class="nav-item me-3">
 							<button class="nav-link d-flex text-start align-items-center gap-3 lh-1" data-bs-toggle="modal"
 								data-bs-target="#callbackModal">
-								<img src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>"
-									alt="Обратный звонок" />
+								<img src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>" alt="Обратный звонок" >
 								<span>Обратный звонок</span>
 							</button>
 						</li>
@@ -72,8 +68,7 @@
 					?>
 					<a href="tel:<?php echo esc_attr(format_phone_for_href($main_phone_data['phone_number'])); ?>"
 						class="top-menu-tel nav-link">
-						<img src="<?php echo esc_url(get_contact_icon_url('global_phone_icon', 'mobile-phone-ico.svg')); ?>"
-							class="me-2" alt="Телефон" />
+						<img src="<?php echo esc_url(get_contact_icon_url('global_phone_icon', 'mobile-phone-ico.svg')); ?>"class="me-2" alt="Телефон" >
 						<?php echo esc_html($main_phone_data['phone_number']); ?>
 					</a>
 				<?php endif; ?>
@@ -123,16 +118,14 @@
 					$company_logo = get_company_logo();
 					if ($company_logo):
 						?>
-						<img src="<?php echo esc_url($company_logo['url']); ?>" class="img-fluid"
-							alt="<?php echo esc_attr($company_logo['alt'] ?: get_bloginfo('name')); ?>" />
+						<img src="<?php echo esc_url($company_logo['url']); ?>" class="img-fluid" alt="<?php echo esc_attr($company_logo['alt'] ?: get_bloginfo('name')); ?>" >
 					<?php endif; ?>
 				</a>
 				<ul class="ps-0 pt-0 pt-md-3 pb-2 navbar-nav">
 					<!-- Company Address -->
 					<li class="nav-item">
 						<div class="nav-link ps-0 pb-2">
-							<img src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" class="me-2"
-								alt="Адрес" />
+							<img src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" class="me-2" alt="Адрес" >
 							<?php echo esc_html(get_company_address()); ?>
 						</div>
 					</li>
@@ -140,8 +133,7 @@
 					<!-- Work Hours -->
 					<li class="nav-item">
 						<div class="nav-link ps-0 py-2">
-							<img src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>" class="me-2"
-								alt="Время работы" />
+							<img src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>" class="me-2" alt="Время работы" >
 							<?php echo esc_html(get_company_work_hours()); ?>
 						</div>
 					</li>
@@ -149,8 +141,7 @@
 					<!-- Callback Button -->
 					<li class="nav-item">
 						<button class="nav-link ps-0 pt-2" data-bs-toggle="modal" data-bs-target="#callbackModal">
-							<img src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>" class="me-2"
-								alt="Обратный звонок" />
+							<img src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>" class="me-2" alt="Обратный звонок" >
 							Обратный звонок
 						</button>
 					</li>
@@ -163,8 +154,7 @@
 					?>
 					<a href="tel:<?php echo esc_attr(format_phone_for_href($main_phone_data['phone_number'])); ?>"
 						class="top-menu-tel nav-link">
-						<img src="<?php echo esc_url(get_phone_icon_url($main_phone_data)); ?>" class="me-2"
-							style="position: relative; bottom: 1px" alt="Телефон" />
+						<img src="<?php echo esc_url(get_phone_icon_url($main_phone_data)); ?>" class="me-2" style="position: relative; bottom: 1px" alt="Телефон" >
 						<?php echo esc_html($main_phone_data['phone_number']); ?>
 					</a>
 				<?php endif; ?>

@@ -187,7 +187,7 @@ function svetogor_output_second_level_categories()
 
       echo '<a class="nav-link' . $active_class . '" href="' . get_term_link($category) . '" data-target="' . $category->term_id . '">';
       echo '<span class="category-icon">';
-      echo '<img loading="lazy" src="' . esc_url($icon_url) . '" alt="Иконка ' . esc_attr($category->name) . '" />';
+      echo '<img loading="lazy" src="' . esc_url($icon_url) . '" alt="Иконка ' . esc_attr($category->name) . '" >';
       echo '</span>';
       echo '<span>' . esc_html($category->name) . '</span>';
       echo '<span class="category-arrow"></span>';
@@ -508,7 +508,7 @@ function svetogor_output_mobile_second_level()
 
         echo '<div class="mobile-menu-item" data-view="' . $category->term_id . '-menu-view">';
         echo '<div class="d-flex align-items-center">';
-        echo '<img loading="lazy" src="' . esc_url($icon_url) . '" alt="Иконка ' . esc_attr($category->name) . '" style="width: 20px; height: 20px; margin-right: 10px;" />';
+        echo '<img loading="lazy" src="' . esc_url($icon_url) . '" alt="Иконка ' . esc_attr($category->name) . '" style="width: 20px; height: 20px; margin-right: 10px;" >';
         echo '<span>' . esc_html($category->name) . '</span>';
         echo '</div>';
         echo '<span class="arrow"></span>';

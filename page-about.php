@@ -121,7 +121,7 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
     <div class="container">
         <div class="section-title text-center">
             <h3>Благодаря этому достигается высокое качество изделий</h3>
-            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
         </div>
 
         <div class="row">
@@ -147,7 +147,7 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
                         <li class="glide__slide card">
                             <div class="w-100">
                                 <div class="card-img-container">
-                                    <img loading="lazy" src="<?php echo get_template_directory_uri() . esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="card-img-top" />
+                                    <img loading="lazy" src="<?php echo get_template_directory_uri() . esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="card-img-top">
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo esc_html($item['title']); ?></h5>
@@ -161,10 +161,10 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
 
             <div class="glide__arrows" data-glide-el="controls">
                 <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
-                    <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" />
+                    <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" >
                 </button>
                 <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
-                    <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" />
+                    <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" >
                 </button>
             </div>
         </div>
@@ -269,7 +269,7 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
     <div class="container">
         <div class="section-title text-center">
             <h3>Лица компании</h3>
-            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" >
         </div>
 
         <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable"      data-glide-perview="3"
@@ -284,7 +284,7 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
                         <li class="glide__slide card">
                             <div class="w-100">
                                 <div class="card-img-container" style="max-height: 306px; max-width: 306px; align-self: center; margin: 0 auto 16px;">
-                                    <img loading="lazy" src="<?php echo get_template_directory_uri() . esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="card-img-top h-100 w-100 mx-auto" style="aspect-ratio: auto" />
+                                    <img loading="lazy" src="<?php echo get_template_directory_uri() . esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="card-img-top h-100 w-100 mx-auto" style="aspect-ratio: auto" >
                                 </div>
                                 <div class="card-body text-center">
                                     <h5 class="card-title"><?php echo esc_html($item['title']); ?></h5>
@@ -298,10 +298,10 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
 
             <div class="glide__arrows" data-glide-el="controls">
                 <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
-                    <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" style="top: 50%;" />
+                    <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" style="top: 50%;" >
                 </button>
                 <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
-                    <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" style="top: 50%;" />
+                    <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" style="top: 50%;" >
                 </button>
             </div>
         </div>
@@ -430,10 +430,10 @@ $images = array(
         
         <div class="glide__arrows" data-glide-el="controls">
             <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
-                <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" style="top: 50%;" />
+                <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" style="top: 50%;" >
             </button>
             <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
-                <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" style="top: 50%;" />
+                <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" style="top: 50%;" >
             </button>
         </div>
     </div>

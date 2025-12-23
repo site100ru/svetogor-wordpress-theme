@@ -106,7 +106,7 @@ wp_enqueue_script('portfolio-grid-js', get_template_directory_uri() . '/template
   <div class="container">
     <div class="section-title text-center">
       <h3><?php echo esc_html($grid_title); ?></h3>
-      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Описание изображения" class="img-fluid" />
+      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Описание изображения" class="img-fluid">
     </div>
 
     <!-- Карточки -->
@@ -127,7 +127,7 @@ wp_enqueue_script('portfolio-grid-js', get_template_directory_uri() . '/template
             data-post-id="<?php echo $post_id; ?>" style="cursor: pointer;">
             <div class="card">
               <div class="card-img-container">
-                <img loading="lazy" src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($post_title); ?>" class="img-fluid" />
+                <img loading="lazy" src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($post_title); ?>" class="img-fluid">
               </div>
               <div class="card-body text-center">
                 <h5><?php echo esc_html($post_title); ?></h5>
