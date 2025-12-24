@@ -3,16 +3,16 @@
 <!-- Первая строка: Имя, Телефон, Почта -->
 <div class="row mb-4">
   <div class="col-md-4 col-12 mb-3 mb-md-0">
-    <label for="name-input" class="form-label">Имя</label>
-    <input type="text" class="form-control" name="your-name" id="name-input" required>
+    <label for="extended-name-input" class="form-label">Имя</label>
+    <input type="text" class="form-control" name="your-name" id="extended-name-input" required>
   </div>
   <div class="col-md-4 col-12 mb-3 mb-md-0">
-    <label for="phone-input" class="form-label">Телефон</label>
-    <input type="tel" class="form-control" name="your-phone" id="phone-input" required>
+    <label for="extended-phone-input" class="form-label">Телефон</label>
+    <input type="tel" class="form-control" name="your-phone" id="extended-phone-input" required>
   </div>
   <div class="col-md-4 col-12">
-    <label for="email-input" class="form-label">Email</label>
-    <input type="email" class="form-control" name="your-email" id="email-input" required>
+    <label for="extended-email-input" class="form-label">Email</label>
+    <input type="email" class="form-control" name="your-email" id="extended-email-input" required>
   </div>
 </div>
 
@@ -93,7 +93,7 @@
 <div class="row mb-4">
   <p class="mb-2">Размеры, материалы и другие детали</p>
   <div class="col-12">
-    <textarea class="form-control" name="your-message" rows="4"></textarea>
+    <textarea class="form-control" name="extended-your-message" rows="4"></textarea>
   </div>
 </div>
 
@@ -148,14 +148,14 @@
 <div class="row">
   <div class="col-12">
     <div class="form-check mb-3">
-        <input class="form-check-input" type="checkbox" id="gridCheck-5" checked>
-        <label class="form-check-label" for="gridCheck-5">
-            <p class="mb-0"><small>Даю согласие на обработку персональных данных. Подробнее об обработке персональных данных в <a href="<?php echo get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf" target="_blank">Политике конфиденциальности.</a></small></p>
+        <input class="form-check-input" type="checkbox" id="extended-privacy-check" checked>
+        <label class="form-check-label" for="extended-privacy-check">
+            <small>Даю согласие на обработку персональных данных. Подробнее об обработке персональных данных в <a href="<?php echo get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf" target="_blank">Политике конфиденциальности.</a></small>
         </label>
     </div>	
   </div>
   <div class="col-md-6 col-xl-4 col-12">
-    <button type="submit" class="btn w-100" id="submit-btn">
+    <button type="submit" class="btn w-100" id="extended-submit-btn">
       <span class="btn-text">Отправить</span>
       <span class="btn-spinner" style="display: none;">
         <span class="spinner-border spinner-border-sm" role="status"></span>

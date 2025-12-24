@@ -8,12 +8,12 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-md-6 mb-3 mb-md-0">
-        <label for="name-input" class="form-label">Имя</label>
-        <input type="text" name="name" id="name-input" class="form-control" required>
+        <label for="simple-name-input" class="form-label">Имя</label>
+        <input type="text" name="name" id="simple-name-input" class="form-control" required>
       </div>
       <div class="col-md-6">
-        <label for="tel-input" class="form-label">Телефон</label>
-        <input type="text" name="tel" id="tel-input" class="form-control telMask" required>
+        <label for="simple-tel-input" class="form-label">Телефон</label>
+        <input type="text" name="tel" id="simple-tel-input" class="form-control telMask" required>
       </div>
     </div>
 
@@ -24,9 +24,9 @@
   <div class="modal-footer justify-content-">
     <div class="row w-100 m-0">
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="gridCheck-5" checked>
-            <label class="form-check-label" for="gridCheck-5">
-                <p class="mb-0"><small>Даю согласие на обработку персональных данных. Подробнее об обработке персональных данных в <a href="<?php echo get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf" target="_blank">Политике конфиденциальности.</a></small></p>
+            <input class="form-check-input" type="checkbox" id="simple-privacy-check" checked>
+            <label class="form-check-label" for="simple-privacy-check">
+                <small>Даю согласие на обработку персональных данных. Подробнее об обработке персональных данных в <a href="<?php echo get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf" target="_blank">Политике конфиденциальности.</a></small>
             </label>
         </div>	
       <div class="col-md-6 mb-0 p-0">

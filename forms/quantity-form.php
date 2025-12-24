@@ -9,20 +9,19 @@
     <div class="modal-body">
         <div class="row">
             <div class="callback-modal-free-col mb-3">
-                <label for="name-input" class="form-label">Имя</label>
-                <input type="text" name="name" id="name-input" class="form-control" required>
+                <label for="quantity-name-input" class="form-label">Имя</label>
+                <input type="text" name="name" id="quantity-name-input" class="form-control" required>
             </div>
             <div class="callback-modal-free-col mb-3">
-                <label for="tel-input" class="form-label">Телефон</label>
-                <input type="text" name="tel" id="tel-input" class="form-control telMask" required>
+                <label for="quantity-tel-input" class="form-label">Телефон</label>
+                <input type="text" name="tel" id="quantity-tel-input" class="form-control telMask" required>
             </div>
 
             <div class="callback-modal-free-col-input mb-md-0">
-                <label for="quantity-input" class="form-label">Кол-во</label>
+                <label for="quantity-quantity-input" class="form-label">Кол-во</label>
                 <div class="input-group">
                     <button type="button" class="btn btn-quantity-minus">−</button>
-                    <input type="number" class="form-control text-center" id="quantity-input" name="quantity" value="1" min="1"
-                        max="100" required>
+                    <input type="number" class="form-control text-center" id="quantity-quantity-input" name="quantity" value="1" min="1" max="100" required>
                     <button type="button" class="btn btn-quantity-plus">+</button>
                 </div>
             </div>
@@ -39,9 +38,9 @@
         <div class="row w-100 m-0">
             <div class="col-12">
                 <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="gridCheck-5" checked>
-                    <label class="form-check-label" for="gridCheck-5">
-                        <p class="mb-0"><small>Даю согласие на обработку персональных данных. Подробнее об обработке персональных данных в <a href="<?php echo get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf" target="_blank">Политике конфиденциальности.</a></small></p>
+                    <input class="form-check-input" type="checkbox" id="quantity-privacy-check" checked>
+                    <label class="form-check-label" for="quantity-privacy-check">
+                        <small>Даю согласие на обработку персональных данных. Подробнее об обработке персональных данных в <a href="<?php echo get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf" target="_blank">Политике конфиденциальности.</a></small>
                     </label>
                 </div>
             </div>
