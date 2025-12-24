@@ -127,12 +127,7 @@ img {
 	width: 100%;
 	height: 100%;
 
-	background: linear-gradient(
-		180deg,
-		rgba(0, 0, 0, 0.15) 0%,
-		rgba(0, 0, 0, 0.15) 70%,
-		rgba(0, 0, 0, 0.75) 100%
-	);
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 70%, rgba(0, 0, 0, 0.75) 100%);
 	opacity: 1;
 	transition: opacity 0.5s;
 }
@@ -330,7 +325,9 @@ img {
 .btn-invert:hover {
 	color: #fff;
 	border-color: var(--color-accent);
-	transition: color 0.5s, border-color 0.5s;
+	transition:
+		color 0.5s,
+		border-color 0.5s;
 }
 .btn-min {
 	--bs-btn-padding-x: 2.1875rem;
@@ -674,7 +671,9 @@ img {
 	z-index: 1050;
 	transform: translateY(-100%);
 	opacity: 0;
-	transition: transform 0.5s ease, opacity 0.5s ease;
+	transition:
+		transform 0.5s ease,
+		opacity 0.5s ease;
 	pointer-events: none;
 	background-color: white;
 }
@@ -886,10 +885,11 @@ img {
 	margin-bottom: 1rem;
 }
 
-
 p a {
 	color: var(--color-accent-hover) !important;
-	transition: color 0.5s, opacity 0.5s !important;
+	transition:
+		color 0.5s,
+		opacity 0.5s !important;
 	text-decoration: none !important;
 }
 
@@ -899,7 +899,9 @@ p a:hover {
 
 .section-product-list .row a:not(.btn) {
 	color: var(--color-accent-hover);
-	transition: color 0.5s, opacity 0.5s;
+	transition:
+		color 0.5s,
+		opacity 0.5s;
 }
 
 .section-product-list .row a:not(.btn):hover {
@@ -1017,8 +1019,8 @@ p a:hover {
 	border-radius: var(--border-radius);
 }
 
-.section-works h5{
-    font-size: clamp(1rem, 0.786rem + 0.95vw, 1.5rem);
+.section-works h5 {
+	font-size: clamp(1rem, 0.786rem + 0.95vw, 1.5rem);
 }
 
 /*** END SECTION WORKS ***/
@@ -2306,7 +2308,11 @@ input[type='number'] {
 }
 
 .card-hover-images img {
-	transition: filter 0.6s, opacity 0.6s, transform 0.6s, box-shadow 0.3s;
+	transition:
+		filter 0.6s,
+		opacity 0.6s,
+		transform 0.6s,
+		box-shadow 0.3s;
 }
 
 .card-hover-images .product-image-hover-second {
@@ -2569,32 +2575,51 @@ input[type='number'] {
 	z-index: 9999;
 }
 
-
 strong {
 	font-weight: 700 !important;
 }
 
 .form-check-input:checked {
-    border-color: var(--color-accent-hover);
-    background-color: var(--color-accent-hover);
+	border-color: var(--color-accent-hover);
+	background-color: var(--color-accent-hover);
 }
 
 .section.general-info h3,
 .section.description h3 {
-    font-family: var(--font-family);
-    font-weight: 700;
-    font-size: clamp(1rem, 0.786rem + 0.95vw, 1.5rem);
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: clamp(1rem, 0.786rem + 0.95vw, 1.5rem);
 }
 
 .section.general-info h4,
 .section.description h4 {
-    font-family: var(--font-family);
-    font-weight: 500;
-    font-size: clamp(1rem, 0.839rem + 0.71vw, 1.375rem);
-    line-height: 1.35;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: clamp(1rem, 0.839rem + 0.71vw, 1.375rem);
+	line-height: 1.35;
 }
 
 .section.general-info strong,
 .section.description strong {
-    font-weight: 500 !important;
+	font-weight: 500 !important;
+}
+
+.popup-form.active {
+	bottom: 0;
+}
+
+.popup-form {
+	position: fixed;
+	bottom: -500px;
+	left: 0;
+	width: 100%;
+	background: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.2);
+	padding: 10px;
+	box-sizing: border-box;
+	transition: bottom 0.5s ease-out;
+	z-index: 1000;
+	max-width: 100%;
 }

@@ -719,8 +719,15 @@ function render_archive_seo_settings_page() {
     }
     
     // Получаем все публичные типы записей
-    $post_types = get_post_types(['public' => true, '_builtin' => false], 'objects');
-    $post_types['post'] = get_post_type_object('post'); // Добавляем встроенный тип "Записи"
+    $allowed_post_types = ['post', 'portfolio', 'news', 'services', 'articles'];
+    $post_types = [];
+
+    foreach ($allowed_post_types as $post_type_name) {
+        $post_type_obj = get_post_type_object($post_type_name);
+        if ($post_type_obj) {
+            $post_types[$post_type_name] = $post_type_obj;
+        }
+    }
     
     ?>
     <div class="wrap">
@@ -740,11 +747,6 @@ function render_archive_seo_settings_page() {
                              . esc_html($post_type_obj->labels->name) . '</a>';
                         $first = false;
                     }
-                    
-                    // Добавляем вкладку для WooCommerce, если активен
-                    if (class_exists('WooCommerce')) {
-                        echo '<a href="#tab-shop" class="nav-tab" data-tab="shop">Магазин (WooCommerce)</a>';
-                    }
                     ?>
                 </h2>
                 
@@ -755,11 +757,6 @@ function render_archive_seo_settings_page() {
                     $display = $first ? 'block' : 'none';
                     render_archive_seo_tab($archive_key, $post_type_obj->labels->name, $display);
                     $first = false;
-                }
-                
-                // Вкладка для WooCommerce
-                if (class_exists('WooCommerce')) {
-                    render_archive_seo_tab('shop', 'Магазин', 'none');
                 }
                 ?>
             </div>
@@ -961,7 +958,7 @@ function render_archive_seo_tab($archive_key, $archive_name, $display = 'block')
 
 // Сохраняем настройки
 function save_archive_seo_settings() {
-    $post_types = get_post_types(['public' => true], 'names');
+    $allowed_post_types = ['post', 'portfolio', 'news', 'services', 'articles'];
     
     foreach ($post_types as $post_type) {
         $archive_key = get_archive_key_by_post_type($post_type);
@@ -976,19 +973,6 @@ function save_archive_seo_settings() {
         
         if (isset($_POST["archive_seo_image_{$archive_key}"])) {
             update_option("archive_seo_image_{$archive_key}", absint($_POST["archive_seo_image_{$archive_key}"]));
-        }
-    }
-    
-    // WooCommerce
-    if (class_exists('WooCommerce')) {
-        if (isset($_POST['archive_seo_title_shop'])) {
-            update_option('archive_seo_title_shop', sanitize_text_field($_POST['archive_seo_title_shop']));
-        }
-        if (isset($_POST['archive_seo_description_shop'])) {
-            update_option('archive_seo_description_shop', sanitize_textarea_field($_POST['archive_seo_description_shop']));
-        }
-        if (isset($_POST['archive_seo_image_shop'])) {
-            update_option('archive_seo_image_shop', absint($_POST['archive_seo_image_shop']));
         }
     }
 }
@@ -1052,10 +1036,6 @@ function custom_seo_title($title) {
         if ($archive_key) {
             $custom_title = get_option("archive_seo_title_{$archive_key}", '');
         }
-    }
-    // Для WooCommerce магазина
-    elseif (function_exists('is_shop') && is_shop()) {
-        $custom_title = get_option('archive_seo_title_shop', '');
     }
     
     // Если задан кастомный title - используем его, иначе стандартный WordPress

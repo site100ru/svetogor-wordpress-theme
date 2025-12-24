@@ -31,7 +31,7 @@ function render_acf_block($blocks, $block_name)
 
 <!-- Full Width Image Block -->
 <section id="fullwidth-image">
-    <img src="<?php the_field('hero_banner') ?>" alt="Изображение" class="fullwidth-img">
+    <img src="<?php the_field('hero_banner') ?>" loading="lazy" alt="Изображение" class="fullwidth-img">
     <div class="fullwidth-content">
         <h2><?php the_field('hero_title') ?></h2>
         <div class="fullwidth-text">

@@ -3,6 +3,22 @@
 * Template Name: PAGE About Us
 */
 
+add_action('wp_head', function() {
+    ?>
+    <style>
+        .hero-section h1 {
+            font-size: clamp(1.25rem, 0.341rem + 4.55vw, 3.75rem);
+        }
+
+        .hero-section h2 {
+            font-family: var(--second-family);
+            font-size: clamp(1.125rem, 0.966rem + 0.8vw, 1.563rem);
+            font-weight: 400;
+        }
+    </style>
+    <?php
+});
+
 get_header();
 // Получаем данные текущей страницы
 $page_id = get_the_ID();
@@ -20,19 +36,6 @@ if ($hero_bg_id) {
 }
 
 ?>
-
-<style>
-    .hero-section h1 {
-        font-size: clamp(1.25rem, 0.341rem + 4.55vw, 3.75rem);
-
-    }
-
-    .hero-section h2 {
-        font-family: var(--second-family);
-        font-size: clamp(1.125rem, 0.966rem + 0.8vw, 1.563rem);
-        font-weight: 400;
-    }
-</style>
 
 <!-- HERO СЕКЦИЯ -->
 <section class="hero-section" <?php if ($hero_bg_url): ?>style="background-image: url('<?php echo esc_url($hero_bg_url); ?>'); height: 500px;" <?php endif; ?> >

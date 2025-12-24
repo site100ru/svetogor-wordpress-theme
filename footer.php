@@ -12,6 +12,7 @@
 ?>
 
 <section class="footer">
+    <h2 class="d-none">Подвал сайта</h2>
 	<!-- Desktop version -->
 	<div class="container py-5 d-none d-xl-block">
 		<div class="row align-items-center">
@@ -268,28 +269,6 @@ if (isset($_SESSION['win'])) {
 
 <script src="<?php echo get_template_directory_uri(); ?>/js/global-recaptcha.js"></script>
 
-<style>
-    
-.popup-form.active {
-	bottom: 0;
-}
-
-.popup-form {
-	position: fixed;
-	bottom: -500px;
-	left: 0;
-	width: 100%;
-	background: rgba(255, 255, 255, 0.8);
-	backdrop-filter: blur(8px);
-	-webkit-backdrop-filter: blur(8px);
-	box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.2);
-	padding: 10px;
-	box-sizing: border-box;
-	transition: bottom 0.5s ease-out;
-	z-index: 1000;
-	max-width: 100%;
-}
-</style>
 
 <!-- Всплывающая форма Политики конфиденциальности -->
 <div class="popup-form py-3" id="popupForm">
