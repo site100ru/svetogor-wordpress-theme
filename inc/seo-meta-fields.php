@@ -295,32 +295,33 @@ add_action('init', 'add_taxonomy_seo_fields', 999);
 // ============================================================================
 
 function render_taxonomy_seo_fields_add($taxonomy) {
+    $form_id = 'add_' . $taxonomy; // Уникальный префикс
     ?>
     <div class="form-field">
         <h3 style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #0073aa;">🔍 SEO Настройки</h3>
     </div>
     
     <div class="form-field">
-        <label for="term_seo_title">SEO Title</label>
-        <input type="text" id="term_seo_title" name="term_seo_title" value="" maxlength="70" style="width: 95%;">
+        <label for="term_seo_title_<?php echo esc_attr($form_id); ?>">SEO Title</label>
+        <input type="text" id="term_seo_title_<?php echo esc_attr($form_id); ?>" name="term_seo_title" value="" maxlength="70" style="width: 95%;">
         <p>Оптимальная длина: 50-60 символов. Если пусто, будет использовано название термина.</p>
     </div>
     
     <div class="form-field">
-        <label for="term_seo_description">Meta Description</label>
-        <textarea id="term_seo_description" name="term_seo_description" rows="3" maxlength="320" style="width: 95%;"></textarea>
+        <label for="term_seo_description_<?php echo esc_attr($form_id); ?>">Meta Description</label>
+        <textarea id="term_seo_description_<?php echo esc_attr($form_id); ?>" name="term_seo_description" rows="3" maxlength="320" style="width: 95%;"></textarea>
         <p>Оптимальная длина: 150-160 символов.</p>
     </div>
     
     <div class="form-field">
         <label>Open Graph изображение</label>
         <div style="margin-top: 10px;">
-            <input type="hidden" id="term_seo_image" name="term_seo_image" value="">
-            <div id="term_seo_image_preview" style="margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; background: #f9f9f9;">
+            <input type="hidden" id="term_seo_image_<?php echo esc_attr($form_id); ?>" name="term_seo_image" value="">
+            <div id="term_seo_image_preview_<?php echo esc_attr($form_id); ?>" style="margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; background: #f9f9f9;">
                 <span style="color: #999; font-size: 12px;">Нет изображения</span>
             </div>
-            <button type="button" class="button" id="term_upload_seo_image_button">Выбрать изображение</button>
-            <button type="button" class="button" id="term_remove_seo_image_button" style="display:none;">Удалить</button>
+            <button type="button" class="button" id="term_upload_seo_image_button_<?php echo esc_attr($form_id); ?>">Выбрать изображение</button>
+            <button type="button" class="button" id="term_remove_seo_image_button_<?php echo esc_attr($form_id); ?>" style="display:none;">Удалить</button>
         </div>
         <p>Рекомендуемый размер: 1200×630 px. Используется в соцсетях и мессенджерах.</p>
     </div>
@@ -328,9 +329,17 @@ function render_taxonomy_seo_fields_add($taxonomy) {
     <script type="text/javascript">
     jQuery(document).ready(function($) {
         var mediaUploader;
+        var formId = '<?php echo esc_js($form_id); ?>';
         
-        $('#term_upload_seo_image_button').click(function(e) {
+        $('#term_upload_seo_image_button_' + formId).click(function(e) {
             e.preventDefault();
+            
+            // Проверяем доступность wp.media
+            if (typeof wp === 'undefined' || typeof wp.media === 'undefined') {
+                alert('Медиа-библиотека WordPress не загружена. Пожалуйста, обновите страницу.');
+                return;
+            }
+            
             if (mediaUploader) { mediaUploader.open(); return; }
             
             mediaUploader = wp.media({
@@ -341,18 +350,18 @@ function render_taxonomy_seo_fields_add($taxonomy) {
             
             mediaUploader.on('select', function() {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
-                $('#term_seo_image').val(attachment.id);
-                $('#term_seo_image_preview').html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;">');
-                $('#term_remove_seo_image_button').show();
+                $('#term_seo_image_' + formId).val(attachment.id);
+                $('#term_seo_image_preview_' + formId).html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;">');
+                $('#term_remove_seo_image_button_' + formId).show();
             });
             
             mediaUploader.open();
         });
         
-        $('#term_remove_seo_image_button').click(function(e) {
+        $('#term_remove_seo_image_button_' + formId).click(function(e) {
             e.preventDefault();
-            $('#term_seo_image').val('');
-            $('#term_seo_image_preview').html('<span style="color: #999; font-size: 12px;">Нет изображения</span>');
+            $('#term_seo_image_' + formId).val('');
+            $('#term_seo_image_preview_' + formId).html('<span style="color: #999; font-size: 12px;">Нет изображения</span>');
             $(this).hide();
         });
     });
@@ -371,6 +380,8 @@ function render_taxonomy_seo_fields_edit($term) {
     
     $term_link = get_term_link($term);
     if (is_wp_error($term_link)) $term_link = home_url('/');
+    
+    $form_id = 'edit_' . $term->term_id; // Уникальный ID на основе term_id
     ?>
     
     <tr class="form-field">
@@ -381,28 +392,28 @@ function render_taxonomy_seo_fields_edit($term) {
     
     <tr class="form-field">
         <th scope="row" style="padding: 15px 10px;">
-            <label for="term_seo_title">SEO Title</label>
+            <label for="term_seo_title_<?php echo esc_attr($form_id); ?>">SEO Title</label>
         </th>
         <td style="padding: 15px 10px;">
-            <input type="text" id="term_seo_title" name="term_seo_title" value="<?php echo esc_attr($seo_title); ?>" 
+            <input type="text" id="term_seo_title_<?php echo esc_attr($form_id); ?>" name="term_seo_title" value="<?php echo esc_attr($seo_title); ?>" 
                 maxlength="70" style="width: 100%; padding: 8px; font-size: 14px;" placeholder="<?php echo esc_attr($term->name); ?>" />
             <p class="description">
                 Оптимальная длина: 50-60 символов. Если пусто, будет использовано название термина.
-                <br><strong>Текущая длина: <span id="term_seo_title_length"><?php echo strlen($seo_title); ?></span> символов</strong>
+                <br><strong>Текущая длина: <span id="term_seo_title_length_<?php echo esc_attr($form_id); ?>"><?php echo strlen($seo_title); ?></span> символов</strong>
             </p>
         </td>
     </tr>
     
     <tr class="form-field">
         <th scope="row" style="padding: 15px 10px;">
-            <label for="term_seo_description">Meta Description</label>
+            <label for="term_seo_description_<?php echo esc_attr($form_id); ?>">Meta Description</label>
         </th>
         <td style="padding: 15px 10px;">
-            <textarea id="term_seo_description" name="term_seo_description" rows="3" maxlength="320" 
+            <textarea id="term_seo_description_<?php echo esc_attr($form_id); ?>" name="term_seo_description" rows="3" maxlength="320" 
                 style="width: 100%; padding: 8px; font-size: 14px;"><?php echo esc_textarea($seo_description); ?></textarea>
             <p class="description">
                 Оптимальная длина: 150-160 символов.
-                <br><strong>Текущая длина: <span id="term_seo_desc_length"><?php echo strlen($seo_description); ?></span> символов</strong>
+                <br><strong>Текущая длина: <span id="term_seo_desc_length_<?php echo esc_attr($form_id); ?>"><?php echo strlen($seo_description); ?></span> символов</strong>
             </p>
         </td>
     </tr>
@@ -412,10 +423,10 @@ function render_taxonomy_seo_fields_edit($term) {
             <label>Open Graph изображение</label>
         </th>
         <td style="padding: 15px 10px;">
-            <input type="hidden" id="term_seo_image" name="term_seo_image" value="<?php echo esc_attr($seo_image); ?>" />
+            <input type="hidden" id="term_seo_image_<?php echo esc_attr($form_id); ?>" name="term_seo_image" value="<?php echo esc_attr($seo_image); ?>" />
             
             <div style="display: flex; align-items: flex-start; gap: 15px;">
-                <div id="term_seo_image_preview" style="border: 1px solid #ddd; border-radius: 4px; overflow: hidden; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; background: #f9f9f9;">
+                <div id="term_seo_image_preview_<?php echo esc_attr($form_id); ?>" style="border: 1px solid #ddd; border-radius: 4px; overflow: hidden; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; background: #f9f9f9;">
                     <?php if ($seo_image): 
                         $image_url = wp_get_attachment_url($seo_image);
                     ?>
@@ -426,11 +437,11 @@ function render_taxonomy_seo_fields_edit($term) {
                 </div>
                 
                 <div style="flex: 1;">
-                    <button type="button" class="button" id="term_upload_seo_image_button" style="margin-bottom: 8px;">
+                    <button type="button" class="button" id="term_upload_seo_image_button_<?php echo esc_attr($form_id); ?>" style="margin-bottom: 8px;">
                         Выбрать изображение
                     </button>
                     
-                    <button type="button" class="button" id="term_remove_seo_image_button" style="margin-bottom: 8px; <?php echo $seo_image ? '' : 'display:none;'; ?>">
+                    <button type="button" class="button" id="term_remove_seo_image_button_<?php echo esc_attr($form_id); ?>" style="margin-bottom: 8px; <?php echo $seo_image ? '' : 'display:none;'; ?>">
                         Удалить изображение
                     </button>
                     
@@ -447,13 +458,13 @@ function render_taxonomy_seo_fields_edit($term) {
             <div class="seo-preview" style="background: #f9f9f9; padding: 15px; border-radius: 4px; border-left: 4px solid #0073aa;">
                 <h4 style="margin: 0 0 10px 0; font-size: 13px; color: #0073aa;">Предпросмотр в поисковой выдаче</h4>
                 <div style="font-family: Arial, sans-serif;">
-                    <div id="term_preview_title" style="color: #1a0dab; font-size: 18px; margin-bottom: 5px; line-height: 1.2;">
+                    <div id="term_preview_title_<?php echo esc_attr($form_id); ?>" style="color: #1a0dab; font-size: 18px; margin-bottom: 5px; line-height: 1.2;">
                         <?php echo esc_html($seo_title ?: $term->name); ?>
                     </div>
-                    <div id="term_preview_url" style="color: #006621; font-size: 14px; margin-bottom: 5px;">
+                    <div id="term_preview_url_<?php echo esc_attr($form_id); ?>" style="color: #006621; font-size: 14px; margin-bottom: 5px;">
                         <?php echo esc_url($term_link); ?>
                     </div>
-                    <div id="term_preview_description" style="color: #545454; font-size: 13px; line-height: 1.4;">
+                    <div id="term_preview_description_<?php echo esc_attr($form_id); ?>" style="color: #545454; font-size: 13px; line-height: 1.4;">
                         <?php 
                         if ($seo_description) {
                             echo esc_html($seo_description);
@@ -470,9 +481,17 @@ function render_taxonomy_seo_fields_edit($term) {
     <script type="text/javascript">
     jQuery(document).ready(function($) {
         var mediaUploader;
+        var formId = '<?php echo esc_js($form_id); ?>';
         
-        $('#term_upload_seo_image_button').click(function(e) {
+        $('#term_upload_seo_image_button_' + formId).click(function(e) {
             e.preventDefault();
+            
+            // Проверяем доступность wp.media
+            if (typeof wp === 'undefined' || typeof wp.media === 'undefined') {
+                alert('Медиа-библиотека WordPress не загружена. Пожалуйста, обновите страницу.');
+                return;
+            }
+            
             if (mediaUploader) { mediaUploader.open(); return; }
             
             mediaUploader = wp.media({
@@ -483,41 +502,41 @@ function render_taxonomy_seo_fields_edit($term) {
             
             mediaUploader.on('select', function() {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
-                $('#term_seo_image').val(attachment.id);
-                $('#term_seo_image_preview').html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;">');
-                $('#term_remove_seo_image_button').show();
+                $('#term_seo_image_' + formId).val(attachment.id);
+                $('#term_seo_image_preview_' + formId).html('<img loading="lazy" src="' + attachment.url + '" style="width: 100%; height: 100%; object-fit: cover;">');
+                $('#term_remove_seo_image_button_' + formId).show();
             });
             
             mediaUploader.open();
         });
         
-        $('#term_remove_seo_image_button').click(function(e) {
+        $('#term_remove_seo_image_button_' + formId).click(function(e) {
             e.preventDefault();
-            $('#term_seo_image').val('');
-            $('#term_seo_image_preview').html('<span style="color: #999; font-size: 12px;">Нет изображения</span>');
+            $('#term_seo_image_' + formId).val('');
+            $('#term_seo_image_preview_' + formId).html('<span style="color: #999; font-size: 12px;">Нет изображения</span>');
             $(this).hide();
         });
         
         function updatePreview() {
-            const title = $('#term_seo_title').val() || '<?php echo esc_js($term->name); ?>';
-            const description = $('#term_seo_description').val();
+            const title = $('#term_seo_title_' + formId).val() || '<?php echo esc_js($term->name); ?>';
+            const description = $('#term_seo_description_' + formId).val();
             
-            $('#term_preview_title').text(title);
+            $('#term_preview_title_' + formId).text(title);
             
             if (description) {
-                $('#term_preview_description').html(description);
+                $('#term_preview_description_' + formId).html(description);
             } else {
-                $('#term_preview_description').html('<em style="color: #999;">Описание не задано</em>');
+                $('#term_preview_description_' + formId).html('<em style="color: #999;">Описание не задано</em>');
             }
         }
         
-        $('#term_seo_title').on('input', function() {
-            $('#term_seo_title_length').text($(this).val().length);
+        $('#term_seo_title_' + formId).on('input', function() {
+            $('#term_seo_title_length_' + formId).text($(this).val().length);
             updatePreview();
         });
         
-        $('#term_seo_description').on('input', function() {
-            $('#term_seo_desc_length').text($(this).val().length);
+        $('#term_seo_description_' + formId).on('input', function() {
+            $('#term_seo_desc_length_' + formId).text($(this).val().length);
             updatePreview();
         });
     });
@@ -685,6 +704,15 @@ function enqueue_archive_seo_media_scripts($hook) {
     wp_enqueue_media();
 }
 add_action('admin_enqueue_scripts', 'enqueue_archive_seo_media_scripts');
+
+// Подключаем медиа-библиотеку для страниц таксономий
+function enqueue_taxonomy_seo_media_scripts($hook) {
+    // Проверяем, что мы на странице редактирования таксономии
+    if ($hook === 'term.php' || $hook === 'edit-tags.php') {
+        wp_enqueue_media();
+    }
+}
+add_action('admin_enqueue_scripts', 'enqueue_taxonomy_seo_media_scripts');
 
 // Рендерим страницу настроек
 function render_archive_seo_settings_page() {
@@ -974,14 +1002,14 @@ function save_archive_seo_settings() {
     }
 }
 
+
 // Получаем ключ архива по типу записи
 function get_archive_key_by_post_type($post_type) {
     $keys = [
-        'post' => 'blog',
         'portfolio' => 'portfolio',
         'news' => 'news',
         'services' => 'services',
-        'product' => 'products'
+        'articles' => 'articles',
     ];
     
     return isset($keys[$post_type]) ? $keys[$post_type] : $post_type;
@@ -994,11 +1022,10 @@ function get_archive_url_by_key($archive_key) {
     }
     
     $post_type_keys = [
-        'blog' => 'post',
         'portfolio' => 'portfolio',
         'news' => 'news',
         'services' => 'services',
-        'products' => 'product'
+        'articles' => 'articles',
     ];
     
     $post_type = isset($post_type_keys[$archive_key]) ? $post_type_keys[$archive_key] : $archive_key;
