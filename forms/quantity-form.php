@@ -3,7 +3,7 @@
 <!-- Форма с количеством (callbackModalFour) -->
 <form method="post" action="<?php echo get_template_directory_uri(); ?>/mails/quantity-form-handler.php" class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="callbackModalLabel">Оставить заявку</h5>
+        <h5 class="modal-title" id="quantity-callbackModalLabel">Оставить заявку</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">

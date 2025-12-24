@@ -575,35 +575,19 @@ function output_seo_meta_tags() {
         $seo_description = get_term_meta($term->term_id, 'seo_description', true);
         $seo_image_id = get_term_meta($term->term_id, 'seo_image', true);
         
-        if (!$seo_title) {
-            $seo_title = $term->name . ' - ' . $site_name;
-        }
-        
         if ($seo_image_id) {
             $seo_image = wp_get_attachment_url($seo_image_id);
         }
     }
-    // Для архивных страниц типов записей
+    // Для архивных страниц
     elseif (is_post_type_archive()) {
         $post_type = get_post_type();
-        $archive_key = '';
-        
-        // Определяем ключ архива
-        if ($post_type === 'post') $archive_key = 'blog';
-        elseif ($post_type === 'portfolio') $archive_key = 'portfolio';
-        elseif ($post_type === 'news') $archive_key = 'news';
-        elseif ($post_type === 'services') $archive_key = 'services';
-        elseif ($post_type === 'product') $archive_key = 'products';
+        $archive_key = get_archive_key_by_post_type($post_type);
         
         if ($archive_key) {
             $seo_title = get_option("archive_seo_title_{$archive_key}", '');
             $seo_description = get_option("archive_seo_description_{$archive_key}", '');
             $seo_image_id = get_option("archive_seo_image_{$archive_key}", '');
-            
-            if (!$seo_title) {
-                $post_type_obj = get_post_type_object($post_type);
-                $seo_title = $post_type_obj->labels->name . ' - ' . $site_name;
-            }
             
             if ($seo_image_id) {
                 $seo_image = wp_get_attachment_url($seo_image_id);
@@ -616,35 +600,22 @@ function output_seo_meta_tags() {
         $seo_description = get_option('archive_seo_description_shop', '');
         $seo_image_id = get_option('archive_seo_image_shop', '');
         
-        if (!$seo_title) {
-            $seo_title = 'Магазин - ' . $site_name;
-        }
-        
         if ($seo_image_id) {
             $seo_image = wp_get_attachment_url($seo_image_id);
         }
     }
-    // Для отдельных постов, страниц, товаров и т.д.
+    // Для отдельных постов, страниц, товаров
     elseif (is_singular()) {
         global $post;
         $seo_title = get_post_meta($post->ID, '_seo_title', true);
         $seo_description = get_post_meta($post->ID, '_seo_description', true);
         $seo_image_id = get_post_meta($post->ID, '_seo_image', true);
         
-        if (!$seo_title) {
-            $seo_title = get_the_title() . ' - ' . $site_name;
-        }
-        
         if ($seo_image_id) {
             $seo_image = wp_get_attachment_url($seo_image_id);
         } else {
             $seo_image = get_default_seo_image($post->ID);
         }
-    }
-    // Для главной страницы
-    elseif (is_front_page() || is_home()) {
-        $seo_title = get_bloginfo('name') . ' - ' . get_bloginfo('description');
-        $seo_description = get_bloginfo('description');
     }
     
     // Если нет изображения, используем логотип сайта
@@ -655,9 +626,13 @@ function output_seo_meta_tags() {
         }
     }
     
-    // Выводим мета-теги
+    // Если нет кастомного title, берем стандартный WordPress title для OG тегов
+    if (empty($seo_title)) {
+        $seo_title = wp_get_document_title();
+    }
+    
+    // Выводим мета-теги (БЕЗ <title> - он управляется фильтром)
     if ($seo_title) {
-        echo '<title>' . esc_html($seo_title) . '</title>' . "\n";
         echo '<meta property="og:title" content="' . esc_attr($seo_title) . '">' . "\n";
         echo '<meta name="twitter:title" content="' . esc_attr($seo_title) . '">' . "\n";
     }
@@ -675,10 +650,26 @@ function output_seo_meta_tags() {
     
     // Дополнительные Open Graph теги
     echo '<meta property="og:type" content="website">' . "\n";
-    echo '<meta property="og:url" content="' . esc_url(get_permalink()) . '">' . "\n";
-    echo '<meta property="og:site_name" content="' . esc_attr($site_name) . '">' . "\n";
     
-    // Twitter Card
+    // URL текущей страницы
+    $current_url = '';
+    if (is_singular()) {
+        $current_url = get_permalink();
+    } elseif (is_tax() || is_category() || is_tag()) {
+        $current_url = get_term_link(get_queried_object());
+    } elseif (is_post_type_archive()) {
+        $current_url = get_post_type_archive_link(get_post_type());
+    } elseif (function_exists('is_shop') && is_shop()) {
+        $current_url = get_permalink(wc_get_page_id('shop'));
+    } else {
+        $current_url = home_url(add_query_arg(NULL, NULL));
+    }
+    
+    if ($current_url && !is_wp_error($current_url)) {
+        echo '<meta property="og:url" content="' . esc_url($current_url) . '">' . "\n";
+    }
+    
+    echo '<meta property="og:site_name" content="' . esc_attr($site_name) . '">' . "\n";
     echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
 }
 
@@ -1036,3 +1027,39 @@ function get_archive_url_by_key($archive_key) {
     
     return get_post_type_archive_link($post_type) ?: home_url('/');
 }
+
+// ============================================================================
+// УПРАВЛЕНИЕ TITLE ЧЕРЕЗ ФИЛЬТР
+// ============================================================================
+
+function custom_seo_title($title) {
+    $custom_title = '';
+    
+    // Для отдельных постов, страниц, товаров
+    if (is_singular()) {
+        global $post;
+        $custom_title = get_post_meta($post->ID, '_seo_title', true);
+    }
+    // Для таксономий (категории, теги)
+    elseif (is_category() || is_tag() || is_tax()) {
+        $term = get_queried_object();
+        $custom_title = get_term_meta($term->term_id, 'seo_title', true);
+    }
+    // Для архивов
+    elseif (is_post_type_archive()) {
+        $post_type = get_post_type();
+        $archive_key = get_archive_key_by_post_type($post_type);
+        if ($archive_key) {
+            $custom_title = get_option("archive_seo_title_{$archive_key}", '');
+        }
+    }
+    // Для WooCommerce магазина
+    elseif (function_exists('is_shop') && is_shop()) {
+        $custom_title = get_option('archive_seo_title_shop', '');
+    }
+    
+    // Если задан кастомный title - используем его, иначе стандартный WordPress
+    return !empty($custom_title) ? $custom_title : $title;
+}
+add_filter('pre_get_document_title', 'custom_seo_title', 999);
+add_filter('wp_title', 'custom_seo_title', 999);
