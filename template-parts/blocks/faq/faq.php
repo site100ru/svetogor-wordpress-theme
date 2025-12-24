@@ -51,8 +51,7 @@ $bg_class = ($background_color == 'bg-grey') ? 'bg-grey' : '';
                   <?php echo esc_html($question); ?>
                 </button>
               </h3>
-              <div id="<?php echo $collapse_id; ?>" class="<?php echo $collapse_class; ?>"
-                aria-labelledby="<?php echo $heading_id; ?>" data-bs-parent="#<?php echo $accordion_id; ?>">
+              <div id="<?php echo $collapse_id; ?>" class="<?php echo $collapse_class; ?>" data-bs-parent="#<?php echo $accordion_id; ?>">
                 <div class="accordion-body">
                   <?php echo wp_kses_post($answer); ?>
                 </div>

@@ -255,6 +255,7 @@ function render_simple_faq($data) {
     }
     
     $bg_class = isset($data['background_color']) && $data['background_color'] === 'grey' ? 'bg-grey' : '';
+    $accordion_id = 'faqAccordion-' . uniqid();
     ?>
     <section class="section faq-section <?php echo esc_attr($bg_class); ?>">
         <div class="container">
@@ -262,28 +263,30 @@ function render_simple_faq($data) {
                 <h2 class="text-center mb-4"><?php echo esc_html($data['title']); ?></h2>
             <?php endif; ?>
             
-            <div class="accordion" id="faqAccordion">
+            <div class="accordion" id="<?php echo $accordion_id; ?>">
                 <?php foreach ($data['questions'] as $index => $question): ?>
                     <?php
                     $q = $question['question_answer']['question'];
                     $a = $question['question_answer']['answer'];
                     $expanded = !empty($question['expanded']);
+                    
+                    $heading_id = 'faqHeading-' . $accordion_id . '-' . $index;
+                    $collapse_id = 'faqCollapse-' . $accordion_id . '-' . $index;
                     ?>
                     <div class="accordion-item">
-                        <h3 class="accordion-header" id="faqHeading<?php echo $index; ?>">
+                        <h3 class="accordion-header" id="<?php echo $heading_id; ?>">
                             <button class="accordion-button <?php echo $expanded ? '' : 'collapsed'; ?>" 
                                     type="button" 
                                     data-bs-toggle="collapse" 
-                                    data-bs-target="#faqCollapse<?php echo $index; ?>" 
+                                    data-bs-target="#<?php echo $collapse_id; ?>" 
                                     aria-expanded="<?php echo $expanded ? 'true' : 'false'; ?>" 
-                                    aria-controls="faqCollapse<?php echo $index; ?>">
+                                    aria-controls="<?php echo $collapse_id; ?>">
                                 <?php echo esc_html($q); ?>
                             </button>
                         </h3>
-                        <div id="faqCollapse<?php echo $index; ?>" 
+                        <div id="<?php echo $collapse_id; ?>" 
                              class="accordion-collapse collapse <?php echo $expanded ? 'show' : ''; ?>" 
-                             aria-labelledby="faqHeading<?php echo $index; ?>" 
-                             data-bs-parent="#faqAccordion">
+                             data-bs-parent="#<?php echo $accordion_id; ?>">
                             <div class="accordion-body">
                                 <?php echo wp_kses_post($a); ?>
                             </div>

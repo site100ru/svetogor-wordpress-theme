@@ -25,6 +25,37 @@ $background_color_general_info = get_field('background_color_general_info') ?: '
 // Определяем классы на основе настроек фона
 $section_class = 'section section-product-list';
 $section_class .= $background_color_general_info === 'grey' ? ' bg-grey' : '';
+
+// Добавляем стили в head через wp_add_inline_style
+add_action('wp_footer', function() {
+    ?>
+    <style>
+    .general-info .additional-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+    }
+
+    .general-info .additional-content.expanded {
+        max-height: none;
+        opacity: 1;
+        margin-top: 1rem;
+    }
+
+    .general-info .expand-btn {
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .general-info .additional-content.expanding {
+        max-height: 2000px;
+        opacity: 1;
+        margin-top: 1rem;
+    }
+    </style>
+    <?php
+});
 ?>
 
 <section id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($section_class); ?> <?php echo esc_attr($className); ?> general-info">
@@ -65,36 +96,8 @@ $section_class .= $background_color_general_info === 'grey' ? ' bg-grey' : '';
     </div>
 </section>
 
-<style>
-.general-info .additional-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
-    opacity: 0;
-}
-
-.general-info .additional-content.expanded {
-    max-height: none;
-    opacity: 1;
-    margin-top: 1rem;
-}
-
-.general-info .expand-btn {
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-/* Анимация для плавного раскрытия */
-.general-info .additional-content.expanding {
-    max-height: 2000px; /* Большое значение для анимации */
-    opacity: 1;
-    margin-top: 1rem;
-}
-</style>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Находим все кнопки раскрытия в блоке general-info
     const expandButtons = document.querySelectorAll('.general-info .expand-btn');
     
     expandButtons.forEach(function(button) {
@@ -110,25 +113,21 @@ document.addEventListener('DOMContentLoaded', function() {
             
             button.addEventListener('click', function() {
                 if (!isExpanded) {
-                    // Раскрываем
                     targetElement.classList.add('expanding');
                     button.textContent = textHide;
                     isExpanded = true;
                     
-                    // После завершения анимации добавляем класс expanded
                     setTimeout(() => {
                         targetElement.classList.add('expanded');
                         targetElement.classList.remove('expanding');
                     }, 500);
                     
                 } else {
-                    // Сворачиваем
                     targetElement.classList.remove('expanded');
                     targetElement.classList.add('expanding');
                     button.textContent = textShow;
                     isExpanded = false;
                     
-                    // Прокрутка к началу секции
                     const section = document.getElementById(sectionId);
                     if (section) {
                         section.scrollIntoView({ 
@@ -137,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     }
                     
-                    // Завершаем анимацию сворачивания
                     setTimeout(() => {
                         targetElement.classList.remove('expanding');
                     }, 500);

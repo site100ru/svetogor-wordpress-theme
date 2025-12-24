@@ -4,13 +4,11 @@
  * Description: Блок для вывода товаров из выбранной категории WooCommerce
  */
 
-// Проверяем что WooCommerce активен
 if (!class_exists('WooCommerce')) {
   echo '<p>WooCommerce не активен</p>';
   return;
 }
 
-// Получаем поля блока
 $selected_category = get_field('wc_category_block_selected_category_unique');
 $products_count = get_field('wc_category_block_products_count_unique') ?: 3;
 $background_color = get_field('wc_category_block_bg_color_unique_2024') ?: 'section-glide';
@@ -18,13 +16,11 @@ $show_price = get_field('wc_category_block_show_price_unique');
 $prev_arrow = get_field('carousel_prev_arrow', 'option');
 $next_arrow = get_field('carousel_next_arrow', 'option');
 
-// Если категория не выбрана, показываем сообщение
 if (!$selected_category) {
   echo '<p>Пожалуйста, выберите категорию товаров в настройках блока</p>';
   return;
 }
 
-// Получаем товары из выбранной категории
 $args = array(
   'post_type' => 'product',
   'posts_per_page' => $products_count,
@@ -45,18 +41,14 @@ if (!$products->have_posts()) {
   return;
 }
 
-// Генерируем уникальный ID для слайдера
 $slider_id = 'slider-category-' . $selected_category->term_id . '-' . uniqid();
 
-// Принудительно подключаем стили и скрипты для блока портфолио
 wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js', array('jquery'), filemtime(get_template_directory() . '/template-parts/blocks/portfolio-slider/portfolio-slider.js'), true);
 ?>
 
-<!--КОНТЕНТ-->
 <section
   class="section <?php echo esc_attr($background_color); ?> section-catalog-product box-shadow-main section-catalog-product-list">
   <div class="container">
-    <!-- <?php echo esc_html($selected_category->name); ?> -->
     <div class="section-content-cards">
       <div class="section-title text-center">
         <h3><?php echo esc_html($selected_category->name); ?></h3>
@@ -72,14 +64,17 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
           $product_image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'full');
           $product_image_url = $product_image ? $product_image[0] : wc_placeholder_img_src();
           ?>
-          <!-- Карточка товара -->
           <article class="col-lg-4">
-            <a href="<?php echo esc_url(get_permalink()); ?>" class="card card-img-container">
-              <div class="card-img-container">
-                <img loading="lazy" src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="card-img-top">
-              </div>
+            <div class="card card-img-container">
+              <a href="<?php echo esc_url(get_permalink()); ?>" class="card-img-link">
+                <div class="card-img-container">
+                  <img loading="lazy" src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="card-img-top">
+                </div>
+              </a>
               <div class="card-body">
-                <h5 class="card-title"><?php the_title(); ?></h5>
+                <a href="<?php echo esc_url(get_permalink()); ?>">
+                  <h5 class="card-title"><?php the_title(); ?></h5>
+                </a>
                 <p class="card-text">
                   <?php echo wp_trim_words(get_the_excerpt(), 15, '...'); ?>
                 </p>
@@ -91,13 +86,12 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                   <?php endif; ?>
                   <button type="button" class="btn btn-order btn-min" data-bs-toggle="modal"
                     data-bs-target="#callbackModalFour" data-product-id="<?php echo get_the_ID(); ?>"
-                    data-product-name="<?php echo esc_attr(get_the_title()); ?>"
-                    onclick="event.preventDefault(); event.stopPropagation();">
+                    data-product-name="<?php echo esc_attr(get_the_title()); ?>">
                     Заказать
                   </button>
                 </div>
               </div>
-            </a>
+            </div>
           </article>
         <?php endwhile; ?>
       </div>
@@ -108,7 +102,6 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
           <div class="glide__track" data-glide-el="track">
             <div class="glide__slides">
               <?php
-              // Сбрасываем запрос для слайдера
               $products->rewind_posts();
               while ($products->have_posts()):
                 $products->the_post();
@@ -118,14 +111,17 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                 $product_image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'full');
                 $product_image_url = $product_image ? $product_image[0] : wc_placeholder_img_src();
                 ?>
-                <!-- Слайд -->
                 <article class="glide__slide">
-                  <a href="<?php echo esc_url(get_permalink()); ?>" class="card card-img-container">
-                    <div class="card-img-container">
-                      <img loading="lazy" src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="card-img-top">
-                    </div>
+                  <div class="card card-img-container">
+                    <a href="<?php echo esc_url(get_permalink()); ?>" class="card-img-link">
+                      <div class="card-img-container">
+                        <img loading="lazy" src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="card-img-top">
+                      </div>
+                    </a>
                     <div class="card-body">
-                      <h5 class="card-title"><?php the_title(); ?></h5>
+                      <a href="<?php echo esc_url(get_permalink()); ?>">
+                        <h5 class="card-title"><?php the_title(); ?></h5>
+                      </a>
                       <p class="card-text">
                         <?php echo wp_trim_words(get_the_excerpt(), 15, '...'); ?>
                       </p>
@@ -137,18 +133,16 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                         <?php endif; ?>
                         <button type="button" class="btn btn-order btn-min" data-bs-toggle="modal"
                           data-bs-target="#callbackModalFour" data-product-id="<?php echo get_the_ID(); ?>"
-                          data-product-name="<?php echo esc_attr(get_the_title()); ?>"
-                          onclick="event.preventDefault(); event.stopPropagation();">
+                          data-product-name="<?php echo esc_attr(get_the_title()); ?>">
                           Заказать
                         </button>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </article>
               <?php endwhile; ?>
             </div>
           </div>
-          <!-- Стрелки навигации -->
           <div class="glide__arrows" data-glide-el="controls">
             <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
               <img loading="lazy"
@@ -167,11 +161,8 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
   </div>
 </section>
 
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Обработчик для кнопок "Заказать"
         const orderButtons = document.querySelectorAll('.btn-order[data-product-id]');
 
         orderButtons.forEach(function (button) {
@@ -179,7 +170,6 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                 const productId = this.getAttribute('data-product-id');
                 const productName = this.getAttribute('data-product-name');
 
-                // Заполняем скрытые поля в модальной форме
                 const modal = document.querySelector('#callbackModalFour');
                 if (modal) {
                     const productIdField = modal.querySelector('input[name="product-id"]');
@@ -188,7 +178,6 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                     if (productIdField) productIdField.value = productId;
                     if (productNameField) productNameField.value = productName;
 
-                    // Обновляем заголовок модалки
                     const modalTitle = modal.querySelector('.modal-title');
                     if (modalTitle) {
                         modalTitle.textContent = 'Заказать: ' + productName;
@@ -200,6 +189,5 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
 </script>
 
 <?php
-// Сбрасываем глобальные данные
 wp_reset_postdata();
 ?>
