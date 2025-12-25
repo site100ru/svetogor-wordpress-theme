@@ -43,8 +43,8 @@ if ($is_category && $current_category) {
 function render_product_card($product)
 {
 ?>
-    <a href="<?php echo esc_url(get_permalink($product->get_id())); ?>" class="card card-hover-images">
-        <div class="product-image-hover position-relative">
+    <div class="card card-hover-images">
+        <a href="<?php echo esc_url(get_permalink($product->get_id())); ?>" class="product-image-hover position-relative">
             <?php
             // Основное изображение товара
             $image_id = $product->get_image_id();
@@ -67,9 +67,11 @@ function render_product_card($product)
                 ));
             }
             ?>
-        </div>
+        </a>
         <div class="card-body">
-            <h5 class="card-title"><?php echo esc_html($product->get_name()); ?></h5>
+            <a href="<?php echo esc_url(get_permalink($product->get_id())); ?>">
+                <h5 class="card-title"><?php echo esc_html($product->get_name()); ?></h5>
+            </a>
             <p class="card-text">
                 <?php
                 $description = $product->get_description();
@@ -83,14 +85,13 @@ function render_product_card($product)
             <div class="d-flex justify-content-between align-items-center mt-auto">
                 <span class="product-price"><?php echo $product->get_price_html(); ?></span>
                 <button type="button" class="btn btn-order btn-min" data-bs-toggle="modal"
-                    data-bs-target="#callbackModalFour" data-product-id="<?php echo get_the_ID(); ?>"
-                    data-product-name="<?php echo esc_attr(get_the_title()); ?>"
-                    onclick="event.preventDefault(); event.stopPropagation();">
+                    data-bs-target="#callbackModalFour" data-product-id="<?php echo $product->get_id(); ?>"
+                    data-product-name="<?php echo esc_attr($product->get_name()); ?>">
                     Заказать
                 </button>
             </div>
         </div>
-    </a>
+    </div>
 <?php
 }
 
