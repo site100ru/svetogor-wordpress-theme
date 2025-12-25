@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
         grecaptcha.reset();
       })
       .catch(error => {
-        console.error('Error:', error);
         setLoadingState(false);
         showMessage('Произошла ошибка при отправке. Попробуйте еще раз.', 'danger');
         grecaptcha.reset();

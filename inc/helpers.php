@@ -302,3 +302,23 @@ function get_product_category_type($product_id = null) {
         return 'other';
     }
 }
+
+/**
+ * Получение логотипа компании
+ */
+if (!function_exists('get_company_logo')) {
+    function get_company_logo() {
+        if (is_acf_available()) {
+            $logo = get_field('company_logo', 'option');
+            if ($logo && isset($logo['url'])) {
+                return $logo;
+            }
+        }
+        
+        // Fallback
+        return array(
+            'url' => get_template_directory_uri() . '/assets/img/logo.svg',
+            'alt' => get_bloginfo('name')
+        );
+    }
+}

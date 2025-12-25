@@ -120,6 +120,14 @@ function svetogor_scripts() {
         true
     );
 
+    wp_enqueue_script(
+        'global-recaptcha',
+        get_template_directory_uri() . '/js/global-recaptcha.js',
+        array(),
+        filemtime(get_template_directory() . '/js/global-recaptcha.js'),
+        true
+    );
+
     // Скрипты
     wp_enqueue_script('inputmask', get_template_directory_uri() . '/assets/js/inputmask.min.js', array('jquery'), '1.0', true);
     wp_enqueue_script('tel-mask', get_template_directory_uri() . '/assets/js/telMask.js', array('jquery', 'inputmask'), '1.0', true);
@@ -212,7 +220,8 @@ function svetogor_defer_scripts($tag, $handle, $src) {
     $defer_scripts = array(
         'inputmask',
         'tel-mask',
-        'theme-script'
+        'theme-script',
+        'global-recaptcha'
     );
     
     if (in_array($handle, $defer_scripts)) {

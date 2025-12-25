@@ -280,10 +280,9 @@ function add_taxonomy_seo_fields() {
     $taxonomies = array('category', 'post_tag', 'product_cat', 'product_tag', 'product_brand', 'complex_design', 'portfolio_category');
     
     foreach ($taxonomies as $taxonomy) {
-        $priority = ($taxonomy === 'complex_design') ? 999 : 10;
+        add_action("{$taxonomy}_add_form_fields", 'render_taxonomy_seo_fields_add', 10);
+        add_action("{$taxonomy}_edit_form_fields", 'render_taxonomy_seo_fields_edit', 10);
         
-        add_action("{$taxonomy}_add_form_fields", 'render_taxonomy_seo_fields_add', $priority);
-        add_action("{$taxonomy}_edit_form_fields", 'render_taxonomy_seo_fields_edit', $priority);
         add_action("created_{$taxonomy}", 'save_taxonomy_seo_fields', 10);
         add_action("edited_{$taxonomy}", 'save_taxonomy_seo_fields', 10);
     }

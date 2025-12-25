@@ -20,7 +20,6 @@
 
             // Проверяем, не инициализирован ли уже
             if (initializedSliders.has(selector)) {
-                console.log(`Слайдер ${selector} уже инициализирован, пропускаем`);
                 return null;
             }
 
@@ -28,7 +27,6 @@
             
             // Проверяем существование элемента
             if (!element) {
-                console.warn(`Элемент ${selector} не найден на странице`);
                 return null;
             }
 
@@ -37,13 +35,11 @@
             const slides = element.querySelector('.glide__slides');
             
             if (!track || !slides) {
-                console.warn(`Слайдер ${selector} не имеет правильной структуры (.glide__track или .glide__slides)`);
                 return null;
             }
 
             const slideItems = slides.children;
             if (slideItems.length === 0) {
-                console.warn(`Слайдер ${selector} не содержит слайдов`);
                 return null;
             }
 
@@ -66,12 +62,9 @@
                 element.style.visibility = 'visible';
             });
 
-            console.log(`✓ Слайдер ${selector} успешно инициализирован`);
             return glide;
 
         } catch (error) {
-            console.error(`✗ Ошибка при инициализации ${selector}:`, error);
-            // Показываем контент даже при ошибке
             const element = document.querySelector(selector);
             if (element) {
                 element.style.opacity = '1';
@@ -86,11 +79,8 @@
      */
     const initializeSliders = function() {
         if (typeof Glide === 'undefined') {
-            console.error('Glide.js не загружен');
             return;
         }
-
-        console.log('=== Начало инициализации слайдеров ===');
 
         // 1. Автоинициализация слайдеров с data-атрибутами
         document.querySelectorAll('.glide-auto:not([data-glide-initialized])').forEach(function(el) {
@@ -222,8 +212,6 @@
                 });
             }
         });
-
-        console.log(`=== Инициализация завершена: ${initializedSliders.size} слайдеров ===`);
     };
 
     // Запуск инициализации

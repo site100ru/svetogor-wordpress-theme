@@ -1,99 +1,166 @@
 /**
- * File navigation.js.
- *
- * Handles toggling the navigation menu for small screens and enables TAB key
- * navigation support for dropdown menus.
+ * SVETOGOR NAVIGATION
+ * Объединенная логика для десктопа и мобильных устройств
  */
-( function() {
-	const siteNavigation = document.getElementById( 'site-navigation' );
 
-	// Return early if the navigation doesn't exist.
-	if ( ! siteNavigation ) {
-		return;
-	}
+(function() {
+    'use strict';
 
-	const button = siteNavigation.getElementsByTagName( 'button' )[ 0 ];
+    // =========================================================================
+    // UTILITY FUNCTIONS
+    // =========================================================================
+    
+    const isDesktop = () => window.innerWidth >= 992;
+    
+    const navigateToView = (viewId) => {
+        document.querySelectorAll('.mobile-view').forEach(view => 
+            view.classList.remove('active')
+        );
+        
+        const targetView = document.getElementById(viewId);
+        if (targetView) {
+            targetView.classList.add('active');
+        }
+    };
 
-	// Return early if the button doesn't exist.
-	if ( 'undefined' === typeof button ) {
-		return;
-	}
+    // =========================================================================
+    // DESKTOP MEGA MENU
+    // =========================================================================
+    
+    const initDesktopMegaMenu = () => {
+        const categoryLinks = document.querySelectorAll('.category-menu .nav-link');
+        
+        categoryLinks.forEach(link => {
+            link.addEventListener('mouseover', function() {
+                // Убрать активный класс со всех
+                categoryLinks.forEach(l => l.classList.remove('active'));
+                
+                // Добавить текущей
+                this.classList.add('active');
+                
+                // Показать контент
+                const target = this.getAttribute('data-target');
+                if (target) {
+                    document.querySelectorAll('.subcategory-content').forEach(content =>
+                        content.classList.remove('active')
+                    );
+                    
+                    const targetContent = document.getElementById(`${target}-content`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                }
+            });
+        });
+    };
 
-	const menu = siteNavigation.getElementsByTagName( 'ul' )[ 0 ];
+    const initMegaMenuHover = () => {
+        const productsDropdown = document.getElementById('productsDropdown');
+        const megaMenu = document.querySelector('.dropdown-menu.mega-menu');
+        
+        if (!productsDropdown || !megaMenu) return;
+        
+        const parentLi = productsDropdown.closest('li');
+        if (!parentLi) return;
 
-	// Hide menu toggle button if menu is empty and return early.
-	if ( 'undefined' === typeof menu ) {
-		button.style.display = 'none';
-		return;
-	}
+        if (isDesktop()) {
+            parentLi.addEventListener('mouseenter', () => {
+                megaMenu.classList.add('show');
+            });
 
-	if ( ! menu.classList.contains( 'nav-menu' ) ) {
-		menu.classList.add( 'nav-menu' );
-	}
+            parentLi.addEventListener('mouseleave', () => {
+                megaMenu.classList.remove('show');
+            });
+        }
+    };
 
-	// Toggle the .toggled class and the aria-expanded value each time the button is clicked.
-	button.addEventListener( 'click', function() {
-		siteNavigation.classList.toggle( 'toggled' );
+    // =========================================================================
+    // MOBILE MENU
+    // =========================================================================
+    
+    const initMobileMenu = () => {
+        // Навигация между уровнями
+        document.querySelectorAll('.mobile-menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const targetView = this.getAttribute('data-view');
+                if (targetView) {
+                    navigateToView(targetView);
+                }
+            });
+        });
 
-		if ( button.getAttribute( 'aria-expanded' ) === 'true' ) {
-			button.setAttribute( 'aria-expanded', 'false' );
-		} else {
-			button.setAttribute( 'aria-expanded', 'true' );
-		}
-	} );
+        // Кнопки "Назад"
+        document.querySelectorAll('.back-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetView = this.getAttribute('data-view');
+                if (targetView) {
+                    navigateToView(targetView);
+                }
+            });
+        });
 
-	// Remove the .toggled class and set aria-expanded to false when the user clicks outside the navigation.
-	document.addEventListener( 'click', function( event ) {
-		const isClickInside = siteNavigation.contains( event.target );
+        // Сброс при закрытии
+        const closeButton = document.querySelector('.offcanvas .btn-close');
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                navigateToView('main-menu-view');
+            });
+        }
 
-		if ( ! isClickInside ) {
-			siteNavigation.classList.remove( 'toggled' );
-			button.setAttribute( 'aria-expanded', 'false' );
-		}
-	} );
+        const offcanvasElement = document.querySelector('#mobileMenu');
+        if (offcanvasElement) {
+            offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+                navigateToView('main-menu-view');
+            });
+        }
+    };
 
-	// Get all the link elements within the menu.
-	const links = menu.getElementsByTagName( 'a' );
+    // =========================================================================
+    // STICKY NAVBAR
+    // =========================================================================
+    
+    const initStickyNavbar = () => {
+        const navbar = document.querySelector('#navbar');
+        if (!navbar) return;
 
-	// Get all the link elements with children within the menu.
-	const linksWithChildren = menu.querySelectorAll( '.menu-item-has-children > a, .page_item_has_children > a' );
+        const placeholder = document.createElement('div');
+        placeholder.className = 'navbar-placeholder';
+        navbar.parentNode.insertBefore(placeholder, navbar.nextSibling);
 
-	// Toggle focus each time a menu link is focused or blurred.
-	for ( const link of links ) {
-		link.addEventListener( 'focus', toggleFocus, true );
-		link.addEventListener( 'blur', toggleFocus, true );
-	}
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY;
 
-	// Toggle focus each time a menu link with children receive a touch event.
-	for ( const link of linksWithChildren ) {
-		link.addEventListener( 'touchstart', toggleFocus, false );
-	}
+            if (scrollPosition > 30) {
+                if (!navbar.classList.contains('navbar-fixed')) {
+                    placeholder.style.height = navbar.offsetHeight + 'px';
+                    placeholder.classList.add('active');
+                    navbar.classList.add('navbar-fixed');
+                }
+            } else {
+                navbar.classList.remove('navbar-fixed');
+                placeholder.classList.remove('active');
+            }
+        };
 
-	/**
-	 * Sets or removes .focus class on an element.
-	 */
-	function toggleFocus() {
-		if ( event.type === 'focus' || event.type === 'blur' ) {
-			let self = this;
-			// Move up through the ancestors of the current link until we hit .nav-menu.
-			while ( ! self.classList.contains( 'nav-menu' ) ) {
-				// On li elements toggle the class .focus.
-				if ( 'li' === self.tagName.toLowerCase() ) {
-					self.classList.toggle( 'focus' );
-				}
-				self = self.parentNode;
-			}
-		}
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', () => {
+            if (navbar.classList.contains('navbar-fixed')) {
+                placeholder.style.height = navbar.offsetHeight + 'px';
+            }
+        });
 
-		if ( event.type === 'touchstart' ) {
-			const menuItem = this.parentNode;
-			event.preventDefault();
-			for ( const link of menuItem.parentNode.children ) {
-				if ( menuItem !== link ) {
-					link.classList.remove( 'focus' );
-				}
-			}
-			menuItem.classList.toggle( 'focus' );
-		}
-	}
-}() );
+        handleScroll(); // Начальная проверка
+    };
+
+    // =========================================================================
+    // INITIALIZATION
+    // =========================================================================
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        initDesktopMegaMenu();
+        initMegaMenuHover();
+        initMobileMenu();
+        initStickyNavbar();
+    });
+
+})();

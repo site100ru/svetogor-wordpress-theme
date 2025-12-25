@@ -3,11 +3,11 @@
  * Кастомные поля для категорий товаров WooCommerce
  */
 
+
 // Переименование стандартной миниатюры
 add_filter('woocommerce_taxonomy_args_product_cat', 'rename_category_thumbnail_label');
 
 function rename_category_thumbnail_label($args) {
-    // Изменяем лейблы для миниатюры
     add_action('product_cat_add_form_fields', 'rename_thumbnail_labels_add');
     add_action('product_cat_edit_form_fields', 'rename_thumbnail_labels_edit');
     
@@ -19,7 +19,6 @@ function rename_thumbnail_labels_add() {
     ?>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-        // Переименовываем лейбл миниатюры
         $('label[for="product_cat_thumbnail_id"]').text('Иконка для шапки');
         $('p:contains("Это изображение, используемое для представления этой категории")').text('Это изображение будет использоваться как иконка категории в шапке сайта.');
     });
@@ -32,7 +31,6 @@ function rename_thumbnail_labels_edit() {
     ?>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-        // Переименовываем лейбл миниатюры
         $('th:contains("Миниатюра")').text('Иконка для шапки');
         $('p:contains("Это изображение, используемое для представления этой категории")').text('Это изображение будет использоваться как иконка категории в шапке сайта.');
     });
@@ -41,10 +39,9 @@ function rename_thumbnail_labels_edit() {
 }
 
 // Добавление кастомных полей при создании категории
-add_action('product_cat_add_form_fields', 'add_category_custom_fields');
+add_action('product_cat_add_form_fields', 'add_category_custom_fields', 5);
 
 function add_category_custom_fields() {
-    // Получаем все категории для списка связанных
     $all_categories = get_terms(array(
         'taxonomy' => 'product_cat',
         'hide_empty' => false,
@@ -52,6 +49,14 @@ function add_category_custom_fields() {
         'order' => 'ASC'
     ));
     ?>
+    
+    <!-- РАЗДЕЛИТЕЛЬ -->
+    <div class="form-field wc-cat-custom-section">
+        <h3 style="margin: 20px 0 15px 0; padding-top: 15px; border-top: 3px solid #2271b1; font-size: 16px;">
+            Настройки категории
+        </h3>
+    </div>
+    
     <!-- Фотография категории -->
     <div class="form-field term-category-photo-wrap">
         <label for="category_photo">Фотография категории</label>
@@ -85,23 +90,27 @@ function add_category_custom_fields() {
             <p style="margin-bottom: 10px; font-weight: 500;">Выберите до 6 связанных категорий:</p>
             <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #fafafa;">
                 <?php if (!empty($all_categories)): ?>
-                    <?php foreach ($all_categories as $cat): ?>
+                    <?php 
+                    foreach ($all_categories as $cat): 
+                    ?>
                         <label style="display: block; margin-bottom: 5px;">
                             <input type="checkbox" name="related_categories[]" value="<?php echo $cat->term_id; ?>" class="related-category-checkbox">
                             <?php echo esc_html($cat->name); ?>
                         </label>
                     <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Категории не найдены</p>
                 <?php endif; ?>
             </div>
-            <p class="description">Выбранные категории будут отображаться в блоке "А еще Вам может пригодиться" на странице архива этой категории. Максимум 6 категорий.</p>
+            <p class="description">Выбранные категории будут отображаться в блоке "А еще Вам может пригодиться". Максимум 6 категорий.</p>
         </div>
     </div>
 
     <script type="text/javascript">
+    
     jQuery(document).ready(function($) {
         var mediaUploader;
         
-        // Медиа загрузчик для фотографии
         $('#select-category-photo').on('click', function(e) {
             e.preventDefault();
             
@@ -112,9 +121,7 @@ function add_category_custom_fields() {
             
             mediaUploader = wp.media({
                 title: 'Выберите фотографию категории',
-                button: {
-                    text: 'Использовать это изображение'
-                },
+                button: { text: 'Использовать это изображение' },
                 multiple: false
             });
             
@@ -135,10 +142,8 @@ function add_category_custom_fields() {
             $(this).hide();
         });
         
-        // Ограничение выбора связанных категорий
         $('.related-category-checkbox').on('change', function() {
             var checkedBoxes = $('.related-category-checkbox:checked').length;
-            
             if (checkedBoxes >= 6) {
                 $('.related-category-checkbox:not(:checked)').prop('disabled', true);
             } else {
@@ -151,10 +156,9 @@ function add_category_custom_fields() {
 }
 
 // Добавление кастомных полей при редактировании категории
-add_action('product_cat_edit_form_fields', 'edit_category_custom_fields');
+add_action('product_cat_edit_form_fields', 'edit_category_custom_fields', 5);
 
 function edit_category_custom_fields($term) {
-    // Получаем существующие значения
     $category_photo = get_term_meta($term->term_id, 'category_photo', true);
     $show_in_header = get_term_meta($term->term_id, 'show_in_header', true);
     $related_categories = get_term_meta($term->term_id, 'related_categories', true);
@@ -171,15 +175,23 @@ function edit_category_custom_fields($term) {
         }
     }
     
-    // Получаем все категории для списка связанных (исключая текущую)
     $all_categories = get_terms(array(
         'taxonomy' => 'product_cat',
         'hide_empty' => false,
         'orderby' => 'name',
         'order' => 'ASC',
-        'exclude' => array($term->term_id) // Исключаем текущую категорию
+        'exclude' => array($term->term_id)
     ));
     ?>
+    
+    <!-- РАЗДЕЛИТЕЛЬ -->
+    <tr class="wc-cat-custom-section">
+        <th colspan="2" style="padding-left: 0;">
+            <h3 style="margin: 20px 0 15px 0; padding-top: 15px; border-top: 3px solid #2271b1; font-size: 16px;">
+                Настройки категории
+            </h3>
+        </th>
+    </tr>
     
     <!-- Фотография категории -->
     <tr class="form-field term-category-photo-wrap">
@@ -190,7 +202,7 @@ function edit_category_custom_fields($term) {
             <div id="category_photo_container">
                 <div id="category_photo_preview" style="margin-bottom: 15px;">
                     <?php if ($photo_url): ?>
-                        <img loading="lazy" src="<?php echo $photo_url; ?>" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;" alt="Изображение товара категории">
+                        <img loading="lazy" src="<?php echo esc_url($photo_url); ?>" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;" alt="Фото категории">
                     <?php else: ?>
                         <div style="width: 200px; height: 120px; background: #f0f0f0; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
                             <span style="color: #666;">Фото не выбрано</span>
@@ -200,7 +212,7 @@ function edit_category_custom_fields($term) {
                 
                 <button type="button" id="select-category-photo" class="button">Выбрать фотографию</button>
                 <button type="button" id="remove-category-photo" class="button" style="<?php echo $category_photo ? '' : 'display: none;'; ?>">Удалить фото</button>
-                <input type="hidden" id="category_photo_id" name="category_photo" value="<?php echo $category_photo; ?>">
+                <input type="hidden" id="category_photo_id" name="category_photo" value="<?php echo esc_attr($category_photo); ?>">
             </div>
             <p class="description">Основное изображение категории. Рекомендуемый размер: 600x400px.</p>
         </td>
@@ -240,6 +252,8 @@ function edit_category_custom_fields($term) {
                                 <?php echo esc_html($cat->name); ?>
                             </label>
                         <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Категории не найдены</p>
                     <?php endif; ?>
                 </div>
                 
@@ -257,16 +271,17 @@ function edit_category_custom_fields($term) {
                     </div>
                 <?php endif; ?>
                 
-                <p class="description">Выбранные категории будут отображаться в блоке "А еще Вам может пригодиться" на странице архива этой категории. Максимум 6 категорий.</p>
+                <p class="description">Выбранные категории будут отображаться в блоке "А еще Вам может пригодиться". Максимум 6 категорий.</p>
             </div>
         </td>
     </tr>
 
     <script type="text/javascript">
+    
     jQuery(document).ready(function($) {
+        
         var mediaUploader;
         
-        // Медиа загрузчик для фотографии
         $('#select-category-photo').on('click', function(e) {
             e.preventDefault();
             
@@ -277,9 +292,7 @@ function edit_category_custom_fields($term) {
             
             mediaUploader = wp.media({
                 title: 'Выберите фотографию категории',
-                button: {
-                    text: 'Использовать это изображение'
-                },
+                button: { text: 'Использовать это изображение' },
                 multiple: false
             });
             
@@ -300,7 +313,6 @@ function edit_category_custom_fields($term) {
             $(this).hide();
         });
         
-        // Ограничение выбора связанных категорий
         function updateRelatedCategoriesLimit() {
             var checkedBoxes = $('.related-category-checkbox:checked').length;
             
@@ -311,15 +323,11 @@ function edit_category_custom_fields($term) {
             }
         }
         
-        // Инициализируем ограничение при загрузке
         updateRelatedCategoriesLimit();
-        
-        // Обновляем ограничение при изменении
-        $('.related-category-checkbox').on('change', function() {
-            updateRelatedCategoriesLimit();
-        });
+        $('.related-category-checkbox').on('change', updateRelatedCategoriesLimit);
     });
     </script>
+    
     <?php
 }
 
@@ -350,7 +358,6 @@ function save_category_custom_fields($term_id) {
     // Сохраняем связанные категории
     if (isset($_POST['related_categories']) && is_array($_POST['related_categories'])) {
         $related_categories = array_map('intval', $_POST['related_categories']);
-        // Ограничиваем до 6 категорий
         $related_categories = array_slice($related_categories, 0, 6);
         update_term_meta($term_id, 'related_categories', $related_categories);
     } else {
@@ -421,48 +428,8 @@ function get_category_photo($term_id, $size = 'medium') {
     return false;
 }
 
-function get_category_photo_url($term_id, $size = 'medium') {
-    $photo = get_category_photo($term_id, $size);
-    return $photo ? $photo[0] : '';
-}
-
 function is_category_in_header($term_id) {
     return get_term_meta($term_id, 'show_in_header', true) === '1';
-}
-
-function get_related_categories($term_id) {
-    $related_categories = get_term_meta($term_id, 'related_categories', true);
-    
-    if (!is_array($related_categories) || empty($related_categories)) {
-        return array();
-    }
-    
-    $categories = array();
-    foreach ($related_categories as $cat_id) {
-        $category = get_term($cat_id, 'product_cat');
-        if ($category && !is_wp_error($category)) {
-            $categories[] = $category;
-        }
-    }
-    
-    return $categories;
-}
-
-// Функция для получения категорий для шапки
-function get_header_categories() {
-    $args = array(
-        'taxonomy' => 'product_cat',
-        'hide_empty' => false,
-        'meta_query' => array(
-            array(
-                'key' => 'show_in_header',
-                'value' => '1',
-                'compare' => '='
-            )
-        )
-    );
-    
-    return get_terms($args);
 }
 
 // Добавляем поля раскрывающегося текста при редактировании категории
@@ -686,22 +653,6 @@ function fill_expanding_text_column($content, $column_name, $term_id) {
     
     return $content;
 }
-
-// Функции для получения данных раскрывающегося текста категории
-function get_category_expanding_text_data($term_id) {
-    return array(
-        'section_title' => get_term_meta($term_id, 'expanding_section_title', true),
-        'background_color' => get_term_meta($term_id, 'expanding_background_color', true) ?: 'white',
-        'main_content' => get_term_meta($term_id, 'expanding_main_content', true),
-        'additional_content' => get_term_meta($term_id, 'expanding_additional_content', true),
-    );
-}
-
-function has_category_expanding_text($term_id) {
-    $data = get_category_expanding_text_data($term_id);
-    return !empty($data['section_title']) || !empty($data['main_content']) || !empty($data['additional_content']);
-}
-
 
 /**
  * Добавление текстового блока для категорий товаров WooCommerce
@@ -1176,5 +1127,183 @@ function render_product_text_block($product_id) {
     remove_filter('acf/load_value', 'temp_text_block_acf_filter', 10);
 }
 
+/**
+ * Разрешаем HTML в описании категорий
+ */
+remove_filter('pre_term_description', 'wp_filter_kses');
+remove_filter('term_description', 'wp_kses_data');
+
+/**
+ * ДОБАВЛЕНИЕ: Поле описания с визуальным редактором
+ */
+add_action('product_cat_add_form_fields', 'add_visual_description_field_add', 100);
+
+function add_visual_description_field_add() {
+    ?>
+    <!-- ПРИНУДИТЕЛЬНО ПОКАЗЫВАЕМ ПОЛЕ -->
+    <div class="form-field term-description-wrap" style="display: block !important; visibility: visible !important; opacity: 1 !important;">
+        <label for="category_visual_description">
+            <strong style="font-size: 15px;">Описание</strong>
+        </label>
+        
+        <?php
+        wp_editor(
+            '', 
+            'category_visual_description',
+            array(
+                'textarea_name' => 'description',
+                'media_buttons' => true,
+                'textarea_rows' => 10,
+                'teeny' => false,
+                'quicktags' => true,
+                'wpautop' => true,
+                'tinymce' => array(
+                    'toolbar1' => 'formatselect,bold,italic,bullist,numlist,link,unlink,forecolor,alignleft,aligncenter,alignright',
+                    'toolbar2' => 'undo,redo,removeformat,pastetext',
+                )
+            )
+        );
+        ?>
+        
+        <p class="description">
+            Описание категории с поддержкой форматирования. Используйте панель инструментов для оформления текста.
+        </p>
+    </div>
+    
+    <style>
+        /* Принудительно показываем поле описания */
+        .term-description-wrap {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+    </style>
+    <?php
+}
+
+/**
+ * РЕДАКТИРОВАНИЕ: Поле описания с визуальным редактором
+ */
+add_action('product_cat_edit_form_fields', 'add_visual_description_field_edit', 100);
+
+function add_visual_description_field_edit($term) {
+    $description = html_entity_decode($term->description);
+    ?>
+    
+    <tr class="form-field term-description-wrap" style="display: table-row !important; visibility: visible !important; opacity: 1 !important;">
+        <th scope="row" style="vertical-align: top; padding-top: 20px;">
+            <label for="category_visual_description">
+                <strong style="font-size: 15px;">Описание категории</strong>
+            </label>
+        </th>
+        <td>
+            <?php
+            wp_editor(
+                $description, 
+                'category_visual_description',
+                array(
+                    'textarea_name' => 'description',
+                    'media_buttons' => true,
+                    'textarea_rows' => 12,
+                    'teeny' => false,
+                    'quicktags' => true,
+                    'wpautop' => true,
+                    'tinymce' => array(
+                        'toolbar1' => 'formatselect,bold,italic,bullist,numlist,link,unlink,forecolor,alignleft,aligncenter,alignright',
+                        'toolbar2' => 'undo,redo,removeformat,pastetext',
+                    )
+                )
+            );
+            ?>
+            
+            <p class="description">
+                Описание категории с поддержкой форматирования. Используйте панель инструментов для оформления текста.
+            </p>
+            
+            <div style="margin-top: 10px; padding: 10px; background: #f0f8ff; border-left: 4px solid #0073aa;">
+                <strong>💡 Доступные возможности:</strong><br>
+                • <strong>Жирный</strong>, <em>курсив</em>, списки<br>
+                • Ссылки и изображения (кнопка "Добавить медиафайл")<br>
+                • Заголовки H2, H3, H4<br>
+                • Цвета текста и выравнивание<br>
+                • Переключитесь на вкладку "Текст" для прямого редактирования HTML
+            </div>
+        </td>
+    </tr>
+    
+    <style>
+        tr.term-description-wrap {
+            display: table-row !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .term-description-wrap:not(:first-of-type) {
+            display: none !important;
+        }
+    </style>
+    <?php
+}
+
+
+/**
+ * Подключаем медиа-библиотеку и редактор
+ */
+add_action('admin_enqueue_scripts', 'enqueue_description_editor_scripts');
+
+function enqueue_description_editor_scripts($hook) {
+    if ($hook !== 'edit-tags.php' && $hook !== 'term.php') {
+        return;
+    }
+    
+    global $current_screen;
+    if (!isset($current_screen->taxonomy) || $current_screen->taxonomy !== 'product_cat') {
+        return;
+    }
+    
+    // Подключаем медиа-библиотеку и редактор
+    wp_enqueue_media();
+    wp_enqueue_editor();
+}
+
+add_action('admin_footer', 'hide_default_wc_description_field');
+
+function hide_default_wc_description_field() {
+    global $current_screen;
+    
+    if (!isset($current_screen->taxonomy) || $current_screen->taxonomy !== 'product_cat') {
+        return;
+    }
+    ?>
+    <script>
+    jQuery(document).ready(function($) {
+        $('textarea[name="description"]').each(function() {
+            var $textarea = $(this);
+            
+            if (!$textarea.hasClass('wp-editor-area')) {
+                $textarea.closest('.form-field, tr').hide();
+            }
+        });
+        
+        $('.term-description-wrap').each(function(index) {
+            var $field = $(this);
+            
+            $field.show();
+            $field.css({
+                'display': 'table-row !important',
+                'visibility': 'visible !important',
+                'opacity': '1 !important',
+                'position': 'relative',
+                'z-index': '999'
+            });
+            
+            // Добавляем красную рамку для отладки
+            $field.css('border', '3px solid red');
+        });
+    });
+    </script>
+
+    <?php
+}
 
 ?>

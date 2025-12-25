@@ -49,9 +49,7 @@ require_once get_template_directory() . '/inc/woocommerce-portfolio.php';
 require_once get_template_directory() . '/inc/woocommerce-expanding-text.php';
 
 // Кастомные поля для категорий WooCommerce
-if (file_exists(get_template_directory() . '/woocommerce/woocommerce-category-fields.php')) {
-    require_once get_template_directory() . '/woocommerce/woocommerce-category-fields.php';
-}
+    require_once get_template_directory() . '/inc/woocommerce-category-fields.php';
 
 // ============================================================================
 // Комплексное оформление
@@ -84,17 +82,17 @@ if (file_exists(get_template_directory() . '/services/functions.php')) {
 }
 
 // ============================================================================
-// Функции меню и навигации
-// ============================================================================
-
-require_once get_template_directory() . '/inc/menu-functions.php';
-require_once get_template_directory() . '/inc/navigation.php';
-
-// ============================================================================
 // Контактные данные
 // ============================================================================
 
 require_once get_template_directory() . '/inc/contact-functions.php';
+
+// ============================================================================
+// Функции меню и навигации
+// ============================================================================
+
+require_once get_template_directory() . '/inc/navigation.php';
+require_once get_template_directory() . '/inc/menu-functions.php';
 
 // ============================================================================
 // Страницы

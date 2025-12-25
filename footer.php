@@ -267,8 +267,6 @@ if (isset($_SESSION['win'])) {
 	<?php endif; ?>
 </script>
 
-<script src="<?php echo get_template_directory_uri(); ?>/js/global-recaptcha.js"></script>
-
 
 <!-- Всплывающая форма Политики конфиденциальности -->
 <div class="popup-form py-3" id="popupForm">
