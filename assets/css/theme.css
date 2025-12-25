@@ -2623,3 +2623,13 @@ strong {
 	z-index: 1000;
 	max-width: 100%;
 }
+
+.wp-singular table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.wp-singular td,
+.wp-singular th {
+	padding: 8px;
+}
