@@ -192,7 +192,7 @@ if ($show_articles) {
           <!-- Кнопка Все статьи -->
           <?php if ($articles_query && $articles_query->have_posts()): ?>
             <div class="mt-5 text-center">
-              <a href="<?php echo get_permalink(get_option('page_for_posts')) ?: home_url('/blog/'); ?>" class="btn">Все
+              <a href="<?php echo get_permalink(get_option('page_for_posts')) ?: home_url('/articles/'); ?>" class="btn">Все
                 статьи</a>
             </div>
           <?php endif; ?>

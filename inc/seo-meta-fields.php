@@ -1006,7 +1006,7 @@ function get_archive_url_by_key($archive_key) {
     $post_type = isset($post_type_keys[$archive_key]) ? $post_type_keys[$archive_key] : $archive_key;
     
     if ($post_type === 'post') {
-        return home_url('/blog/');
+        return home_url('/articles/');
     }
     
     return get_post_type_archive_link($post_type) ?: home_url('/');
