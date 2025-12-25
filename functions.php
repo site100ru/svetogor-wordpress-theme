@@ -145,6 +145,11 @@ require_once get_template_directory() . '/inc/class-hero-background-meta-box.php
  */
 require_once get_template_directory() . '/inc/robots-meta-tag.php';
 
+/**
+ * Подключение файла управления каноническими URL
+ */
+require_once get_template_directory() . '/inc/canonical-urls.php';
+
 // ============================================================================
 // Глобальные переменные для совместимости
 // ============================================================================
