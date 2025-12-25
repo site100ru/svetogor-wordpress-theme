@@ -136,6 +136,14 @@ while (have_posts()): the_post();
                 </div>
             </div>
 
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 col-md-8">
+                    <div class="portfolio-description">
+                        <?php the_content(); ?>
+                    </div>
+                </div>
+            </div>
+
             <!-- Навигация между работами -->
             <div class="row justify-content-center mt-5">
                 <div class="col-12 col-md-8">
@@ -172,7 +180,6 @@ while (have_posts()): the_post();
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 

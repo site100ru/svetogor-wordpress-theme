@@ -140,6 +140,11 @@ require_once get_template_directory() . '/inc/admin-scripts.php';
 // Подключение универсальной системы hero-фона
 require_once get_template_directory() . '/inc/class-hero-background-meta-box.php';
 
+/**
+ * Подключение файла управления метатегами robots
+ */
+require_once get_template_directory() . '/inc/robots-meta-tag.php';
+
 // ============================================================================
 // Глобальные переменные для совместимости
 // ============================================================================
