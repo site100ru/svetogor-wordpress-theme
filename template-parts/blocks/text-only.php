@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Block Name: Только текст
  * Description: Блок только с текстовым контентом
@@ -10,7 +11,7 @@ $id = 'text-only-' . $block['id'];
 // Добавляем дополнительные классы, если они есть
 $className = '';
 if (!empty($block['className'])) {
-  $className .= ' ' . $block['className'];
+    $className .= ' ' . $block['className'];
 }
 
 // Получаем данные полей из ACF
@@ -51,41 +52,40 @@ if ($columns_count === '2') {
 }
 ?>
 
-<section id="<?php echo esc_attr($id); ?>"
-  class="<?php echo esc_attr($section_class); ?> <?php echo esc_attr($className); ?>">
-  <div class="container">
-    <div class="row align-items-start justify-content-center background-color-field-text-only">
-      
-      <?php if ($columns_count === '1'): ?>
-        <!-- Одна колонка -->
-        <div class="col-<?php echo esc_attr($column_width); ?> <?php echo esc_attr($alignment_class); ?>">
-          <?php if (!empty($content)): ?>
-            <div class="text-content">
-              <?php echo wp_kses_post($content); ?>
-            </div>
-          <?php endif; ?>
+<section id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($section_class); ?> <?php echo esc_attr($className); ?>">
+    <div class="container">
+        <div class="row align-items-start justify-content-center background-color-field-text-only">
+
+            <?php if ($columns_count === '1'): ?>
+                <!-- Одна колонка -->
+                <div class="col-<?php echo esc_attr($column_width); ?> <?php echo esc_attr($alignment_class); ?>">
+                    <?php if (!empty($content)): ?>
+                        <div class="text-content">
+                            <?php echo wp_kses_post($content); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+            <?php else: ?>
+                <!-- Две колонки -->
+                <div class="col-<?php echo esc_attr($column_width); ?>">
+                    <?php if (!empty($content)): ?>
+                        <div class="text-content">
+                            <?php echo wp_kses_post($content); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="col-<?php echo esc_attr($column_width); ?>">
+                    <?php if (!empty($second_column_content)): ?>
+                        <div class="text-content">
+                            <?php echo wp_kses_post($second_column_content); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+            <?php endif; ?>
+
         </div>
-        
-      <?php else: ?>
-        <!-- Две колонки -->
-        <div class="col-<?php echo esc_attr($column_width); ?>">
-          <?php if (!empty($content)): ?>
-            <div class="text-content">
-              <?php echo wp_kses_post($content); ?>
-            </div>
-          <?php endif; ?>
-        </div>
-        
-        <div class="col-<?php echo esc_attr($column_width); ?>">
-          <?php if (!empty($second_column_content)): ?>
-            <div class="text-content">
-              <?php echo wp_kses_post($second_column_content); ?>
-            </div>
-          <?php endif; ?>
-        </div>
-        
-      <?php endif; ?>
-      
     </div>
-  </div>
 </section>

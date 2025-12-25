@@ -10,6 +10,7 @@ get_header('shop'); ?>
 
     <!-- ХЛЕБНЫЕ КРОШКИ -->
     <section class="section-mini">
+        <h2 class=d-none>Секция навигации по сайту</h2>
         <div class="container">
             <!-- Хлебные крошки -->
             <nav aria-label="breadcrumb" class="mb-0">

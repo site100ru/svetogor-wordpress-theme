@@ -51,6 +51,7 @@ if ($hero_bg_id) {
 
 <!-- ХЛЕБНЫЕ КРОШКИ -->
 <section class="section-mini">
+    <h2 class=d-none>Секция навигации по сайту</h2>
     <div class="container">
         <?php render_page_breadcrumbs($page_title); ?>
     </div>

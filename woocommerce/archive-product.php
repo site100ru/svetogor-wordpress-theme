@@ -136,6 +136,7 @@ function render_products_section($products_query, $slider_id, $section_title = '
     }
 ?>
     <section class="section section-glide section-catalog-product box-shadow-main" <?php echo $section_id ? 'id="' . esc_attr($section_id) . '"' : ''; ?>>
+        <h2 class="d-none">Секция карточек товара</h2>
         <div class="container">
             <div class="section-content-cards">
                 <?php if ($section_title): ?>
@@ -252,6 +253,7 @@ function render_no_products_placeholder($category_name = '')
 
 <!-- ХЛЕБНЫЕ КРОШКИ/ ЗАГОЛОВОК -->
 <section class="section-mini">
+    <h2 class=d-none>Секция навигации по сайту</h2>
     <div class="container">
         <!-- Хлебные крошки -->
         <nav aria-label="breadcrumb" class="mb-0">
@@ -259,7 +261,7 @@ function render_no_products_placeholder($category_name = '')
                 <!-- Иконка главной -->
                 <li class="breadcrumb-item">
                     <a href="<?php echo home_url('/'); ?>">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика"/>
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/breadcrumbs.svg" alt="Изображение домика" />
                     </a>
                 </li>
 

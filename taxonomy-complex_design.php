@@ -22,6 +22,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
 
 <!-- ХЛЕБНЫЕ КРОШКИ -->
 <section class="section-mini">
+<h2 class=d-none>Секция навигации по сайту</h2>
   <div class="container">
     <nav aria-label="breadcrumb" class="mb-0">
       <ol class="breadcrumb bg-transparent p-0 m-0">
