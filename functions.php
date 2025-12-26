@@ -49,7 +49,10 @@ require_once get_template_directory() . '/inc/woocommerce-portfolio.php';
 require_once get_template_directory() . '/inc/woocommerce-expanding-text.php';
 
 // Кастомные поля для категорий WooCommerce
-    require_once get_template_directory() . '/inc/woocommerce-category-fields.php';
+require_once get_template_directory() . '/inc/woocommerce-category-fields.php';
+
+// Универсальный визуальный редактор для таксономий
+require_once get_template_directory() . '/inc/taxonomy-visual-description.php';
 
 // ============================================================================
 // Комплексное оформление
@@ -172,3 +175,12 @@ function init_global_variables() {
 }
 add_action('wp', 'init_global_variables');
 
+
+
+add_action('admin_head', function () {
+    echo '<style>
+        #edittag {
+            max-width: 100%;
+        }
+    </style>';
+});
