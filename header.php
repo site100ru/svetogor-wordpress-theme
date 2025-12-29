@@ -39,10 +39,6 @@
     <meta name="msapplication-TileImage" content="<?php echo $favicon; ?>ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
-    <?php
-	output_seo_meta_tags();
-	?>
-
 	<?php wp_head(); ?>
 </head>
 

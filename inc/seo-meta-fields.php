@@ -140,13 +140,69 @@ function render_seo_meta_box($post)
                 </div>
                 <div id="preview_description" style="color: #545454; font-size: 13px; line-height: 1.4;">
                     <?php
-                    if ($seo_description) {
-                        echo esc_html($seo_description);
+                    // Формируем fallback описание
+                    $preview_description = $seo_description;
+                    $preview_source = '';
+                    
+                    if (empty($preview_description)) {
+                        // 1. Для WooCommerce товаров - краткое описание
+                        if (function_exists('wc_get_product') && get_post_type($post->ID) === 'product') {
+                            $product = wc_get_product($post->ID);
+                            if ($product) {
+                                $short_desc = $product->get_short_description();
+                                if (!empty($short_desc)) {
+                                    $preview_description = wp_strip_all_tags($short_desc);
+                                    $preview_description = mb_substr($preview_description, 0, 160);
+                                    $preview_source = 'из краткого описания товара';
+                                }
+                            }
+                        }
+                        
+                        // 2. Для обычных постов - excerpt (отрывок)
+                        if (empty($preview_description) && has_excerpt($post->ID)) {
+                            $preview_description = wp_strip_all_tags(get_the_excerpt($post->ID));
+                            $preview_description = mb_substr($preview_description, 0, 160);
+                            $preview_source = 'из отрывка';
+                        }
+                        
+                        // 3. Для WooCommerce товаров - полное описание
+                        if (empty($preview_description) && function_exists('wc_get_product') && get_post_type($post->ID) === 'product') {
+                            $product = wc_get_product($post->ID);
+                            if ($product) {
+                                $full_desc = $product->get_description();
+                                if (!empty($full_desc)) {
+                                    $preview_description = wp_strip_all_tags($full_desc);
+                                    $preview_description = preg_replace('/\s+/', ' ', $preview_description);
+                                    $preview_description = mb_substr(trim($preview_description), 0, 160);
+                                    $preview_source = 'из описания товара';
+                                }
+                            }
+                        }
+                        
+                        // 4. Для обычных постов/страниц - первые 160 символов контента
+                        if (empty($preview_description) && !empty($post->post_content)) {
+                            $content = wp_strip_all_tags($post->post_content);
+                            $content = preg_replace('/\s+/', ' ', $content);
+                            $preview_description = mb_substr(trim($content), 0, 160);
+                            if (!empty($preview_description)) {
+                                $preview_source = 'из содержимого';
+                            }
+                        }
+                    }
+                    
+                    if ($preview_description) {
+                        echo esc_html($preview_description);
                     } else {
-                        echo '<em style="color: #999;">Описание не задано</em>';
+                        echo '<em style="color: #999;">Описание будет сгенерировано поисковиком</em>';
                     }
                     ?>
                 </div>
+                
+                <?php if (!empty($preview_source)): ?>
+                <div id="preview_source" style="margin-top: 8px; font-size: 11px; color: #666; font-style: italic;">
+                    Автоматически <?php echo $preview_source; ?>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -242,14 +298,66 @@ function render_seo_meta_box($post)
 
             function updatePreview() {
                 const title = $('#seo_title').val() || '<?php echo esc_js($default_title); ?>';
-                const description = $('#seo_description').val() || 'Описание не задано';
+                const description = $('#seo_description').val();
 
                 $('#preview_title').text(title);
 
-                if ($('#seo_description').val()) {
+                if (description) {
                     $('#preview_description').html(description);
+                    $('#preview_source').hide();
                 } else {
-                    $('#preview_description').html('<em style="color: #999;">Описание не задано</em>');
+                    // Показываем fallback
+                    <?php
+                    $js_fallback = '';
+                    $js_source = '';
+                    
+                    // Для WooCommerce товаров
+                    if (function_exists('wc_get_product') && get_post_type($post->ID) === 'product') {
+                        $product = wc_get_product($post->ID);
+                        if ($product) {
+                            // Сначала краткое описание
+                            $short_desc = $product->get_short_description();
+                            if (!empty($short_desc)) {
+                                $js_fallback = wp_strip_all_tags($short_desc);
+                                $js_fallback = mb_substr($js_fallback, 0, 160);
+                                $js_source = 'из краткого описания товара';
+                            }
+                            
+                            // Если нет краткого, берем полное описание
+                            if (empty($js_fallback)) {
+                                $full_desc = $product->get_description();
+                                if (!empty($full_desc)) {
+                                    $js_fallback = wp_strip_all_tags($full_desc);
+                                    $js_fallback = preg_replace('/\s+/', ' ', $js_fallback);
+                                    $js_fallback = mb_substr(trim($js_fallback), 0, 160);
+                                    $js_source = 'из описания товара';
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Для обычных постов - excerpt
+                    if (empty($js_fallback) && has_excerpt($post->ID)) {
+                        $js_fallback = wp_strip_all_tags(get_the_excerpt($post->ID));
+                        $js_fallback = mb_substr($js_fallback, 0, 160);
+                        $js_source = 'из отрывка';
+                    }
+                    
+                    // Из контента
+                    if (empty($js_fallback) && !empty($post->post_content)) {
+                        $content = wp_strip_all_tags($post->post_content);
+                        $js_fallback = mb_substr(trim(preg_replace('/\s+/', ' ', $content)), 0, 160);
+                        $js_source = 'из содержимого';
+                    }
+                    ?>
+                    
+                    <?php if (!empty($js_fallback)): ?>
+                    $('#preview_description').html('<?php echo esc_js($js_fallback); ?>');
+                    $('#preview_source').html('Автоматически <?php echo esc_js($js_source); ?>').show();
+                    <?php else: ?>
+                    $('#preview_description').html('<em style="color: #999;">Описание будет сгенерировано поисковиком</em>');
+                    $('#preview_source').hide();
+                    <?php endif; ?>
                 }
             }
 
@@ -339,7 +447,7 @@ add_action('init', 'add_taxonomy_seo_fields', 999);
 
 function render_taxonomy_seo_fields_add($taxonomy)
 {
-    $form_id = 'add_' . $taxonomy; // Уникальный префикс
+    $form_id = 'add_' . $taxonomy;
 ?>
     <div class="form-field">
         <h3 style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #0073aa;">🔍 SEO Настройки</h3>
@@ -378,7 +486,6 @@ function render_taxonomy_seo_fields_add($taxonomy)
             $('#term_upload_seo_image_button_' + formId).click(function(e) {
                 e.preventDefault();
 
-                // Проверяем доступность wp.media
                 if (typeof wp === 'undefined' || typeof wp.media === 'undefined') {
                     alert('Медиа-библиотека WordPress не загружена. Пожалуйста, обновите страницу.');
                     return;
@@ -428,19 +535,33 @@ function render_taxonomy_seo_fields_edit($term)
     $seo_description = get_term_meta($term->term_id, 'seo_description', true);
     $seo_image = get_term_meta($term->term_id, 'seo_image', true);
 
+    // Получаем описание термина НАПРЯМУЮ из базы данных
+    $term_description = '';
+    if (isset($term->description) && !empty($term->description)) {
+        $term_description = $term->description;
+    } else {
+        global $wpdb;
+        $term_data = $wpdb->get_row($wpdb->prepare(
+            "SELECT description FROM {$wpdb->term_taxonomy} WHERE term_id = %d AND taxonomy = %s",
+            $term->term_id,
+            $term->taxonomy
+        ));
+        if ($term_data && !empty($term_data->description)) {
+            $term_description = $term_data->description;
+        }
+    }
+
     // Получаем изображение по умолчанию
     $default_image_url = '';
     $default_image_label = '';
 
     if ($term->taxonomy === 'product_cat') {
-        // Для категорий товаров - берем "Фотография категории"
         $category_photo_id = get_term_meta($term->term_id, 'category_photo', true);
         if ($category_photo_id) {
             $default_image_url = wp_get_attachment_url($category_photo_id);
             $default_image_label = 'Фотография категории';
         }
     } elseif ($term->taxonomy === 'complex_design') {
-        // Для комплексного оформления - своя миниатюра
         $thumbnail_id = get_term_meta($term->term_id, 'thumbnail_id', true);
         if ($thumbnail_id) {
             $default_image_url = wp_get_attachment_url($thumbnail_id);
@@ -546,13 +667,29 @@ function render_taxonomy_seo_fields_edit($term)
                     </div>
                     <div id="term_preview_description_<?php echo esc_attr($form_id); ?>" style="color: #545454; font-size: 13px; line-height: 1.4;">
                         <?php
-                        if ($seo_description) {
-                            echo esc_html($seo_description);
+                        $preview_desc = $seo_description;
+                        $preview_source = '';
+                        
+                        // Fallback на описание термина (БЕЗ HTML тегов)
+                        if (empty($preview_desc) && !empty($term_description)) {
+                            $preview_desc = wp_strip_all_tags($term_description);
+                            $preview_desc = preg_replace('/\s+/', ' ', $preview_desc);
+                            $preview_desc = mb_substr(trim($preview_desc), 0, 160);
+                            $preview_source = 'из описания термина';
+                        }
+                        
+                        if ($preview_desc) {
+                            echo esc_html($preview_desc);
                         } else {
-                            echo '<em style="color: #999;">Описание не задано</em>';
+                            echo '<em style="color: #999;">Описание будет сгенерировано поисковиком</em>';
                         }
                         ?>
                     </div>
+                    <?php if (!empty($preview_source)): ?>
+                    <div id="term_preview_source_<?php echo esc_attr($form_id); ?>" style="margin-top: 8px; font-size: 11px; color: #666; font-style: italic;">
+                        Автоматически <?php echo $preview_source; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </th>
@@ -619,8 +756,24 @@ function render_taxonomy_seo_fields_edit($term)
 
                 if (description) {
                     $('#term_preview_description_' + formId).html(description);
+                    $('#term_preview_source_' + formId).hide();
                 } else {
-                    $('#term_preview_description_' + formId).html('<em style="color: #999;">Описание не задано</em>');
+                    <?php
+                    $term_fallback = '';
+                    if (!empty($term_description)) {
+                        $term_fallback = wp_strip_all_tags($term_description);
+                        $term_fallback = preg_replace('/\s+/', ' ', $term_fallback);
+                        $term_fallback = mb_substr(trim($term_fallback), 0, 160);
+                    }
+                    ?>
+                    
+                    <?php if (!empty($term_fallback)): ?>
+                    $('#term_preview_description_' + formId).html('<?php echo esc_js($term_fallback); ?>');
+                    $('#term_preview_source_' + formId).show();
+                    <?php else: ?>
+                    $('#term_preview_description_' + formId).html('<em style="color: #999;">Описание будет сгенерировано поисковиком</em>');
+                    $('#term_preview_source_' + formId).hide();
+                    <?php endif; ?>
                 }
             }
 
@@ -657,6 +810,10 @@ function save_taxonomy_seo_fields($term_id)
     }
 }
 
+// ============================================================================
+// ВЫВОД МЕТА-ТЕГОВ В HEAD
+// ============================================================================
+
 function output_seo_meta_tags()
 {
     $seo_title = '';
@@ -666,7 +823,6 @@ function output_seo_meta_tags()
 
     // Для архива статей (главная страница блога)
     if (is_home()) {
-        
         $seo_title = get_option('archive_seo_title_articles', '');
         $seo_description = get_option('archive_seo_description_articles', '');
         $seo_image_id = get_option('archive_seo_image_articles', '');
@@ -681,6 +837,31 @@ function output_seo_meta_tags()
         $seo_title = get_term_meta($term->term_id, 'seo_title', true);
         $seo_description = get_term_meta($term->term_id, 'seo_description', true);
         $seo_image_id = get_term_meta($term->term_id, 'seo_image', true);
+
+        // FALLBACK ДЛЯ ОПИСАНИЯ ТАКСОНОМИЙ
+        if (empty($seo_description)) {
+            // Получаем описание термина напрямую
+            $term_desc = '';
+            if (isset($term->description) && !empty($term->description)) {
+                $term_desc = $term->description;
+            } else {
+                global $wpdb;
+                $term_data = $wpdb->get_row($wpdb->prepare(
+                    "SELECT description FROM {$wpdb->term_taxonomy} WHERE term_id = %d AND taxonomy = %s",
+                    $term->term_id,
+                    $term->taxonomy
+                ));
+                if ($term_data && !empty($term_data->description)) {
+                    $term_desc = $term_data->description;
+                }
+            }
+            
+            if (!empty($term_desc)) {
+                $seo_description = wp_strip_all_tags($term_desc);
+                $seo_description = preg_replace('/\s+/', ' ', $seo_description);
+                $seo_description = mb_substr(trim($seo_description), 0, 160);
+            }
+        }
 
         if ($seo_image_id) {
             $seo_image = wp_get_attachment_url($seo_image_id);
@@ -729,6 +910,47 @@ function output_seo_meta_tags()
         $seo_title = get_post_meta($post->ID, '_seo_title', true);
         $seo_description = get_post_meta($post->ID, '_seo_description', true);
         $seo_image_id = get_post_meta($post->ID, '_seo_image', true);
+
+        // FALLBACK ДЛЯ ОПИСАНИЯ ПОСТОВ/ТОВАРОВ
+        if (empty($seo_description)) {
+            // 1. Для WooCommerce товаров - краткое описание
+            if (function_exists('wc_get_product') && get_post_type($post->ID) === 'product') {
+                $product = wc_get_product($post->ID);
+                if ($product) {
+                    $short_desc = $product->get_short_description();
+                    if (!empty($short_desc)) {
+                        $seo_description = wp_strip_all_tags($short_desc);
+                        $seo_description = mb_substr($seo_description, 0, 160);
+                    }
+                }
+            }
+            
+            // 2. Для обычных постов - excerpt (отрывок)
+            if (empty($seo_description) && has_excerpt($post->ID)) {
+                $seo_description = wp_strip_all_tags(get_the_excerpt($post->ID));
+                $seo_description = mb_substr($seo_description, 0, 160);
+            }
+            
+            // 3. Для WooCommerce товаров - полное описание
+            if (empty($seo_description) && function_exists('wc_get_product') && get_post_type($post->ID) === 'product') {
+                $product = wc_get_product($post->ID);
+                if ($product) {
+                    $full_desc = $product->get_description();
+                    if (!empty($full_desc)) {
+                        $seo_description = wp_strip_all_tags($full_desc);
+                        $seo_description = preg_replace('/\s+/', ' ', $seo_description);
+                        $seo_description = mb_substr(trim($seo_description), 0, 160);
+                    }
+                }
+            }
+            
+            // 4. Для обычных постов/страниц - первые 160 символов из контента
+            if (empty($seo_description) && !empty($post->post_content)) {
+                $content = wp_strip_all_tags($post->post_content);
+                $content = preg_replace('/\s+/', ' ', $content);
+                $seo_description = mb_substr(trim($content), 0, 160);
+            }
+        }
 
         if ($seo_image_id) {
             $seo_image = wp_get_attachment_url($seo_image_id);
@@ -798,23 +1020,26 @@ function output_seo_meta_tags()
     echo '<meta property="og:site_name" content="' . esc_attr($site_name) . '">' . "\n";
     echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
 }
+add_action('wp_head', 'output_seo_meta_tags', 1);
 
-// Регистрируем страницу в меню админки
+// ============================================================================
+// СТРАНИЦА НАСТРОЕК АРХИВОВ
+// ============================================================================
+
 function register_archive_seo_settings_page()
 {
     add_menu_page(
-        'SEO Архивов',           // Заголовок страницы
-        'SEO Архивов',           // Название в меню
-        'manage_options',         // Права доступа
-        'archive-seo-settings',   // Slug страницы
-        'render_archive_seo_settings_page', // Функция рендера
-        'dashicons-search',       // Иконка
-        30                        // Позиция в меню
+        'SEO Архивов',
+        'SEO Архивов',
+        'manage_options',
+        'archive-seo-settings',
+        'render_archive_seo_settings_page',
+        'dashicons-search',
+        30
     );
 }
 add_action('admin_menu', 'register_archive_seo_settings_page');
 
-// Подключаем медиа-библиотеку
 function enqueue_archive_seo_media_scripts($hook)
 {
     if ('toplevel_page_archive-seo-settings' !== $hook) {
@@ -824,31 +1049,25 @@ function enqueue_archive_seo_media_scripts($hook)
 }
 add_action('admin_enqueue_scripts', 'enqueue_archive_seo_media_scripts');
 
-// Подключаем медиа-библиотеку для страниц таксономий
 function enqueue_taxonomy_seo_media_scripts($hook)
 {
-    // Проверяем, что мы на странице редактирования таксономии
     if ($hook === 'term.php' || $hook === 'edit-tags.php') {
         wp_enqueue_media();
     }
 }
 add_action('admin_enqueue_scripts', 'enqueue_taxonomy_seo_media_scripts');
 
-// Рендерим страницу настроек
 function render_archive_seo_settings_page()
 {
-    // Проверка прав
     if (!current_user_can('manage_options')) {
         return;
     }
 
-    // Сохранение данных
     if (isset($_POST['archive_seo_submit']) && check_admin_referer('archive_seo_nonce_action', 'archive_seo_nonce_field')) {
         save_archive_seo_settings();
         echo '<div class="notice notice-success is-dismissible"><p>Настройки сохранены!</p></div>';
     }
 
-    // Получаем все публичные типы записей
     $allowed_post_types = ['post', 'portfolio', 'news', 'services'];
     $post_types = [];
 
@@ -1002,7 +1221,6 @@ function render_archive_seo_settings_page()
 
     <script>
         jQuery(document).ready(function($) {
-            // Переключение вкладок
             $('.nav-tab').on('click', function(e) {
                 e.preventDefault();
                 var tabId = $(this).data('tab');
@@ -1014,14 +1232,12 @@ function render_archive_seo_settings_page()
                 $('#tab-' + tabId).show();
             });
 
-            // Счетчики символов и предпросмотр
             $('input[name*="seo_title"], textarea[name*="seo_description"]').on('input', function() {
                 var $field = $(this);
                 var length = $field.val().length;
                 var $counter = $field.closest('.archive-seo-field').find('.seo-counter span');
                 $counter.text(length);
 
-                // Обновляем предпросмотр
                 var tabId = $field.closest('.archive-seo-tab-content').attr('id').replace('tab-', '');
                 updatePreview(tabId);
             });
@@ -1040,7 +1256,6 @@ function render_archive_seo_settings_page()
                 }
             }
 
-            // Загрузка изображений
             $('.upload-archive-image').on('click', function(e) {
                 e.preventDefault();
                 var $button = $(this);
@@ -1064,7 +1279,6 @@ function render_archive_seo_settings_page()
                 mediaUploader.open();
             });
 
-            // Удаление изображений
             $('.remove-archive-image').on('click', function(e) {
                 e.preventDefault();
                 var archiveKey = $(this).data('archive');
@@ -1077,7 +1291,6 @@ function render_archive_seo_settings_page()
 <?php
 }
 
-// Рендерим отдельную вкладку
 function render_archive_seo_tab($archive_key, $archive_name, $display = 'block')
 {
     $seo_title = get_option("archive_seo_title_{$archive_key}", '');
@@ -1173,7 +1386,6 @@ function render_archive_seo_tab($archive_key, $archive_name, $display = 'block')
 <?php
 }
 
-// Сохраняем настройки
 function save_archive_seo_settings()
 {
     $allowed_post_types = ['post', 'portfolio', 'news', 'services'];
@@ -1195,8 +1407,6 @@ function save_archive_seo_settings()
     }
 }
 
-
-// Получаем ключ архива по типу записи
 function get_archive_key_by_post_type($post_type) {
     $keys = [
         'post' => 'articles',
@@ -1208,7 +1418,6 @@ function get_archive_key_by_post_type($post_type) {
     return isset($keys[$post_type]) ? $keys[$post_type] : $post_type;
 }
 
-// Получаем URL архива
 function get_archive_url_by_key($archive_key)
 {
     if ($archive_key === 'shop' && function_exists('wc_get_page_permalink')) {
@@ -1216,7 +1425,7 @@ function get_archive_url_by_key($archive_key)
     }
 
     $post_type_keys = [
-        'articles' => 'post',      // ← Изменено: articles соответствует типу post
+        'articles' => 'post',
         'portfolio' => 'portfolio',
         'news' => 'news',
         'services' => 'services',
@@ -1224,13 +1433,12 @@ function get_archive_url_by_key($archive_key)
 
     $post_type = isset($post_type_keys[$archive_key]) ? $post_type_keys[$archive_key] : $archive_key;
 
-    // Для стандартных записей (post/articles) используем главную страницу блога
     if ($post_type === 'post') {
         $posts_page_id = get_option('page_for_posts');
         if ($posts_page_id) {
             return get_permalink($posts_page_id);
         }
-        return home_url('/articles/'); // или другой URL, который вы используете
+        return home_url('/articles/');
     }
 
     return get_post_type_archive_link($post_type) ?: home_url('/');
@@ -1244,21 +1452,17 @@ function custom_seo_title($title)
 {
     $custom_title = '';
 
-    // Для архива статей (главная страница блога)
     if (is_home()) {
         $custom_title = get_option('archive_seo_title_articles', '');
     }
-    // Для отдельных постов, страниц, товаров
     elseif (is_singular()) {
         global $post;
         $custom_title = get_post_meta($post->ID, '_seo_title', true);
     }
-    // Для таксономий (категории, теги)
     elseif (is_category() || is_tag() || is_tax()) {
         $term = get_queried_object();
         $custom_title = get_term_meta($term->term_id, 'seo_title', true);
     }
-    // Для архивов других типов записей
     elseif (is_post_type_archive()) {
         $post_type = get_post_type();
         $archive_key = get_archive_key_by_post_type($post_type);
@@ -1266,12 +1470,10 @@ function custom_seo_title($title)
             $custom_title = get_option("archive_seo_title_{$archive_key}", '');
         }
     }
-    // Для страницы магазина WooCommerce
     elseif (function_exists('is_shop') && is_shop()) {
         $custom_title = get_option('archive_seo_title_shop', '');
     }
 
-    // Если задан кастомный title - используем его, иначе стандартный WordPress
     return !empty($custom_title) ? $custom_title : $title;
 }
 add_filter('pre_get_document_title', 'custom_seo_title', 999);
