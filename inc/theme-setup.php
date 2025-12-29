@@ -257,3 +257,7 @@ function remove_wp_block_library_css() {
     }
 }
 add_action('wp_enqueue_scripts', 'remove_wp_block_library_css', 100);
+
+
+// Отключаем стандартную иконку сайта WordPress
+add_filter('get_site_icon_url', '__return_false');
