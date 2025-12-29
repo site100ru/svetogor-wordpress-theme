@@ -369,14 +369,18 @@ function breadcrumb_add_page_chain(&$breadcrumbs, &$position) {
 /**
  * Добавление цепочки для таксономии (категории)
  */
-function breadcrumb_add_term_chain(&$breadcrumbs, &$position, $taxonomy) {
-    $term = get_queried_object();
+function breadcrumb_add_term_chain(&$breadcrumbs, &$position, $taxonomy, $term = null) {
+    // Если термин не передан, получаем текущий
+    if (!$term) {
+        $term = get_queried_object();
+    }
 
-    // Если есть родительские категории, добавляем их
+    // Если есть родительские категории, добавляем их СНАЧАЛА
     if ($term->parent) {
         $parent = get_term($term->parent, $taxonomy);
         if ($parent && !is_wp_error($parent)) {
-            breadcrumb_add_term_chain($breadcrumbs, $position, $taxonomy);
+            // Передаем родительский термин в рекурсию
+            breadcrumb_add_term_chain($breadcrumbs, $position, $taxonomy, $parent);
         }
     }
 
