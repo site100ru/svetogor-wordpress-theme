@@ -1,0 +1,24 @@
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Шрифты - 1 год
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    
+    # Изображения - 1 год
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    
+    # CSS/JS - 1 месяц
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Шрифты - кеш на 1 год
+    <FilesMatch "\.(ttf|woff|woff2)$">
+        Header set Cache-Control "max-age=31536000, public, immutable"
+    </FilesMatch>
+</IfModule>

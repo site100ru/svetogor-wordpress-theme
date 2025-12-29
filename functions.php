@@ -192,3 +192,9 @@ add_action('admin_head', function () {
         }
     </style>';
 });
+
+// Очистка <head> от ненужного кода
+add_action('after_setup_theme', function() {
+    remove_action('wp_head', 'wp_generator');
+    remove_action('wp_head', 'rsd_link');
+});
