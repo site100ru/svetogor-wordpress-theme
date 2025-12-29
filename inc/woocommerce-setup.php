@@ -10,6 +10,28 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Отключаем ненужные 
+ */
+function disable_woocommerce_scripts() {
+    // Отключаем на всех страницах кроме админки
+    if (!is_admin()) {
+        wp_dequeue_script('wc-add-to-cart');
+        wp_dequeue_script('woocommerce');
+        wp_dequeue_script('jquery-blockui');
+        wp_dequeue_script('js-cookie');
+        wp_dequeue_script('wc-order-attribution');
+        wp_dequeue_script('sourcebuster-js-js');
+        
+        // Стили WooCommerce
+        wp_dequeue_style('woocommerce-layout');
+        wp_dequeue_style('woocommerce-smallscreen');
+        wp_dequeue_style('woocommerce-general');
+        wp_dequeue_style('wc-blocks-style');
+    }
+}
+add_action('wp_enqueue_scripts', 'disable_woocommerce_scripts', 100);
+
+/**
  * Добавление поддержки WooCommerce
  */
 function woocommerce_support() {

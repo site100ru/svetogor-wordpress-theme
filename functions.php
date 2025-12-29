@@ -126,6 +126,16 @@ require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/seo-meta-fields.php';
 
 // ============================================================================
+// XML Sitemap система
+// ============================================================================
+require_once get_template_directory() . '/inc/sitemap-generator.php';
+
+// ============================================================================
+// Schema.org разметка (JSON-LD)
+// ============================================================================
+require_once get_template_directory() . '/inc/schema-markup.php';
+
+// ============================================================================
 // Jetpack
 // ============================================================================
 
@@ -174,8 +184,6 @@ function init_global_variables() {
     }
 }
 add_action('wp', 'init_global_variables');
-
-
 
 add_action('admin_head', function () {
     echo '<style>

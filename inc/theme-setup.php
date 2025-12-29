@@ -221,7 +221,10 @@ function svetogor_defer_scripts($tag, $handle, $src) {
         'inputmask',
         'tel-mask',
         'theme-script',
-        'global-recaptcha'
+        'global-recaptcha',
+        'bootstrap-bundle',
+        'glide-js',
+        'glide-init'
     );
     
     if (in_array($handle, $defer_scripts)) {
@@ -231,3 +234,26 @@ function svetogor_defer_scripts($tag, $handle, $src) {
     return $tag;
 }
 add_filter('script_loader_tag', 'svetogor_defer_scripts', 10, 3);
+
+// Отключаем Emoji
+function disable_emojis() {
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('admin_print_scripts', 'print_emoji_detection_script');
+    remove_action('wp_print_styles', 'print_emoji_styles');
+    remove_action('admin_print_styles', 'print_emoji_styles');
+    remove_filter('the_content_feed', 'wp_staticize_emoji');
+    remove_filter('comment_text_rss', 'wp_staticize_emoji');
+    remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+}
+add_action('init', 'disable_emojis');
+
+// Отключаем Gutenberg стили (используем ACF)
+function remove_wp_block_library_css() {
+    if (!is_admin()) {
+        wp_dequeue_style('wp-block-library');
+        wp_dequeue_style('wp-block-library-theme');
+        wp_dequeue_style('global-styles');
+        wp_dequeue_style('classic-theme-styles');
+    }
+}
+add_action('wp_enqueue_scripts', 'remove_wp_block_library_css', 100);
