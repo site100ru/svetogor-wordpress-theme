@@ -136,6 +136,11 @@ require_once get_template_directory() . '/inc/sitemap-generator.php';
 require_once get_template_directory() . '/inc/schema-markup.php';
 
 // ============================================================================
+// Кастомные URL для товаров WooCommerce
+// ============================================================================
+require_once get_template_directory() . '/inc/custom-product-urls.php';
+
+// ============================================================================
 // Jetpack
 // ============================================================================
 
