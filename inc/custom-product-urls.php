@@ -51,19 +51,15 @@ function cpurl_display_metabox($post) {
     $post_id = $post->ID;
     $custom_permalink = get_post_meta($post_id, 'custom_permalink', true);
     $error = get_transient('cpurl_error_' . $post_id);
-    $error_url = get_transient('cpurl_error_url_' . $post_id);
     
     wp_nonce_field('cpurl_save_meta', 'cpurl_nonce');
     ?>
     <div class="cpurl-field">
         <?php if ($error === 'duplicate'): ?>
             <div style="background: #fcf0f1; border-left: 4px solid #d63638; padding: 8px 12px; margin-bottom: 12px;">
-                <strong>Ошибка:</strong> URL "<?php echo esc_html($error_url ? $error_url : 'этот'); ?>" уже используется!
+                <strong>Ошибка:</strong> Этот URL уже используется!
             </div>
-            <?php 
-            delete_transient('cpurl_error_' . $post_id); 
-            delete_transient('cpurl_error_url_' . $post_id);
-            ?>
+            <?php delete_transient('cpurl_error_' . $post_id); ?>
         <?php endif; ?>
         
         <p style="margin: 0 0 8px 0;">
@@ -99,87 +95,61 @@ function cpurl_save_metabox($post_id, $post, $update) {
     if (isset($_POST['custom_permalink'])) {
         $custom_permalink = sanitize_text_field($_POST['custom_permalink']);
         $custom_permalink = trim($custom_permalink, '/');
+        $old_permalink = get_post_meta($post_id, 'custom_permalink', true);
         
         if (!empty($custom_permalink)) {
             $custom_permalink = cpurl_transliterate($custom_permalink);
             
             if (cpurl_is_unique($custom_permalink, $post_id, 'post')) {
                 update_post_meta($post_id, 'custom_permalink', $custom_permalink);
-                // Принудительный полный сброс
-                delete_option('rewrite_rules');
-                flush_rewrite_rules(false);
-                wp_cache_flush();
             } else {
                 set_transient('cpurl_error_' . $post_id, 'duplicate', 10);
+                return;
             }
         } else {
             delete_post_meta($post_id, 'custom_permalink');
+        }
+        
+        // Если изменилось - сбрасываем правила и перезагружаем
+        if ($old_permalink !== $custom_permalink) {
             delete_option('rewrite_rules');
-            flush_rewrite_rules(false);
-            wp_cache_flush();
+            set_transient('cpurl_need_reload_' . $post_id, true, 10);
         }
     }
 }
 
 // ============================================================================
-// ОБНОВЛЕНИЕ ПРЕВЬЮ ССЫЛКИ В АДМИНКЕ
+// СКРИПТ ПЕРЕЗАГРУЗКИ
 // ============================================================================
 
-add_action('admin_footer-post.php', 'cpurl_refresh_permalink_script');
-add_action('admin_footer-post-new.php', 'cpurl_refresh_permalink_script');
-function cpurl_refresh_permalink_script() {
+add_action('admin_footer-post.php', 'cpurl_reload_script');
+add_action('admin_footer-post-new.php', 'cpurl_reload_script');
+function cpurl_reload_script() {
     global $post;
     
-    // Проверяем, что это нужный тип поста
     if (!$post || !in_array($post->post_type, CPURL_POST_TYPES)) {
         return;
     }
     
-    $custom_permalink = get_post_meta($post->ID, 'custom_permalink', true);
-    if (empty($custom_permalink)) {
+    $need_reload = get_transient('cpurl_need_reload_' . $post->ID);
+    
+    if ($need_reload) {
+        delete_transient('cpurl_need_reload_' . $post->ID);
+        ?>
+        <script type="text/javascript">
+        setTimeout(function() {
+            window.location.reload();
+        }, 500);
+        </script>
+        <?php
         return;
     }
-    
-    $new_url = home_url('/' . trim($custom_permalink, '/') . '/');
     ?>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-        var customUrl = '<?php echo esc_js($new_url); ?>';
+        var initialValue = $('#custom_permalink_field').val();
         
-        // Функция обновления всех ссылок
-        function updateAllLinks() {
-            // Кнопка "Посмотреть пост/страницу"
-            $('#post-preview, .preview').attr('href', customUrl);
-            
-            $('#wp-admin-bar-view a, #wp-admin-bar-preview a').attr('href', customUrl);
-            
-            // Permalink в блоке публикации
-            if ($('#sample-permalink a').length) {
-                $('#sample-permalink a').attr('href', customUrl).text(customUrl);
-            }
-            
-            // Для Gutenberg
-            if (typeof wp !== 'undefined' && wp.data) {
-                setTimeout(function() {
-                    $('.editor-post-url__link').attr('href', customUrl).text(customUrl);
-                    $('.components-external-link').each(function() {
-                        if ($(this).attr('href') && $(this).attr('href').indexOf('preview=true') !== -1) {
-                            $(this).attr('href', customUrl);
-                        }
-                    });
-                }, 300);
-            }
-        }
-        
-        // Обновить сразу
-        updateAllLinks();
-        
-        // Обновить после сохранения
-        $(document).on('heartbeat-tick', function() {
-            setTimeout(updateAllLinks, 500);
-        });
-        
-        // Обновить после сохранения (Gutenberg)
+        // Gutenberg
         if (typeof wp !== 'undefined' && wp.data) {
             var isSaving = false;
             wp.data.subscribe(function() {
@@ -187,23 +157,27 @@ function cpurl_refresh_permalink_script() {
                 if (editor && typeof editor.isSavingPost === 'function') {
                     var currentlySaving = editor.isSavingPost();
                     if (isSaving && !currentlySaving) {
-                        setTimeout(function() {
-                            location.reload(); // Перезагружаем страницу чтобы обновить превью
-                        }, 1000);
+                        var currentValue = $('#custom_permalink_field').val();
+                        if (initialValue !== currentValue) {
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        }
                     }
                     isSaving = currentlySaving;
                 }
             });
         }
         
-        // Перезагрузка после сохранения в классическом редакторе
+        // Классический редактор
         $('#publish, #save-post').on('click', function() {
-            if ($('#custom_permalink_field').val().trim()) {
+            var currentValue = $('#custom_permalink_field').val();
+            if (initialValue !== currentValue) {
                 setTimeout(function() {
-                    if ($('#message.updated').length > 0) {
+                    if ($('#message.updated').length > 0 || $('.notice-success').length > 0) {
                         location.reload();
                     }
-                }, 2000);
+                }, 1000);
             }
         });
     });
@@ -245,7 +219,6 @@ function cpurl_add_taxonomy_field($taxonomy) {
 function cpurl_edit_taxonomy_field($term, $taxonomy) {
     $custom_permalink = get_term_meta($term->term_id, 'custom_permalink', true);
     $error = get_transient('cpurl_term_error_' . $term->term_id);
-    $error_url = get_transient('cpurl_term_error_url_' . $term->term_id);
     ?>
     <tr class="form-field term-custom-permalink-wrap">
         <th scope="row">
@@ -254,12 +227,9 @@ function cpurl_edit_taxonomy_field($term, $taxonomy) {
         <td>
             <?php if ($error === 'duplicate'): ?>
                 <div style="background: #fcf0f1; border-left: 4px solid #d63638; padding: 8px 12px; margin-bottom: 12px;">
-                    <strong>Ошибка:</strong> URL "<?php echo esc_html($error_url ? $error_url : 'этот'); ?>" уже используется!
+                    <strong>Ошибка:</strong> Этот URL уже используется!
                 </div>
-                <?php 
-                delete_transient('cpurl_term_error_' . $term->term_id); 
-                delete_transient('cpurl_term_error_url_' . $term->term_id);
-                ?>
+                <?php delete_transient('cpurl_term_error_' . $term->term_id); ?>
             <?php endif; ?>
             
             <div style="display: flex; border: 1px solid #8c8f94; border-radius: 2px; overflow: hidden; max-width: 600px;">
@@ -289,18 +259,15 @@ function cpurl_save_taxonomy_field($term_id, $tt_id = '') {
             
             if (cpurl_is_unique($custom_permalink, $term_id, 'term')) {
                 update_term_meta($term_id, 'custom_permalink', $custom_permalink);
-                delete_option('rewrite_rules');
-                flush_rewrite_rules(false);
-                wp_cache_flush();
             } else {
                 set_transient('cpurl_term_error_' . $term_id, 'duplicate', 10);
+                return;
             }
         } else {
             delete_term_meta($term_id, 'custom_permalink');
-            delete_option('rewrite_rules');
-            flush_rewrite_rules(false);
-            wp_cache_flush();
         }
+        
+        delete_option('rewrite_rules');
     }
 }
 
@@ -313,7 +280,6 @@ function cpurl_is_unique($permalink, $current_id, $type = 'post') {
     
     $permalink = trim($permalink, '/');
     
-    // Проверяем в постах
     $post_exists = $wpdb->get_var($wpdb->prepare(
         "SELECT post_id FROM {$wpdb->postmeta} 
          WHERE meta_key = 'custom_permalink' 
@@ -326,7 +292,6 @@ function cpurl_is_unique($permalink, $current_id, $type = 'post') {
     
     if ($post_exists) return false;
     
-    // Проверяем в терминах
     $term_exists = $wpdb->get_var($wpdb->prepare(
         "SELECT term_id FROM {$wpdb->termmeta} 
          WHERE meta_key = 'custom_permalink' 
@@ -348,7 +313,6 @@ add_filter('post_link', 'cpurl_custom_link', 10, 2);
 add_filter('post_type_link', 'cpurl_custom_link', 10, 2);
 add_filter('page_link', 'cpurl_custom_link', 10, 2);
 function cpurl_custom_link($permalink, $post) {
-    // $post может быть объектом или ID
     $post_id = is_object($post) ? $post->ID : $post;
     $custom = get_post_meta($post_id, 'custom_permalink', true);
     return $custom ? home_url('/' . trim($custom, '/') . '/') : $permalink;
@@ -358,153 +322,117 @@ add_filter('term_link', 'cpurl_custom_term_link', 10, 3);
 function cpurl_custom_term_link($termlink, $term, $taxonomy) {
     if (!in_array($taxonomy, CPURL_TAXONOMIES)) return $termlink;
     
-    // $term может быть объектом или ID
     $term_id = is_object($term) ? $term->term_id : $term;
     $custom = get_term_meta($term_id, 'custom_permalink', true);
     return $custom ? home_url('/' . trim($custom, '/') . '/') : $termlink;
 }
 
 // ============================================================================
-// REWRITE RULES
+//  REWRITE RULES
 // ============================================================================
 
-add_action('init', 'cpurl_rewrite_rules', 999); // Изменили приоритет на 999
-function cpurl_rewrite_rules() {
-    global $wpdb;
-    
-    // Посты
-    $posts = $wpdb->get_results(
-        "SELECT p.ID as post_id, p.post_name, p.post_type, pm.meta_value 
-         FROM {$wpdb->posts} p
-         INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
-         WHERE pm.meta_key = 'custom_permalink' AND pm.meta_value != ''"
-    );
-    
-    if ($posts) {
-        foreach ($posts as $row) {
-            $path = trim($row->meta_value, '/');
-            if (!empty($path)) {
-                // Для товаров и всех кастомных типов постов
-                if (in_array($row->post_type, array('product', 'news', 'services', 'portfolio'))) {
-                    add_rewrite_rule(
-                        '^' . preg_quote($path, '/') . '/?$',
-                        'index.php?post_type=' . $row->post_type . '&name=' . $row->post_name,
-                        'top' 
-                    );
-                } else {
-                    // Для обычных постов и страниц
-                    add_rewrite_rule(
-                        '^' . preg_quote($path, '/') . '/?$',
-                        'index.php?p=' . $row->post_id,
-                        'top'
-                    );
-                }
-            }
-        }
-    }
-    
-    // Термины
-    $terms = $wpdb->get_results(
-        "SELECT term_id, meta_value FROM {$wpdb->termmeta} 
-         WHERE meta_key = 'custom_permalink' AND meta_value != ''"
-    );
-    
-    if ($terms) {
-        foreach ($terms as $row) {
-            $term = get_term($row->term_id);
-            if ($term && !is_wp_error($term)) {
-                $path = trim($row->meta_value, '/');
-                if (!empty($path)) {
-                    add_rewrite_rule(
-                        '^' . preg_quote($path, '/') . '/?$',
-                        'index.php?' . $term->taxonomy . '=' . $term->slug,
-                        'top'
-                    );
-                }
-            }
-        }
-    }
-}
-
-// ============================================================================
-// ОБРАБОТКА ЗАПРОСОВ
-// ============================================================================
-
-add_filter('request', 'cpurl_parse_request');
-function cpurl_parse_request($query_vars) {
-    global $wpdb;
-    
+add_action('template_redirect', 'cpurl_handle_request', 1);
+function cpurl_handle_request() {
     // Получаем текущий путь
     $request_uri = $_SERVER['REQUEST_URI'];
     $home_path = trim(parse_url(home_url(), PHP_URL_PATH), '/');
     
-    // Очищаем путь
     $path = trim($request_uri, '/');
     if ($home_path) {
         $path = preg_replace('#^' . preg_quote($home_path, '#') . '/?#', '', $path);
     }
     
-    // Убираем query string
     $path = strtok($path, '?');
     $path = trim($path, '/');
     
     if (empty($path)) {
-        return $query_vars;
+        return;
     }
     
-    // Ищем пост
-    $post_id = $wpdb->get_var($wpdb->prepare(
-        "SELECT post_id FROM {$wpdb->postmeta} 
-         WHERE meta_key = 'custom_permalink' 
-         AND meta_value = %s 
+    global $wpdb, $wp_query, $post;
+    
+    // Ищем пост с таким URL (ПРЯМОЙ запрос к БД каждый раз)
+    $result = $wpdb->get_row($wpdb->prepare(
+        "SELECT pm.post_id, p.post_name, p.post_type 
+         FROM {$wpdb->postmeta} pm
+         INNER JOIN {$wpdb->posts} p ON pm.post_id = p.ID
+         WHERE pm.meta_key = 'custom_permalink' 
+         AND pm.meta_value = %s 
+         AND p.post_status = 'publish'
          LIMIT 1",
         $path
     ));
     
-    if ($post_id) {
-        $post = get_post($post_id);
-        if ($post) {
-            // Для кастомных типов постов (товары, услуги, новости, портфолио)
-            if (in_array($post->post_type, array('product', 'news', 'services', 'portfolio'))) {
-                return array(
-                    'post_type' => $post->post_type,
-                    'name' => $post->post_name
-                );
+    if ($result) {
+        // Найден пост - загружаем его полностью
+        $found_post = get_post($result->post_id);
+        
+        if ($found_post) {
+            // Сбрасываем текущий запрос
+            $wp_query = new WP_Query();
+            
+            // Создаем новый запрос для найденного поста
+            if (in_array($result->post_type, array('product', 'news', 'services', 'portfolio'))) {
+                $wp_query->query(array(
+                    'post_type' => $result->post_type,
+                    'name' => $result->post_name,
+                    'posts_per_page' => 1
+                ));
+            } else {
+                $wp_query->query(array(
+                    'p' => $result->post_id,
+                    'post_type' => 'any'
+                ));
             }
-            // Для обычных постов и страниц
-            return array('p' => $post_id);
+            
+            // Устанавливаем глобальные переменные
+            $wp_query->is_singular = true;
+            $wp_query->is_single = ($result->post_type !== 'page');
+            $wp_query->is_page = ($result->post_type === 'page');
+            $wp_query->is_404 = false;
+            
+            // ВАЖНО: Устанавливаем глобальный $post
+            $post = $found_post;
+            setup_postdata($post);
+            
+            return;
         }
     }
     
     // Ищем термин
-    $term_id = $wpdb->get_var($wpdb->prepare(
-        "SELECT term_id FROM {$wpdb->termmeta} 
-         WHERE meta_key = 'custom_permalink' 
-         AND meta_value = %s 
+    $term_result = $wpdb->get_row($wpdb->prepare(
+        "SELECT tm.term_id, t.slug, tt.taxonomy
+         FROM {$wpdb->termmeta} tm
+         INNER JOIN {$wpdb->terms} t ON tm.term_id = t.term_id
+         INNER JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id
+         WHERE tm.meta_key = 'custom_permalink' 
+         AND tm.meta_value = %s
          LIMIT 1",
         $path
     ));
     
-    if ($term_id) {
-        $term = get_term($term_id);
-        if ($term && !is_wp_error($term)) {
-            return array($term->taxonomy => $term->slug);
-        }
+    if ($term_result) {
+        $wp_query = new WP_Query();
+        $wp_query->query(array(
+            'taxonomy' => $term_result->taxonomy,
+            $term_result->taxonomy => $term_result->slug
+        ));
+        
+        $wp_query->is_tax = true;
+        $wp_query->is_archive = true;
+        $wp_query->is_404 = false;
     }
-    
-    return $query_vars;
 }
 
 // ============================================================================
 // РЕДИРЕКТ (ТОЛЬКО СО СТАРОГО URL НА НОВЫЙ)
 // ============================================================================
 
-add_action('template_redirect', 'cpurl_redirect', 1);
+add_action('template_redirect', 'cpurl_redirect', 99);
 function cpurl_redirect() {
     if (is_admin()) return;
     
     global $post;
-    $custom = '';
     
     // Для постов
     if (is_singular() && $post) {
