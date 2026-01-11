@@ -78,7 +78,6 @@ function cpurl_display_metabox($post) {
         </div>
         <p style="margin: 8px 0 0 0; color: #646970; font-size: 12px;">
             Оставьте пустым для стандартного URL.<br>
-            <em>Кириллица будет автоматически транслитерирована в латиницу.</em>
         </p>
     </div>
     <?php
