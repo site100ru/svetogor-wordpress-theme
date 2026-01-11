@@ -1092,7 +1092,8 @@ function render_archive_seo_settings_page()
                     $first = true;
                     foreach ($post_types as $post_type => $post_type_obj) {
                         $active = $first ? 'nav-tab-active' : '';
-                        echo '<a href="#tab-' . esc_attr($post_type) . '" class="nav-tab ' . $active . '" data-tab="' . esc_attr($post_type) . '">'
+                        $archive_key = get_archive_key_by_post_type($post_type);
+                        echo '<a href="#tab-' . esc_attr($archive_key) . '" class="nav-tab ' . $active . '" data-tab="' . esc_attr($archive_key) . '">'
                             . esc_html($post_type_obj->labels->name) . '</a>';
                         $first = false;
                     }
@@ -1223,13 +1224,13 @@ function render_archive_seo_settings_page()
         jQuery(document).ready(function($) {
             $('.nav-tab').on('click', function(e) {
                 e.preventDefault();
-                var tabId = $(this).data('tab');
+                var archiveKey = $(this).data('tab');
 
                 $('.nav-tab').removeClass('nav-tab-active');
                 $(this).addClass('nav-tab-active');
 
                 $('.archive-seo-tab-content').hide();
-                $('#tab-' + tabId).show();
+                $('#tab-' + archiveKey).show();
             });
 
             $('input[name*="seo_title"], textarea[name*="seo_description"]').on('input', function() {
