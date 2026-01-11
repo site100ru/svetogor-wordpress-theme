@@ -41,7 +41,7 @@ function cpurl_register_metabox() {
             'cpurl_display_metabox',
             $post_type,
             'side',
-            'default'
+            'high'
         );
     }
 }
@@ -348,7 +348,9 @@ add_filter('post_link', 'cpurl_custom_link', 10, 2);
 add_filter('post_type_link', 'cpurl_custom_link', 10, 2);
 add_filter('page_link', 'cpurl_custom_link', 10, 2);
 function cpurl_custom_link($permalink, $post) {
-    $custom = get_post_meta($post->ID, 'custom_permalink', true);
+    // $post может быть объектом или ID
+    $post_id = is_object($post) ? $post->ID : $post;
+    $custom = get_post_meta($post_id, 'custom_permalink', true);
     return $custom ? home_url('/' . trim($custom, '/') . '/') : $permalink;
 }
 
@@ -356,7 +358,9 @@ add_filter('term_link', 'cpurl_custom_term_link', 10, 3);
 function cpurl_custom_term_link($termlink, $term, $taxonomy) {
     if (!in_array($taxonomy, CPURL_TAXONOMIES)) return $termlink;
     
-    $custom = get_term_meta($term->term_id, 'custom_permalink', true);
+    // $term может быть объектом или ID
+    $term_id = is_object($term) ? $term->term_id : $term;
+    $custom = get_term_meta($term_id, 'custom_permalink', true);
     return $custom ? home_url('/' . trim($custom, '/') . '/') : $termlink;
 }
 
