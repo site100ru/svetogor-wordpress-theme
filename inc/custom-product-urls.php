@@ -66,7 +66,7 @@ function cpurl_display_metabox($post) {
             <label for="custom_permalink_field" style="display: block; margin-bottom: 5px; font-weight: 600;">URL адрес:</label>
         </p>
         <div style="display: flex; border: 1px solid #8c8f94; border-radius: 2px; overflow: hidden;">
-            <span style="padding: 6px 8px; background: #f0f0f1; font-size: 12px; color: #2c3338; white-space: nowrap;"><?php echo esc_html(home_url('/')); ?></span>
+            <span style="padding: 6px 8px; background: #f0f0f1; font-size: 12px; color: #2c3338; white-space: nowrap;align-content: center;"><?php echo esc_html(home_url('/')); ?></span>
             <input 
                 type="text" 
                 id="custom_permalink_field"
@@ -200,7 +200,7 @@ function cpurl_add_taxonomy_field($taxonomy) {
     <div class="form-field term-custom-permalink-wrap">
         <label for="term_custom_permalink">Свой вариант URL</label>
         <div style="display: flex; border: 1px solid #8c8f94; border-radius: 2px; overflow: hidden; max-width: 600px;">
-            <span style="padding: 6px 8px; background: #f0f0f1; font-size: 12px; color: #2c3338; white-space: nowrap;"><?php echo esc_html(home_url('/')); ?></span>
+            <span style="padding: 6px 8px; background: #f0f0f1; font-size: 12px; color: #2c3338; white-space: nowrap;align-content: center;"><?php echo esc_html(home_url('/')); ?></span>
             <input 
                 type="text" 
                 id="term_custom_permalink"
@@ -232,7 +232,7 @@ function cpurl_edit_taxonomy_field($term, $taxonomy) {
             <?php endif; ?>
             
             <div style="display: flex; border: 1px solid #8c8f94; border-radius: 2px; overflow: hidden; max-width: 600px;">
-                <span style="padding: 6px 8px; background: #f0f0f1; font-size: 12px; color: #2c3338; white-space: nowrap;"><?php echo esc_html(home_url('/')); ?></span>
+                <span style="padding: 6px 8px; background: #f0f0f1; font-size: 12px; color: #2c3338; white-space: nowrap;align-content: center;"><?php echo esc_html(home_url('/')); ?></span>
                 <input 
                     type="text" 
                     id="term_custom_permalink"
