@@ -184,11 +184,11 @@ function get_category_expanding_text_data($category_id) {
     }
     
     return array(
-        'section_title' => get_category_custom_data($category_id, 'section_title_general_info') ?: '',
-        'background_color' => 'grey',
-        'main_content' => get_category_custom_data($category_id, 'main_content') ?: '',
-        'additional_content' => get_category_custom_data($category_id, 'additional_content') ?: '',
-        'button_text' => get_category_custom_data($category_id, 'button_text') ?: 'Читать далее',
+        'section_title' => get_term_meta($category_id, 'expanding_section_title', true) ?: '',
+        'background_color' => get_term_meta($category_id, 'expanding_background_color', true) ?: 'grey',
+        'main_content' => get_term_meta($category_id, 'expanding_main_content', true) ?: '',
+        'additional_content' => get_term_meta($category_id, 'expanding_additional_content', true) ?: '',
+        'button_text' => get_term_meta($category_id, 'expanding_button_text', true) ?: 'Читать далее',
     );
 }
 
