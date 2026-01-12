@@ -12,7 +12,6 @@ get_header('shop'); ?>
     <section class="section-mini">
         <h2 class=d-none>Секция навигации по сайту</h2>
         <div class="container">
-            <!-- Хлебные крошки -->
             <nav aria-label="breadcrumb" class="mb-0">
                 <ol class="breadcrumb bg-transparent p-0 m-0">
                     <!-- Иконка главной -->
@@ -23,53 +22,25 @@ get_header('shop'); ?>
                     </li>
                     <?php
                     global $product;
-                    $product_id = $product->get_id();
-
-                    // Проверяем, принадлежит ли товар к категории 'shop'
-                    if (has_term('shop', 'product_cat', $product_id)) {
-                        // Для товаров из категории shop - показываем путь до магазина
-                    ?>
-                        <li class="breadcrumb-item">
-                            <a href="<?php echo home_url('/shop'); ?>">Магазин</a>
-                        </li>
-                        <?php
-                    } else {
-                        // Для всех остальных товаров - обычные хлебные крошки
-                        $terms = wp_get_post_terms($product->get_id(), 'product_cat');
-                        if (!empty($terms)) {
-                            // Находим основную категорию (с наименьшим term_id или первую)
-                            $main_category = $terms[0];
-                            // Получаем иерархию категорий
-                            $category_hierarchy = array();
-                            $current_cat = $main_category;
-                            // Собираем всю цепочку до корня
-                            while ($current_cat) {
-                                array_unshift($category_hierarchy, $current_cat);
-                                if ($current_cat->parent) {
-                                    $current_cat = get_term($current_cat->parent, 'product_cat');
-                                } else {
-                                    break;
-                                }
-                            }
-                            // Оставляем только первые 2 уровня
-                            $category_hierarchy = array_slice($category_hierarchy, 0, 2);
-                            // Выводим категории
-                            foreach ($category_hierarchy as $index => $category) {
-                                $is_last_category = ($index === count($category_hierarchy) - 1);
-                        ?>
-                                <li class="breadcrumb-item">
-                                    <?php if ($is_last_category): ?>
-                                        <!-- Категория 2 уровня - со ссылкой -->
-                                        <a href="<?php echo get_term_link($category); ?>">
-                                            <?php echo esc_html($category->name); ?>
-                                        </a>
-                                    <?php else: ?>
-                                        <!-- Категория 1 уровня - без ссылки -->
-                                        <?php echo esc_html($category->name); ?>
-                                    <?php endif; ?>
-                                </li>
-                    <?php
-                            }
+                    
+                    // Получаем все категории товара
+                    $terms = wp_get_post_terms($product->get_id(), 'product_cat');
+                    
+                    if (!empty($terms)) {
+                        $main_category = $terms[0];
+                        
+                        // Собираем всю иерархию категорий
+                        $category_hierarchy = array();
+                        $current_cat = $main_category;
+                        
+                        while ($current_cat) {
+                            array_unshift($category_hierarchy, $current_cat);
+                            $current_cat = $current_cat->parent ? get_term($current_cat->parent, 'product_cat') : false;
+                        }
+                        
+                        // Выводим все категории
+                        foreach ($category_hierarchy as $category) {
+                            echo '<li class="breadcrumb-item"><a href="' . get_term_link($category) . '">' . esc_html($category->name) . '</a></li>';
                         }
                     }
                     ?>

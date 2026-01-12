@@ -334,7 +334,8 @@ add_action('template_redirect', 'cpurl_handle_request', 1);
 function cpurl_handle_request() {
     // Получаем текущий путь
     $request_uri = $_SERVER['REQUEST_URI'];
-    $home_path = trim(parse_url(home_url(), PHP_URL_PATH), '/');
+    $home_path = parse_url(home_url(), PHP_URL_PATH);
+    $home_path = $home_path ? trim($home_path, '/') : '';
     
     $path = trim($request_uri, '/');
     if ($home_path) {
@@ -452,9 +453,9 @@ function cpurl_redirect() {
     // Для таксономий
     if (is_tax(CPURL_TAXONOMIES) || is_product_category()) {
         $term = get_queried_object();
-        if ($term) {
+        if ($term && isset($term->term_id)) {
             $custom = get_term_meta($term->term_id, 'custom_permalink', true);
-            if ($custom) {
+            if (!empty($custom)) {
                 $custom = trim($custom, '/');
                 $new_url = home_url('/' . $custom . '/');
                 $current_url = home_url(add_query_arg(array(), $_SERVER['REQUEST_URI']));

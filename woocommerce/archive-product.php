@@ -267,32 +267,28 @@ function render_no_products_placeholder($category_name = '')
 
                 <?php if ($is_category && $current_category): ?>
                     <?php
-                    // Получаем категорию первого уровня
-                    $top_category = $current_category;
-                    if ($current_category->parent) {
-                        // Если есть родитель, ищем самый верхний уровень
-                        while ($top_category->parent) {
-                            $top_category = get_term($top_category->parent, 'product_cat');
+                    // Собираем всю иерархию категорий
+                    $category_hierarchy = array();
+                    $current_cat = $current_category;
+                    
+                    while ($current_cat) {
+                        array_unshift($category_hierarchy, $current_cat);
+                        $current_cat = $current_cat->parent ? get_term($current_cat->parent, 'product_cat') : false;
+                    }
+                    
+                    // Выводим все категории
+                    foreach ($category_hierarchy as $index => $category) {
+                        $is_last = ($index === count($category_hierarchy) - 1);
+                        
+                        if ($is_last) {
+                            // Последняя категория - активная, без ссылки
+                            echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html($category->name) . '</li>';
+                        } else {
+                            // Промежуточные категории - со ссылками
+                            echo '<li class="breadcrumb-item"><a href="' . get_term_link($category) . '">' . esc_html($category->name) . '</a></li>';
                         }
                     }
                     ?>
-
-                    <?php if ($current_category->parent): ?>
-                        <!-- Есть родитель - показываем категорию 1 уровня и текущую -->
-                        <li class="breadcrumb-item">
-                            <a href="<?php echo get_term_link($top_category); ?>">
-                                <?php echo esc_html($top_category->name); ?>
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            <?php echo esc_html($current_category->name); ?>
-                        </li>
-                    <?php else: ?>
-                        <!-- Нет родителя - это категория первого уровня, показываем только её -->
-                        <li class="breadcrumb-item active" aria-current="page">
-                            <?php echo esc_html($current_category->name); ?>
-                        </li>
-                    <?php endif; ?>
                 <?php else: ?>
                     <!-- Если это не категория, выводим стандартный заголовок -->
                     <li class="breadcrumb-item active" aria-current="page">
