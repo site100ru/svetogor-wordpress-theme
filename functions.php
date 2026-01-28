@@ -203,3 +203,11 @@ add_action('after_setup_theme', function() {
     remove_action('wp_head', 'wp_generator');
     remove_action('wp_head', 'rsd_link');
 });
+
+
+add_action('template_redirect', function() {
+    if (untrailingslashit($_SERVER['REQUEST_URI']) === '/uslugi.html') {
+        include get_template_directory() . '/services/archive-services.php';
+        exit;
+    }
+});
