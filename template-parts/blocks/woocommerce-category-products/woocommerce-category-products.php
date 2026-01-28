@@ -76,12 +76,16 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                                 <a href="<?php echo esc_url(get_permalink()); ?>">
                                     <h5 class="card-title"><?php the_title(); ?></h5>
                                 </a>
-                                <p class="card-text">
-                                    <?php echo wp_trim_words(get_the_excerpt(), 15, '...'); ?>
-                                </p>
+                                <a href="<?php echo esc_url(get_permalink()); ?>">
+                                    <p class="card-text">
+                                        <?php echo wp_trim_words(get_the_excerpt(), 15, '...'); ?>
+                                    </p>
+                                </a>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <?php if ($show_price && $product->get_price()): ?>
-                                        <span class="product-price"><?php echo $product->get_price_html(); ?></span>
+                                        <a href="<?php echo esc_url(get_permalink()); ?>">
+                                            <span class="product-price"><?php echo $product->get_price_html(); ?></span>
+                                        </a>
                                     <?php else: ?>
                                         <span></span>
                                     <?php endif; ?>
@@ -121,12 +125,16 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                                             <a href="<?php echo esc_url(get_permalink()); ?>">
                                                 <h5 class="card-title"><?php the_title(); ?></h5>
                                             </a>
-                                            <p class="card-text">
-                                                <?php echo wp_trim_words(get_the_excerpt(), 15, '...'); ?>
-                                            </p>
+                                            <a href="<?php echo esc_url(get_permalink()); ?>">
+                                                <p class="card-text">
+                                                    <?php echo wp_trim_words(get_the_excerpt(), 15, '...'); ?>
+                                                </p>
+                                            </a>
                                             <div class="d-flex justify-content-between align-items-center mt-auto">
                                                 <?php if ($show_price && $product->get_price()): ?>
-                                                    <span class="product-price"><?php echo $product->get_price_html(); ?></span>
+                                                    <a href="<?php echo esc_url(get_permalink()); ?>">
+                                                        <span class="product-price"><?php echo $product->get_price_html(); ?></span>
+                                                    </a>
                                                 <?php else: ?>
                                                     <span></span>
                                                 <?php endif; ?>

@@ -9,17 +9,17 @@ $id = 'how-to-order-' . $block['id'];
 $className = !empty($block['className']) ? ' ' . $block['className'] : '';
 
 //  ОПРЕДЕЛЕНИЯ ФОНА
-$background_color = get_field('background_color_how_to_order');
+$background_color_how = get_field('background_color_how_to_order');
 
 // Проверяем глобальную переменную для фона
 global $temp_how_to_order_data;
 if ($temp_how_to_order_data && isset($temp_how_to_order_data['background_color_how_to_order'])) {
-    $background_color = $temp_how_to_order_data['background_color_how_to_order'];
+    $background_color_how = $temp_how_to_order_data['background_color_how_to_order'];
 }
 
 // Если значение пустое или не задано - белый по умолчанию
-if (empty($background_color)) {
-    $background_color = 'white';
+if (empty($background_color_how)) {
+    $background_color_how = 'white';
 }
 
 $columns = get_field('columns') ?: '4';
@@ -31,7 +31,7 @@ $steps = get_field('steps', 'option');
 // ЛОГИКА КЛАССОВ
 $section_class = 'section section-how';
 // Добавляем bg-grey ТОЛЬКО если background_color === 'grey'
-if ($background_color === 'grey') {
+if ($background_color_how === 'grey') {
     $section_class .= ' bg-grey';
 }
 // Для 'white' или любого другого значения - остается белым фоном

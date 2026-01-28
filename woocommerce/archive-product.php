@@ -31,7 +31,7 @@ $subcategories = array();
 if ($is_category && $current_category) {
     $subcategories = get_terms(array(
         'taxonomy' => 'product_cat',
-        'child_of' => $current_category->term_id,
+        'parent' => $current_category->term_id, 
         'hide_empty' => true,
     ));
 }
@@ -72,18 +72,23 @@ function render_product_card($product)
             <a href="<?php echo esc_url(get_permalink($product->get_id())); ?>">
                 <h5 class="card-title"><?php echo esc_html($product->get_name()); ?></h5>
             </a>
-            <p class="card-text">
-                <?php
-                $description = $product->get_description();
-                if ($description) {
-                    echo trim_html_words($description, 15);
-                } else {
-                    echo 'Краткое описание товара ' . esc_html($product->get_name());
-                }
-                ?>
-            </p>
+            <a href="<?php echo esc_url(get_permalink()); ?>">
+                <p class="card-text">
+                    <?php
+                    $description = $product->get_description();
+                    if ($description) {
+                        echo trim_html_words($description, 15);
+                    } else {
+                        echo 'Краткое описание товара ' . esc_html($product->get_name());
+                    }
+                    ?>
+                </p>
+            </a>
             <div class="d-flex justify-content-between align-items-center mt-auto">
-                <span class="product-price"><?php echo $product->get_price_html(); ?></span>
+                <a href="<?php echo esc_url(get_permalink()); ?>">
+                    <span class="product-price"><?php echo $product->get_price_html(); ?></span>
+                </a>
+
                 <button type="button" class="btn btn-order btn-min" data-bs-toggle="modal"
                     data-bs-target="#callbackModalFour" data-product-id="<?php echo $product->get_id(); ?>"
                     data-product-name="<?php echo esc_attr($product->get_name()); ?>">
@@ -400,26 +405,35 @@ function render_no_products_placeholder($category_name = '')
 $how_to_order_template = get_template_directory() . '/template-parts/blocks/how-to-order.php';
 
 if (file_exists($how_to_order_template)) {
-    // Устанавливаем значения ACF-полей
-    add_filter('acf/load_value', function ($value, $post_id, $field) {
-        if ($field['name'] === 'background_color') {
-            return 'grey'; // серый фон
-        }
-        if ($field['name'] === 'section_title') {
-            return 'Как заказать'; // заголовок
-        }
-        return $value;
-    }, 10, 3);
+    global $temp_how_to_order_data;
+    $temp_how_to_order_data = [
+        'background_color_how_to_order' => 'grey',
+        'section_title' => 'Как заказать'
+    ];
 
     // Эмуляция блока ACF
     $block = ['id' => 'manual-how-to-order', 'className' => ''];
     set_query_var('block', $block);
 
-    // Подключаем шаблон
     include $how_to_order_template;
 
-    // Удаляем фильтры после вывода
-    remove_all_filters('acf/load_value');
+    $temp_how_to_order_data = null;
+}
+
+?>
+
+<?php 
+global $how_custom_background_color;
+$how_custom_background_color = 'bg-white'; 
+
+get_template_part('template-parts/blocks/not-found-product/not-found-product'); 
+
+$how_custom_background_color = null;
+?>
+
+<?php
+if (function_exists('render_archive_text_block') && $category_id) {
+    render_archive_text_block($category_id);
 }
 ?>
 
@@ -457,30 +471,34 @@ if ($is_category && $category_id && function_exists('has_category_expanding_text
 }
 
 // Функция фильтра для подмены ACF данных
-function category_expanding_acf_filter($value, $post_id, $field)
-{
+function category_expanding_acf_filter($value, $post_id, $field) {
     global $category_expanding_data;
 
     if ($category_expanding_data && isset($field['name'])) {
         switch ($field['name']) {
-            case 'section_title':
             case 'section_title_general_info':
-                return $category_expanding_data['section_title'];
-            case 'background_color':
+                return isset($category_expanding_data['section_title']) ? $category_expanding_data['section_title'] : $value;
+            
             case 'background_color_general_info':
-                return $category_expanding_data['background_color'] = 'bg-white';
+                return isset($category_expanding_data['background_color']) && !empty($category_expanding_data['background_color']) 
+                    ? $category_expanding_data['background_color'] 
+                    : $value;
+            
             case 'main_content':
-                return $category_expanding_data['main_content'];
+                return isset($category_expanding_data['main_content']) ? $category_expanding_data['main_content'] : $value;
+            
             case 'additional_content':
-                return $category_expanding_data['additional_content'];
+                return isset($category_expanding_data['additional_content']) ? $category_expanding_data['additional_content'] : $value;
+            
+            case 'button_text':
+                return isset($category_expanding_data['button_text']) ? $category_expanding_data['button_text'] : $value;
+            
+            case 'button_text_collapse':
+                return isset($category_expanding_data['button_text_collapse']) ? $category_expanding_data['button_text_collapse'] : $value;
         }
     }
 
     return $value;
-}
-
-if (function_exists('render_archive_text_block') && $category_id) {
-    render_archive_text_block($category_id);
 }
 
 ?>

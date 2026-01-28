@@ -24,6 +24,7 @@ $second_column_content = get_field('second_column_content');
 
 // Определяем классы на основе настроек
 $section_class = 'section';
+$section_class .= $background_color === 'grey' ? ' bg-grey' : '';
 $section_class .= $background_color === 'bg-grey' ? ' bg-grey' : '';
 
 // Определяем классы выравнивания для одной колонки

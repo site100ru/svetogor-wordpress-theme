@@ -656,7 +656,6 @@ function fill_expanding_text_column($content, $column_name, $term_id) {
 
 /**
  * Добавление текстового блока для категорий товаров WooCommerce
- * Добавить этот код в файл paste-2.txt после существующих полей
  */
 
 // Добавляем поля текстового блока при редактировании категории
@@ -1003,7 +1002,7 @@ function has_category_text_block($term_id) {
 /**
  * Выводит текстовый блок для архива категории используя шаблон text-only
  */
-function render_archive_text_block($category_id = null) {
+function render_archive_text_block($category_id = null, $custom_params = array()) {
     if (!$category_id) {
         $current_category = get_queried_object();
         if ($current_category && isset($current_category->term_id)) {
@@ -1020,6 +1019,8 @@ function render_archive_text_block($category_id = null) {
 
     // Получаем данные текстового блока из категории
     $category_text_data = get_category_text_block_data($category_id);
+    
+    $category_text_data = array_merge($category_text_data, $custom_params);
 
     // Временно устанавливаем данные для ACF фильтра
     global $temp_text_block_data;
@@ -1056,17 +1057,17 @@ function temp_text_block_acf_filter($value, $post_id, $field) {
     if ($temp_text_block_data && isset($field['name'])) {
         switch ($field['name']) {
             case 'content':
-                return $temp_text_block_data['content'];
-            case 'background_color':
-                return $temp_text_block_data['background_color'];
+                return isset($temp_text_block_data['content']) ? $temp_text_block_data['content'] : $value;
+            case 'background_color_field_text_only': // ACF поле в шаблоне
+                return isset($temp_text_block_data['background_color']) ? $temp_text_block_data['background_color'] : $value; // ключ из term_meta
             case 'container_width':
-                return $temp_text_block_data['container_width'];
+                return isset($temp_text_block_data['container_width']) ? $temp_text_block_data['container_width'] : $value;
             case 'columns_count':
-                return $temp_text_block_data['columns_count'];
+                return isset($temp_text_block_data['columns_count']) ? $temp_text_block_data['columns_count'] : $value;
             case 'text_alignment':
-                return $temp_text_block_data['text_alignment'];
+                return isset($temp_text_block_data['text_alignment']) ? $temp_text_block_data['text_alignment'] : $value;
             case 'second_column_content':
-                return $temp_text_block_data['second_column_content'];
+                return isset($temp_text_block_data['second_column_content']) ? $temp_text_block_data['second_column_content'] : $value;
         }
     }
 

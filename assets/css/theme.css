@@ -159,7 +159,7 @@ img {
 }
 
 .price-text {
-	color: var(--color-accent);
+	color: #e31e24;
 	font-weight: 700 !important;
 }
 
@@ -1061,6 +1061,7 @@ p a:hover {
 	font-size: clamp(1rem, 0.955rem + 0.23vw, 1.125rem);
 }
 
+.section-catalog-product .card a:hover,
 .section-catalog-product .card .product-price {
 	color: var(--color-accent);
 	font-weight: 600;
@@ -1567,7 +1568,7 @@ p a:hover {
 }
 
 .tab-content-product * {
-	font-family: var(--second-family);
+	font-family: var(--font-family);
 	font-weight: 300;
 	font-size: clamp(1rem, 0.909rem + 0.45vw, 1.25rem);
 	line-height: 1.25;
@@ -1580,6 +1581,15 @@ p a:hover {
 	flex-direction: column;
 	align-items: start;
 	gap: clamp(1.25rem, -6.563rem + 12.5vw, 2.813rem);
+}
+
+.product-descriprion .section-title h2 {
+    font-family: var(--second-family);
+}
+
+.product-descriprion .price-text {
+    color: #e31e24;
+    font-family: var(--second-family);
 }
 
 #productTabs.nav-tabs:first-child {
@@ -1907,7 +1917,7 @@ p a:hover {
 	width: 100%;
 	left: 0;
 	right: 0;
-	bottom: -130%;
+	bottom: -100%;
 	background-color: transparent;
 	z-index: 1090;
 }
@@ -2587,7 +2597,8 @@ strong {
 .section.general-info h3,
 .section.description h3,
 .single-post h3,
-.single-news h3 {
+.single-news h3,
+.tab-content-product h3 {
 	font-family: var(--font-family);
 	font-weight: 700;
 	font-size: clamp(1rem, 0.786rem + 0.95vw, 1.5rem);
@@ -2596,7 +2607,8 @@ strong {
 .section.general-info h4,
 .section.description h4,
 .single-post h4,
-.single-news h4  {
+.single-news h4,
+.tab-content-product h4  {
 	font-family: var(--font-family);
 	font-weight: 500;
 	font-size: clamp(1rem, 0.839rem + 0.71vw, 1.375rem);
@@ -2606,7 +2618,8 @@ strong {
 .section.general-info strong,
 .section.description strong,
 .single-post strong,
-.single-news strong {
+.single-news strong,
+.tab-content-product strong {
 	font-weight: 500 !important;
 }
 
