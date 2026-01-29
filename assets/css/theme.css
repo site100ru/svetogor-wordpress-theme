@@ -2652,3 +2652,34 @@ strong {
 .wp-singular th {
 	padding: 8px;
 }
+
+.product-card-wrapper {
+    position: relative;
+}
+
+.product-card-wrapper .card {
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-card-button {
+    position: absolute;
+    bottom: 20px; 
+    right: 20px; 
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.btn-placeholder {
+    width: 100px; 
+    height: 38px; 
+    display: inline-block;
+}
+
+@media (max-width: 991px) {
+    .product-card-button {
+        bottom: 20px;
+        right: 20px;
+    }
+}

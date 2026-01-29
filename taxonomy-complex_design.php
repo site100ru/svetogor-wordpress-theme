@@ -132,37 +132,45 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                                 $excerpt = $product->get_short_description();
                             ?>
                                 <div class="col-12 col-md-6 mb-4">
-                                    <a href="<?php echo esc_url(get_permalink($product->get_id())); ?>" class="card"
-                                        style="height: calc(100% - 12px);">
-                                        <div class="row g-0 align-items-center h-100">
-                                            <div class="col-12 col-lg-4 text-center card-img-container">
-                                                <img loading="lazy" src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($product->get_name()); ?>" class="img-fluid">
-                                            </div>
-                                            <div class="col-12 col-lg-8">
-                                                <div class="card-body">
-                                                    <h4 class="h5 card-title mb-3"><?php echo esc_html($product->get_name()); ?></h4>
-                                                    <p class="card-text">
-                                                        <?php
-                                                        if ($excerpt) {
-                                                            echo wp_trim_words($excerpt, 20, '...');
-                                                        } else {
-                                                            echo 'Краткое описание товара ' . esc_html($product->get_name());
-                                                        }
-                                                        ?>
-                                                    </p>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <span class="product-price"><?php echo $product->get_price_html(); ?></span>
-                                                        <button type="button" class="btn btn-invert" data-bs-toggle="modal"
-                                                            data-bs-target="#callbackModalFour" data-product-id="<?php echo $product->get_id(); ?>"
-                                                            data-product-name="<?php echo esc_attr($product->get_name()); ?>"
-                                                            onclick="event.preventDefault(); event.stopPropagation();">
-                                                            Заказать
-                                                        </button>
+                                    <div class="product-card-wrapper" style="height: calc(100% - 12px);">
+                                        <a href="<?php echo esc_url(get_permalink($product->get_id())); ?>" class="card">
+                                            <div class="row g-0 align-items-center h-100">
+                                                <div class="col-12 col-lg-4 text-center card-img-container">
+                                                    <img loading="lazy"
+                                                        src="<?php echo esc_url($thumbnail_url); ?>"
+                                                        alt="<?php echo esc_attr($product->get_name()); ?>"
+                                                        class="img-fluid">
+                                                </div>
+                                                <div class="col-12 col-lg-8">
+                                                    <div class="card-body">
+                                                        <h4 class="h5 card-title mb-3"><?php echo esc_html($product->get_name()); ?></h4>
+                                                        <p class="card-text">
+                                                            <?php
+                                                            if ($excerpt) {
+                                                                echo wp_trim_words($excerpt, 20, '...');
+                                                            } else {
+                                                                echo 'Краткое описание товара ' . esc_html($product->get_name());
+                                                            }
+                                                            ?>
+                                                        </p>
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <span class="product-price"><?php echo $product->get_price_html(); ?></span>
+                                                            <span class="btn-placeholder"></span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
+
+                                        <button type="button"
+                                            class="btn btn-invert product-card-button"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#callbackModalFour"
+                                            data-product-id="<?php echo $product->get_id(); ?>"
+                                            data-product-name="<?php echo esc_attr($product->get_name()); ?>">
+                                            Заказать
+                                        </button>
+                                    </div>
                                 </div>
                     <?php
                             }
