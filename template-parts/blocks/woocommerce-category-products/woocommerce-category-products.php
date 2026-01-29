@@ -74,7 +74,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                             </a>
                             <div class="card-body">
                                 <a href="<?php echo esc_url(get_permalink()); ?>">
-                                    <h5 class="card-title"><?php the_title(); ?></h5>
+                                    <h4 class="h5" class="card-title"><?php the_title(); ?></h4>
                                 </a>
                                 <a href="<?php echo esc_url(get_permalink()); ?>">
                                     <p class="card-text">
@@ -123,7 +123,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                                         </a>
                                         <div class="card-body">
                                             <a href="<?php echo esc_url(get_permalink()); ?>">
-                                                <h5 class="card-title"><?php the_title(); ?></h5>
+                                                <h4 class="card-title"><?php the_title(); ?></h5>
                                             </a>
                                             <a href="<?php echo esc_url(get_permalink()); ?>">
                                                 <p class="card-text">

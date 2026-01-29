@@ -98,7 +98,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                                     <img loading="lazy" src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($post_title); ?>" class="card-img-top">
                                 </div>
                                 <div class="card-body text-center">
-                                    <h4 class="card-title"><?php echo esc_html($post_title); ?></h4>
+                                    <h4 class="h5 card-title"><?php echo esc_html($post_title); ?></h4>
                                 </div>
                             </div>
                         </li>

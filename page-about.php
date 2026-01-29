@@ -154,7 +154,7 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
                                     <img loading="lazy" src="<?php echo get_template_directory_uri() . esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="card-img-top">
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title"><?php echo esc_html($item['title']); ?></h5>
+                                    <h4 class="h5 card-title"><?php echo esc_html($item['title']); ?></h4>
                                     <p><?php echo esc_html($item['subtitle']); ?></p>
                                 </div>
                             </div>
@@ -291,7 +291,7 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
                                     <img loading="lazy" src="<?php echo get_template_directory_uri() . esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="card-img-top h-100 w-100 mx-auto" style="aspect-ratio: auto" >
                                 </div>
                                 <div class="card-body text-center">
-                                    <h5 class="card-title"><?php echo esc_html($item['title']); ?></h5>
+                                    <h4 class="h5 card-title"><?php echo esc_html($item['title']); ?></h4>
                                     <p><?php echo esc_html($item['subtitle']); ?></p>
                                 </div>
                             </div>

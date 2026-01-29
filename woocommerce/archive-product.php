@@ -31,7 +31,7 @@ $subcategories = array();
 if ($is_category && $current_category) {
     $subcategories = get_terms(array(
         'taxonomy' => 'product_cat',
-        'parent' => $current_category->term_id, 
+        'parent' => $current_category->term_id,
         'hide_empty' => true,
     ));
 }
@@ -275,16 +275,16 @@ function render_no_products_placeholder($category_name = '')
                     // Собираем всю иерархию категорий
                     $category_hierarchy = array();
                     $current_cat = $current_category;
-                    
+
                     while ($current_cat) {
                         array_unshift($category_hierarchy, $current_cat);
                         $current_cat = $current_cat->parent ? get_term($current_cat->parent, 'product_cat') : false;
                     }
-                    
+
                     // Выводим все категории
                     foreach ($category_hierarchy as $index => $category) {
                         $is_last = ($index === count($category_hierarchy) - 1);
-                        
+
                         if ($is_last) {
                             // Последняя категория - активная, без ссылки
                             echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html($category->name) . '</li>';
@@ -422,11 +422,11 @@ if (file_exists($how_to_order_template)) {
 
 ?>
 
-<?php 
+<?php
 global $how_custom_background_color;
-$how_custom_background_color = 'bg-white'; 
+$how_custom_background_color = 'bg-white';
 
-get_template_part('template-parts/blocks/not-found-product/not-found-product'); 
+get_template_part('template-parts/blocks/not-found-product/not-found-product');
 
 $how_custom_background_color = null;
 ?>
@@ -471,28 +471,29 @@ if ($is_category && $category_id && function_exists('has_category_expanding_text
 }
 
 // Функция фильтра для подмены ACF данных
-function category_expanding_acf_filter($value, $post_id, $field) {
+function category_expanding_acf_filter($value, $post_id, $field)
+{
     global $category_expanding_data;
 
     if ($category_expanding_data && isset($field['name'])) {
         switch ($field['name']) {
             case 'section_title_general_info':
                 return isset($category_expanding_data['section_title']) ? $category_expanding_data['section_title'] : $value;
-            
+
             case 'background_color_general_info':
-                return isset($category_expanding_data['background_color']) && !empty($category_expanding_data['background_color']) 
-                    ? $category_expanding_data['background_color'] 
+                return isset($category_expanding_data['background_color']) && !empty($category_expanding_data['background_color'])
+                    ? $category_expanding_data['background_color']
                     : $value;
-            
+
             case 'main_content':
                 return isset($category_expanding_data['main_content']) ? $category_expanding_data['main_content'] : $value;
-            
+
             case 'additional_content':
                 return isset($category_expanding_data['additional_content']) ? $category_expanding_data['additional_content'] : $value;
-            
+
             case 'button_text':
                 return isset($category_expanding_data['button_text']) ? $category_expanding_data['button_text'] : $value;
-            
+
             case 'button_text_collapse':
                 return isset($category_expanding_data['button_text_collapse']) ? $category_expanding_data['button_text_collapse'] : $value;
         }
