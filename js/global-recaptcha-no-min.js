@@ -1,41 +1,34 @@
 // ============================================================================
-// ЕДИНЫЙ СКРИПТ reCAPTCHA v2 ДЛЯ ВСЕХ ФОРМ
+// ЕДИНЫЙ СКРИПТ reCAPTCHA v3 ДЛЯ ВСЕХ ФОРМ
 // ============================================================================
 
 (function () {
     'use strict';
 
     const RECAPTCHA_SITE_KEY = '6LdV1IcUAAAAADRQAhpGL8dVj5_t0nZDPh9m_0tn';
-    let recaptchaLoaded = false;
-    let recaptchaWidgets = new Map(); // Храним ID виджетов для каждой формы
 
     // ============================================================================
-    // ЗАГРУЗКА reCAPTCHA API (ОДИН РАЗ)
+    // ЗАГРУЗКА reCAPTCHA v3 API
     // ============================================================================
 
     function loadRecaptchaAPI() {
         return new Promise((resolve, reject) => {
             // Проверяем, не загружена ли уже
-            if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
-                recaptchaLoaded = true;
+            if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
                 resolve();
                 return;
             }
 
-            // Удаляем старые скрипты если есть
-            const existingScripts = document.querySelectorAll('script[src*="recaptcha"]');
-            existingScripts.forEach(script => script.remove());
-
-            // Загружаем API
+            // Загружаем API v3
             const script = document.createElement('script');
-            script.src = 'https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit';
+            script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
             script.async = true;
             script.defer = true;
 
-            // Callback для загрузки
-            window.onRecaptchaLoad = function () {
-                recaptchaLoaded = true;
-                resolve();
+            script.onload = function () {
+                grecaptcha.ready(function() {
+                    resolve();
+                });
             };
 
             script.onerror = function () {
@@ -44,6 +37,14 @@
 
             document.head.appendChild(script);
         });
+    }
+
+    // ============================================================================
+    // ПОЛУЧЕНИЕ ТОКЕНА reCAPTCHA v3
+    // ============================================================================
+
+    function getRecaptchaToken(action) {
+        return grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: action });
     }
 
     // ============================================================================
@@ -82,13 +83,13 @@
         // Обработка загрузки файла
         setupFileUpload(form);
 
-        // Рендерим reCAPTCHA
-        const recaptchaContainer = form.querySelector('.g-recaptcha');
-        if (recaptchaContainer && recaptchaLoaded) {
-            const widgetId = grecaptcha.render(recaptchaContainer, {
-                'sitekey': RECAPTCHA_SITE_KEY
-            });
-            recaptchaWidgets.set(form, widgetId);
+        // Добавляем скрытое поле для токена reCAPTCHA если его нет
+        if (!form.querySelector('input[name="g-recaptcha-response"]')) {
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = 'g-recaptcha-response';
+            tokenInput.id = 'g-recaptcha-response-custom';
+            form.appendChild(tokenInput);
         }
 
         // Обработка отправки формы
@@ -104,29 +105,29 @@
                 return;
             }
 
-            // Проверяем reCAPTCHA
-            const widgetId = recaptchaWidgets.get(form);
-            const recaptchaResponse = widgetId !== undefined ? grecaptcha.getResponse(widgetId) : '';
-
-            if (!recaptchaResponse) {
-                showMessage(messagesDiv, 'Пожалуйста, подтвердите, что вы не робот', 'danger');
-                return;
-            }
-
             // Показываем спиннер
             setLoadingState(submitBtn, btnText, btnSpinner, true);
 
-            // Собираем данные формы
-            const formData = new FormData(form);
-            formData.append('action', 'submit_custom_contact_form');
-            formData.append('nonce', customForm.nonce);
-            formData.append('g-recaptcha-response', recaptchaResponse);
+            // Получаем токен reCAPTCHA v3
+            getRecaptchaToken('submit_custom_contact_form')
+                .then(function(token) {
+                    // Устанавливаем токен в скрытое поле
+                    const tokenInput = form.querySelector('input[name="g-recaptcha-response"]');
+                    if (tokenInput) {
+                        tokenInput.value = token;
+                    }
 
-            // Отправляем AJAX запрос
-            fetch(customForm.ajaxUrl, {
-                method: 'POST',
-                body: formData
-            })
+                    // Собираем данные формы
+                    const formData = new FormData(form);
+                    formData.append('action', 'submit_custom_contact_form');
+                    formData.append('nonce', customForm.nonce);
+
+                    // Отправляем AJAX запрос
+                    return fetch(customForm.ajaxUrl, {
+                        method: 'POST',
+                        body: formData
+                    });
+                })
                 .then(response => response.json())
                 .then(data => {
                     setLoadingState(submitBtn, btnText, btnSpinner, false);
@@ -137,19 +138,11 @@
                     } else {
                         showMessage(messagesDiv, data.data || 'Произошла ошибка при отправке. Попробуйте еще раз.', 'danger');
                     }
-
-                    // Сбрасываем reCAPTCHA
-                    if (widgetId !== undefined) {
-                        grecaptcha.reset(widgetId);
-                    }
                 })
                 .catch(error => {
                     setLoadingState(submitBtn, btnText, btnSpinner, false);
                     showMessage(messagesDiv, 'Произошла ошибка при отправке. Попробуйте еще раз.', 'danger');
-
-                    if (widgetId !== undefined) {
-                        grecaptcha.reset(widgetId);
-                    }
+                    console.error('Ошибка отправки формы:', error);
                 });
         });
     }
@@ -175,13 +168,13 @@
         // Настройка всех чекбоксов
         setupAllCheckboxes(form);
 
-        // Рендерим reCAPTCHA
-        const recaptchaContainer = form.querySelector('.g-recaptcha');
-        if (recaptchaContainer && recaptchaLoaded) {
-            const widgetId = grecaptcha.render(recaptchaContainer, {
-                'sitekey': RECAPTCHA_SITE_KEY
-            });
-            recaptchaWidgets.set(form, widgetId);
+        // Добавляем скрытое поле для токена reCAPTCHA если его нет
+        if (!form.querySelector('input[name="g-recaptcha-response"]')) {
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = 'g-recaptcha-response';
+            tokenInput.id = 'g-recaptcha-response-extended';
+            form.appendChild(tokenInput);
         }
 
         // Обработка отправки формы
@@ -197,29 +190,29 @@
                 return;
             }
 
-            // Проверяем reCAPTCHA
-            const widgetId = recaptchaWidgets.get(form);
-            const recaptchaResponse = widgetId !== undefined ? grecaptcha.getResponse(widgetId) : '';
-
-            if (!recaptchaResponse) {
-                showMessage(messagesDiv, 'Пожалуйста, подтвердите, что вы не робот', 'danger');
-                return;
-            }
-
             // Показываем спиннер
             setLoadingState(submitBtn, btnText, btnSpinner, true);
 
-            // Собираем данные формы
-            const formData = new FormData(form);
-            formData.append('action', 'submit_extended_contact_form');
-            formData.append('nonce', extendedForm.nonce);
-            formData.append('g-recaptcha-response', recaptchaResponse);
+            // Получаем токен reCAPTCHA v3
+            getRecaptchaToken('submit_extended_contact_form')
+                .then(function(token) {
+                    // Устанавливаем токен в скрытое поле
+                    const tokenInput = form.querySelector('input[name="g-recaptcha-response"]');
+                    if (tokenInput) {
+                        tokenInput.value = token;
+                    }
 
-            // Отправляем AJAX запрос
-            fetch(extendedForm.ajaxUrl, {
-                method: 'POST',
-                body: formData
-            })
+                    // Собираем данные формы
+                    const formData = new FormData(form);
+                    formData.append('action', 'submit_extended_contact_form');
+                    formData.append('nonce', extendedForm.nonce);
+
+                    // Отправляем AJAX запрос
+                    return fetch(extendedForm.ajaxUrl, {
+                        method: 'POST',
+                        body: formData
+                    });
+                })
                 .then(response => response.json())
                 .then(data => {
                     setLoadingState(submitBtn, btnText, btnSpinner, false);
@@ -230,19 +223,11 @@
                     } else {
                         showMessage(messagesDiv, data.data || 'Произошла ошибка при отправке. Попробуйте еще раз.', 'danger');
                     }
-
-                    // Сбрасываем reCAPTCHA
-                    if (widgetId !== undefined) {
-                        grecaptcha.reset(widgetId);
-                    }
                 })
                 .catch(error => {
                     setLoadingState(submitBtn, btnText, btnSpinner, false);
                     showMessage(messagesDiv, 'Произошла ошибка при отправке. Попробуйте еще раз.', 'danger');
-
-                    if (widgetId !== undefined) {
-                        grecaptcha.reset(widgetId);
-                    }
+                    console.error('Ошибка отправки формы:', error);
                 });
         });
     }
