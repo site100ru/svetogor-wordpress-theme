@@ -325,7 +325,21 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
 </section>
 
 
-
+<?php
+/**
+ * HTML код с карточками и модалкой Bootstrap Carousel
+ */
+$images = array(
+    array('file' => 'portfolio-card-1.jpg', 'alt' => 'Объемная световая буква А'),
+    array('file' => 'portfolio-card-2.jpg', 'alt' => 'Производственная площадка с широкоформатными принтерами'),
+    array('file' => 'portfolio-card-3.jpg', 'alt' => 'Мастер собирает объемные световые буквы'),
+    array('file' => 'portfolio-card-4.jpg', 'alt' => 'Печать любой сложности'),
+    array('file' => 'portfolio-card-5.jpg', 'alt' => 'Печать на оборудовании'),
+    array('file' => 'portfolio-card-6.jpg', 'alt' => 'Световая буква'),
+    array('file' => 'portfolio-card-7.jpg', 'alt' => 'Сборка световых букв'),
+    array('file' => 'portfolio-card-8.jpg', 'alt' => 'Печатное оборудование'),
+);
+?>
 
 <div class="section">
     <div class="container-fluid">
@@ -340,49 +354,49 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(1)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-2.jpg" class="card-img-top" alt="На изображении представлена производственная площадка с несколькими современными широкоформатными принтерами, которые используются для печати рекламной продукции.">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-2.jpg" class="card-img-top" alt="Производственная площадка">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(2)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-3.jpg" class="card-img-top" alt="На изображении видно, как мастер собирает объемные световые буквы">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-3.jpg" class="card-img-top" alt="Сборка световых букв">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(3)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-4.jpg" class="card-img-top" alt="Печать любой сложности и на любом оборудовании">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-4.jpg" class="card-img-top" alt="Печать">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(4)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-5.jpg" class="card-img-top" alt="Печать любой сложности и на любом оборудовании">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-5.jpg" class="card-img-top" alt="Оборудование">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(5)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-6.jpg" class="card-img-top" alt="Объемная световая буква А">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-6.jpg" class="card-img-top" alt="Световая буква">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(6)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-7.jpg" class="card-img-top" alt="На изображении видно, как мастер собирает объемные световые буквы">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-7.jpg" class="card-img-top" alt="Мастер за работой">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(7)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-8.jpg" class="card-img-top" alt="Печать любой сложности и на любом оборудовании">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-8.jpg" class="card-img-top" alt="Печатное производство">
                     </div>
                 </div>
             </div>
@@ -390,57 +404,74 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
     </div>
 </div>
 
-<div id="galleryWrapper" style="background: rgba(0,0,0,0.85); display: block; position: fixed; inset: 0; z-index: 9999;">
-
-    <!-- Крестик закрытия -->
-    <button type="button" class="btn-close position-fixed top-0 end-0 m-3" onclick="closeGallery()" aria-label="Close" style="z-index: 10000;"></button>
-
-    <!-- Пример одной карусели -->
-    <div id="gallery-123" class="carousel slide" data-bs-ride="carousel" style="display: block; position: fixed; top: 0; height: 100%; width: 100%;">
+<!-- Модалка с галереей -->
+<div id="galleryWrapper" style="background: rgba(0, 0, 0, 0.85); display: none; position: fixed; inset: 0; z-index: 9999;">
+    
+    <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel" style="position: fixed; top: 0; height: 100%; width: 100%;">
+        
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#gallery-123" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#gallery-123" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <?php foreach ($images as $index => $image): ?>
+                <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="<?php echo $index; ?>" <?php echo $index === 0 ? 'class="active"' : ''; ?> aria-label="Slide <?php echo $index + 1; ?>"></button>
+            <?php endforeach; ?>
         </div>
+        
         <div class="carousel-inner h-100">
-            <div class="carousel-item h-100 active" data-bs-interval="999999999">
-                <div class="row align-items-center h-100">
-                    <div class="col text-center">
-                        <img src="https://site100.ru/furniture/wp-content/uploads/sites/3/2025/09/g5-3.webp" class="img-fluid" style="max-width: 90vw; max-height: 90vh;" alt="Шкаф #001">
+            <?php foreach ($images as $index => $image): ?>
+                <div class="carousel-item h-100 <?php echo $index === 0 ? 'active' : ''; ?>" data-bs-interval="999999999">
+                    <div class="row align-items-center h-100">
+                        <div class="col text-center">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/<?php echo $image['file']; ?>" 
+                                 class="img-fluid" 
+                                 style="max-width: 90vw; max-height: 90vh;" 
+                                 alt="<?php echo esc_attr($image['alt']); ?>">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="carousel-item h-100" data-bs-interval="999999999">
-                <div class="row align-items-center h-100">
-                    <div class="col text-center">
-                        <img src="https://site100.ru/furniture/wp-content/uploads/sites/3/2025/09/g5-2.webp" class="img-fluid" style="max-width: 90vw; max-height: 90vh;" alt="Шкаф #001">
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#gallery-123" data-bs-slide="prev">
+        
+        <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Предыдущий</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#gallery-123" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Следующий</span>
         </button>
     </div>
-
+    
+    <button type="button" onclick="closeGallery();" class="btn-close btn-close-white" style="position: fixed; top: 25px; right: 25px; z-index: 99999;" aria-label="Close"></button>
 </div>
 
 <script>
+function openGallery(slideIndex) {
+    const wrapper = document.getElementById('galleryWrapper');
+    const carousel = new bootstrap.Carousel(document.getElementById('galleryCarousel'));
+    
+    wrapper.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    carousel.to(slideIndex);
+}
+
 function closeGallery() {
     document.getElementById('galleryWrapper').style.display = 'none';
-    // Останавливаем все карусели при закрытии
-    const carousels = document.querySelectorAll('.carousel');
-    carousels.forEach(c => bootstrap.Carousel.getInstance(c)?.pause());
+    document.body.style.overflow = '';
 }
+
+// Закрытие по ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('galleryWrapper').style.display === 'block') {
+        closeGallery();
+    }
+});
+
+// Закрытие по клику на фон
+document.getElementById('galleryWrapper').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeGallery();
+    }
+});
 </script>
-
-
-
-
 
 <?php get_template_part('template-parts/blocks/news-articles-tabs'); ?>
 
