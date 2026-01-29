@@ -1,4 +1,8 @@
 <?php
+
+session_start();
+$win = "true";
+
 // mails/simple-form-handler.php
 // Подключаем WordPress (нужно для wp_mail)
 require_once(realpath(dirname(__FILE__) . '/../../../../wp-load.php'));
@@ -54,7 +58,7 @@ if ($_POST) {
             $email_message .= "reCAPTCHA Score: " . $Return->score . "\n";
 
             // Настройки для wp_mail
-            $to = 'sidorov-vv3@mail.ru, vasilyev-r@mail.ru';
+            $to = 'sidorov-vv3@mail.ru, sidorov-vv3@yandex.ru, vasilyev-r@mail.ru';
             $subject = 'Простая заявка с сайта svetogor.ru';
             $message = $email_message;
 
