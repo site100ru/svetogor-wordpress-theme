@@ -27,32 +27,32 @@ $section_class = 'section section-product-list';
 $section_class .= $background_color_general_info === 'grey' ? ' bg-grey' : '';
 
 // Добавляем стили в head через wp_add_inline_style
-add_action('wp_footer', function() {
+add_action('wp_head', function() {
     ?>
     <style>
-    .general-info .additional-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
-        opacity: 0;
-    }
+        .general-info .additional-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
+            opacity: 0;
+        }
 
-    .general-info .additional-content.expanded {
-        max-height: none;
-        opacity: 1;
-        margin-top: 1rem;
-    }
+        .general-info .additional-content.expanded {
+            max-height: none;
+            opacity: 1;
+            margin-top: 1rem;
+        }
 
-    .general-info .expand-btn {
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
+        .general-info .expand-btn {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
 
-    .general-info .additional-content.expanding {
-        max-height: 2000px;
-        opacity: 1;
-        margin-top: 1rem;
-    }
+        .general-info .additional-content.expanding {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
     </style>
     <?php
 });
