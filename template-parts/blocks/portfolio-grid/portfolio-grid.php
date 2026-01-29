@@ -139,7 +139,7 @@ wp_localize_script(
                 <img loading="lazy" src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr($post_title); ?>" class="img-fluid">
               </div>
               <div class="card-body text-center">
-                <h5><?php echo esc_html($post_title); ?></h5>
+                <h4 class="h5"><?php echo esc_html($post_title); ?></h4>
               </div>
             </div>
           </div>

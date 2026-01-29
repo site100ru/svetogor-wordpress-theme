@@ -176,7 +176,7 @@ if (!empty($block['className'])) {
               </div>
 
               <div class="card-body text-center">
-                <h5><?php echo esc_html($category_name); ?></h5>
+                <h4 class="h5"><?php echo esc_html($category_name); ?></h4>
               </div>
             </div>
           </a>

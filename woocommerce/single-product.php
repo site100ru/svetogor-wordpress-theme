@@ -5,6 +5,7 @@
  */
 defined('ABSPATH') || exit;
 get_header('shop'); ?>
+<h1 class="d-none"><?php the_title(); ?></h1>
 <?php while (have_posts()): ?>
     <?php the_post(); ?>
 

@@ -8,7 +8,7 @@
 <section class="section section-about">
   <div class="container">
     <div class="section-title text-center">
-      <h3>Контакты</h3>
+      <h1>Контакты</h1>
       <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
     </div>
 

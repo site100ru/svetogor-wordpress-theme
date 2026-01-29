@@ -327,7 +327,7 @@ function render_woocommerce_crosssells($product_id = null, $limit = 6, $backgrou
                                 </div>
                             </div>
                             <div class="card-body text-center">
-                                <h5><?php echo esc_html($product_title); ?></h5>
+                                <h4 class="h5"><?php echo esc_html($product_title); ?></h4>
                             </div>
                         </a>
                     </article>
@@ -381,7 +381,7 @@ function render_related_categories_block($category_id, $title = 'А еще Ва�
                                 </div>
                             </div>
                             <div class="card-body text-center">
-                                <h5><?php echo esc_html($related_category->name); ?></h5>
+                                <h4 class="h5"><?php echo esc_html($related_category->name); ?></h4>
                             </div>
                         </a>
                     </article>

@@ -122,7 +122,7 @@ if ($show_articles) {
                       <?php endif; ?>
                     </div>
                     <div class="card-body d-flex flex-column">
-                      <h5 class="card-title"><?php the_title(); ?></h5>
+                      <h2 class="card-title"><?php the_title(); ?></h2>
                       <p class="card-text mb-0">
                         <?php echo get_news_excerpt(get_the_ID()); ?>
                       </p>

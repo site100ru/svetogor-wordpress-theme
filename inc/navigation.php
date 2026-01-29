@@ -508,7 +508,7 @@ function svetogor_safe_navigation_v5()
             <div class="container flex-wrap">
                 <!-- Логотип -->
                 <a class="navbar-brand mx-lg-auto ms-xxl-0" href="<?= home_url() ?>">
-                    <img loading="lazy" src="<?= get_template_directory_uri() ?>/assets/img/logo.svg" alt="Логотип" width="170px" height="50px">
+                    <img loading="lazy" src="<?= get_template_directory_uri() ?>/assets/img/logo.svg" alt="Логотип" width="170" height="50">
                 </a>
 
                 <!-- Кнопка мобильного меню -->
