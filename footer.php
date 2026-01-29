@@ -250,12 +250,6 @@
         document.getElementById('message').style.display = 'none';
         document.getElementById('btn-close').style.display = 'none';
 	}
-
-	<?php if ($display_modal === 'block'): ?>
-		setTimeout(function () {
-			f1();
-		}, 3000);
-	<?php endif; ?>
 </script>
 
 
