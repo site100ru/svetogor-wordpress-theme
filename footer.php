@@ -233,34 +233,25 @@
 	</div>
 </div>
 
-<?php
-if (isset($_SESSION['win'])) {
-    unset($_SESSION['win']);
-    $display = "block";
-} else {
-    $display = "none";
-}
-?>
-
-<div style="display: <?php echo $display; ?>;" onclick="f1();">
-	<div id="background-msg" style="display: <?php echo $display; ?>;"></div>
-	<div id="message">
-		<?php
-		if (isset($_SESSION['recaptcha'])) {
-			echo $_SESSION['recaptcha'];
-			unset($_SESSION['recaptcha']);
-		}
-		?>
-	</div>
+<!-- Показываем сообщение об успешной отправки -->
+<div style="display: <?php echo $_SESSION['display'] ?>;" onclick="modalClose();">
+    <div id="background-msg" style="display: <?php echo $_SESSION['display'] ?>;"></div>
+    <button id="btn-close" type="button" class="btn-close btn-close-white" onclick="modalClose();"
+        style="position: absolute; z-index: 9999; top: 15px; right: 15px;"></button>
+    <div id="message">
+        <?php echo $_SESSION['recaptcha'];
+        unset($_SESSION['recaptcha']); ?>
+    </div>
 </div>
 
 <script>
 	function f1() {
-		document.getElementById('background-msg').style.display = 'none';
-		document.getElementById('message').style.display = 'none';
+        document.getElementById('background-msg').style.display = 'none';
+        document.getElementById('message').style.display = 'none';
+        document.getElementById('btn-close').style.display = 'none';
 	}
 
-	<?php if ($display === 'block'): ?>
+	<?php if ($display_modal === 'block'): ?>
 		setTimeout(function () {
 			f1();
 		}, 3000);

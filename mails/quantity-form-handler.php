@@ -1,9 +1,7 @@
 <?php
-
-session_start();
-$win = "true";
-
 // mails/quantity-form-handler.php
+session_start(); // Запускаем сессию для сохранения сообщений
+
 // Подключаем WordPress (нужно для wp_mail)
 require_once(realpath(dirname(__FILE__) . '/../../../../wp-load.php'));
 
@@ -20,7 +18,8 @@ if ($_POST) {
     // Проверяем наличие токена reCAPTCHA
     if (!isset($_POST['g-recaptcha-response']) || empty($_POST['g-recaptcha-response'])) {
         $_SESSION['win'] = 1;
-        $_SESSION['recaptcha'] = '<p class="text-danger">reCAPTCHA не пройдена. Пожалуйста, попробуйте снова.</p>';
+        $_SESSION['display'] = 'block';
+        $_SESSION['recaptcha'] = '<p class="text-light">reCAPTCHA не пройдена. Пожалуйста, попробуйте снова.</p>';
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
     }
@@ -28,10 +27,7 @@ if ($_POST) {
     /* Принимаем данные обратно */
     $Return = getCaptcha($_POST['g-recaptcha-response']);
 
-    // Логируем ответ reCAPTCHA для отладки
-    error_log('reCAPTCHA response (quantity): ' . print_r($Return, true));
-
-    // Если reCAPTCHA пройдена успешно (для v3 используем низкий порог 0.125)
+    // Если reCAPTCHA пройдена успешно
     if ($Return->success == true && $Return->score > 0.125) {
 
         // Получаем данные из формы с защитой
@@ -68,12 +64,12 @@ if ($_POST) {
             $email_message .= "reCAPTCHA Score: " . $Return->score . "\n";
 
             // Настройки для wp_mail
-            $to = 'sidorov-vv3@mail.ru, sidorov-vv3@yandex.ru, vasilyev-r@mail.ru';
+            $to = 'sidorov-vv3@mail.ru, vasilyev-r@mail.ru';
             $subject = 'Заявка на товар с сайта svetogor.ru';
             $headers = array(
                 'Content-Type: text/plain; charset=UTF-8',
-                'From: Сайт svetogor.ru <noreply@svetogor.ru>',
-                'Reply-To: ' . $name . ' <noreply@svetogor.ru>'
+                'From: Сайт site100svetogor.site <info@site100svetogor.site>',
+                'Reply-To: ' . $name . ' <info@site100svetogor.site>'
             );
 
             // Отправка через WordPress wp_mail
@@ -84,10 +80,12 @@ if ($_POST) {
 
             if ($emailSent) {
                 $_SESSION['win'] = 1;
-                $_SESSION['recaptcha'] = '<p class="text-success">Спасибо за заявку на товар "' . $product_name . '"! Мы свяжемся с Вами в ближайшее время.</p>';
+                $_SESSION['display'] = 'block';
+                $_SESSION['recaptcha'] = '<p class="text-light">Спасибо за заявку на товар "' . $product_name . '"! Мы свяжемся с Вами в ближайшее время.</p>';
             } else {
                 $_SESSION['win'] = 1;
-                $_SESSION['recaptcha'] = '<p class="text-warning">Заявка принята, но возникли проблемы с отправкой email. Мы обработаем вашу заявку вручную.</p>';
+                $_SESSION['display'] = 'block';
+                $_SESSION['recaptcha'] = '<p class="text-light">Заявка принята, но возникли проблемы с отправкой email. Мы обработаем вашу заявку вручную.</p>';
             }
 
             header("Location: " . $_SERVER['HTTP_REFERER']);
@@ -95,7 +93,8 @@ if ($_POST) {
         } else {
             // Если обязательные поля не заполнены
             $_SESSION['win'] = 1;
-            $_SESSION['recaptcha'] = '<p class="text-danger">Пожалуйста, заполните все обязательные поля (Имя, Телефон)!</p>';
+            $_SESSION['display'] = 'block';
+            $_SESSION['recaptcha'] = '<p class="text-light">Пожалуйста, заполните все обязательные поля (Имя, Телефон)!</p>';
             header("Location: " . $_SERVER['HTTP_REFERER']);
             exit;
         }
@@ -110,7 +109,8 @@ if ($_POST) {
         }
 
         $_SESSION['win'] = 1;
-        $_SESSION['recaptcha'] = '<p class="text-danger"><strong>Извините!</strong><br>Проверка безопасности не пройдена. Попробуйте еще раз.' . $error_details . '</p>';
+        $_SESSION['display'] = 'block';
+        $_SESSION['recaptcha'] = '<p class="text-light"><strong>Извините!</strong><br>Проверка безопасности не пройдена. Попробуйте еще раз.' . $error_details . '</p>';
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
     }
