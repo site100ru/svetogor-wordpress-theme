@@ -96,7 +96,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                     <img loading="lazy" src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($term->name); ?>" class="card-img-top">
                   </div>
                   <div class="card-body text-center">
-                    <h5 class="card-title"><?php echo esc_html($term->name); ?></h5>
+                    <h4 class="card-title"><?php echo esc_html($term->name); ?></h4>
                     <span class="btn btn-invert">Подробнее</span>
                   </div>
                 </div>

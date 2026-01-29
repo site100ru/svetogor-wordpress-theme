@@ -2,7 +2,7 @@
 <form class="contact-form modal-content" method="post" action="<?php echo get_template_directory_uri(); ?>/mails/calculation-form-handler.php"
   enctype="multipart/form-data">
   <div class="modal-header">
-    <h5 class="modal-title" id="calc-callbackModalLabel">Заявка на расчет</h5>
+    <h2 class="modal-title" id="calc-callbackModalLabel">Заявка на расчет</h2>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
 
