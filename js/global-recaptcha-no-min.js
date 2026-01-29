@@ -1,44 +1,41 @@
-// reCAPTCHA v3 для всех форм - ОБЪЕДИНЕННЫЙ СКРИПТ
-document.addEventListener('DOMContentLoaded', function () {
+// ============================================================================
+// ЕДИНЫЙ СКРИПТ reCAPTCHA v2 ДЛЯ ВСЕХ ФОРМ
+// ============================================================================
 
-    const SITE_KEY = '6LdV1IcUAAAAADRQAhpGL8dVj5_t0nZDPh9m_0tn';
+(function () {
+    'use strict';
+
+    const RECAPTCHA_SITE_KEY = '6LdV1IcUAAAAADRQAhpGL8dVj5_t0nZDPh9m_0tn';
     let recaptchaLoaded = false;
-    let recaptchaAPI = null;
+    let recaptchaWidgets = new Map(); // Храним ID виджетов для каждой формы
 
-    // Функция загрузки reCAPTCHA API
+    // ============================================================================
+    // ЗАГРУЗКА reCAPTCHA API (ОДИН РАЗ)
+    // ============================================================================
+
     function loadRecaptchaAPI() {
         return new Promise((resolve, reject) => {
             // Проверяем, не загружена ли уже
-            if (recaptchaLoaded && typeof grecaptcha !== 'undefined') {
+            if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
+                recaptchaLoaded = true;
                 resolve();
                 return;
             }
 
             // Удаляем старые скрипты если есть
-            const existingScript = document.querySelector('script[src*="recaptcha"]');
-            if (existingScript) {
-                existingScript.remove();
-            }
+            const existingScripts = document.querySelectorAll('script[src*="recaptcha"]');
+            existingScripts.forEach(script => script.remove());
 
+            // Загружаем API
             const script = document.createElement('script');
-            script.src = `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`;
+            script.src = 'https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit';
             script.async = true;
             script.defer = true;
 
-            script.onload = function () {
-                // Ждем готовности API
-                const checkReady = () => {
-                    if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
-                        grecaptcha.ready(() => {
-                            recaptchaLoaded = true;
-                            recaptchaAPI = grecaptcha;
-                            resolve();
-                        });
-                    } else {
-                        setTimeout(checkReady, 100);
-                    }
-                };
-                checkReady();
+            // Callback для загрузки
+            window.onRecaptchaLoad = function () {
+                recaptchaLoaded = true;
+                resolve();
             };
 
             script.onerror = function () {
@@ -49,269 +46,461 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Расширенная функция заполнения скрытых полей
-    function fillHiddenFields(form) {
-        // Заполняем URL страницы
-        const pageUrlField = form.querySelector('input[name="page-url"]');
-        if (pageUrlField) {
-            pageUrlField.value = window.location.href;
+    // ============================================================================
+    // ИНИЦИАЛИЗАЦИЯ ФОРМ
+    // ============================================================================
+
+    function initializeForms() {
+        // Обрабатываем обычную форму
+        const customForm = document.getElementById('custom-contact-form');
+        if (customForm && !customForm.hasAttribute('data-recaptcha-initialized')) {
+            initializeCustomForm(customForm);
         }
 
-        // Заполняем заголовок страницы
-        const pageTitleField = form.querySelector('input[name="page-title"]');
-        if (pageTitleField) {
-            pageTitleField.value = document.title;
-        }
-
-        // Для формы с товаром заполняем данные о продукте
-        const productIdField = form.querySelector('input[name="product-id"]');
-        const productNameField = form.querySelector('input[name="product-name"]');
-
-        if (productIdField || productNameField) {
-            // Попытаемся найти ID товара в URL или на странице
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('product_id') || getProductIdFromPage();
-            const productName = getProductNameFromPage();
-
-            if (productIdField && productId && !productIdField.value) {
-                productIdField.value = productId;
-            }
-
-            if (productNameField && productName && !productNameField.value) {
-                productNameField.value = productName;
-            }
+        // Обрабатываем расширенную форму
+        const extendedForm = document.getElementById('extended-contact-form');
+        if (extendedForm && !extendedForm.hasAttribute('data-recaptcha-initialized')) {
+            initializeExtendedForm(extendedForm);
         }
     }
 
-    // Функция для получения ID товара со страницы
-    function getProductIdFromPage() {
-        // Ищем ID товара в различных местах
-        const bodyClass = document.body.className;
-        const match = bodyClass.match(/postid-(\d+)/);
-        if (match) {
-            return match[1];
+    // ============================================================================
+    // ИНИЦИАЛИЗАЦИЯ ОБЫЧНОЙ ФОРМЫ
+    // ============================================================================
+
+    function initializeCustomForm(form) {
+        form.setAttribute('data-recaptcha-initialized', 'true');
+
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnSpinner = submitBtn.querySelector('.btn-spinner');
+        const messagesDiv = document.getElementById('form-messages');
+
+        // Заполняем скрытые поля
+        fillHiddenFields(form);
+
+        // Обработка загрузки файла
+        setupFileUpload(form);
+
+        // Рендерим reCAPTCHA
+        const recaptchaContainer = form.querySelector('.g-recaptcha');
+        if (recaptchaContainer && recaptchaLoaded) {
+            const widgetId = grecaptcha.render(recaptchaContainer, {
+                'sitekey': RECAPTCHA_SITE_KEY
+            });
+            recaptchaWidgets.set(form, widgetId);
         }
 
-        // Ищем в data-атрибутах
-        const productElement = document.querySelector('[data-product-id]');
-        if (productElement) {
-            return productElement.getAttribute('data-product-id');
-        }
+        // Обработка отправки формы
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-        // Ищем в мета-тегах
-        const metaProductId = document.querySelector('meta[name="product-id"]');
-        if (metaProductId) {
-            return metaProductId.getAttribute('content');
-        }
+            // Очищаем предыдущие сообщения
+            clearMessages(messagesDiv);
+            clearValidation(form);
 
-        return '';
-    }
-
-    // Функция для получения названия товара со страницы
-    function getProductNameFromPage() {
-        // Ищем заголовок товара
-        const h1 = document.querySelector('h2.product_title, h2.entry-title, .product-title h2');
-        if (h1) {
-            return h1.textContent.trim();
-        }
-
-        // Ищем в title страницы
-        const title = document.title;
-        if (title) {
-            return title.split(' | ')[0].split(' - ')[0].trim();
-        }
-
-        return '';
-    }
-
-    // Функция выполнения reCAPTCHA v3
-    function executeRecaptcha(form, action = 'submit') {
-        return new Promise((resolve, reject) => {
-            if (!recaptchaLoaded || !recaptchaAPI) {
-                reject(new Error('reCAPTCHA API не готова'));
+            // Валидация
+            if (!validateCustomForm(form)) {
                 return;
             }
 
-            try {
-                recaptchaAPI.ready(function () {
-                    recaptchaAPI.execute(SITE_KEY, { action: action })
-                        .then(function (token) {
-                            // Добавляем токен в форму
-                            let tokenInput = form.querySelector('input[name="g-recaptcha-response"]');
-                            if (!tokenInput) {
-                                tokenInput = document.createElement('input');
-                                tokenInput.type = 'hidden';
-                                tokenInput.name = 'g-recaptcha-response';
-                                form.appendChild(tokenInput);
-                            }
-                            tokenInput.value = token;
+            // Проверяем reCAPTCHA
+            const widgetId = recaptchaWidgets.get(form);
+            const recaptchaResponse = widgetId !== undefined ? grecaptcha.getResponse(widgetId) : '';
 
-                            // Заполняем скрытые поля
-                            fillHiddenFields(form);
+            if (!recaptchaResponse) {
+                showMessage(messagesDiv, 'Пожалуйста, подтвердите, что вы не робот', 'danger');
+                return;
+            }
 
-                            resolve(token);
-                        })
-                        .catch(function (error) {
-                            reject(error);
-                        });
+            // Показываем спиннер
+            setLoadingState(submitBtn, btnText, btnSpinner, true);
+
+            // Собираем данные формы
+            const formData = new FormData(form);
+            formData.append('action', 'submit_custom_contact_form');
+            formData.append('nonce', customForm.nonce);
+            formData.append('g-recaptcha-response', recaptchaResponse);
+
+            // Отправляем AJAX запрос
+            fetch(customForm.ajaxUrl, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setLoadingState(submitBtn, btnText, btnSpinner, false);
+
+                    if (data.success) {
+                        showMessage(messagesDiv, data.data.message || 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.', 'success');
+                        resetForm(form, messagesDiv);
+                    } else {
+                        showMessage(messagesDiv, data.data || 'Произошла ошибка при отправке. Попробуйте еще раз.', 'danger');
+                    }
+
+                    // Сбрасываем reCAPTCHA
+                    if (widgetId !== undefined) {
+                        grecaptcha.reset(widgetId);
+                    }
+                })
+                .catch(error => {
+                    setLoadingState(submitBtn, btnText, btnSpinner, false);
+                    showMessage(messagesDiv, 'Произошла ошибка при отправке. Попробуйте еще раз.', 'danger');
+
+                    if (widgetId !== undefined) {
+                        grecaptcha.reset(widgetId);
+                    }
                 });
-            } catch (error) {
-                reject(error);
+        });
+    }
+
+    // ============================================================================
+    // ИНИЦИАЛИЗАЦИЯ РАСШИРЕННОЙ ФОРМЫ
+    // ============================================================================
+
+    function initializeExtendedForm(form) {
+        form.setAttribute('data-recaptcha-initialized', 'true');
+
+        const submitBtn = document.getElementById('extended-submit-btn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnSpinner = submitBtn.querySelector('.btn-spinner');
+        const messagesDiv = document.getElementById('extended-form-messages');
+
+        // Заполняем скрытые поля
+        fillHiddenFields(form);
+
+        // Обработка загрузки файла
+        setupFileUpload(form);
+
+        // Настройка всех чекбоксов
+        setupAllCheckboxes(form);
+
+        // Рендерим reCAPTCHA
+        const recaptchaContainer = form.querySelector('.g-recaptcha');
+        if (recaptchaContainer && recaptchaLoaded) {
+            const widgetId = grecaptcha.render(recaptchaContainer, {
+                'sitekey': RECAPTCHA_SITE_KEY
+            });
+            recaptchaWidgets.set(form, widgetId);
+        }
+
+        // Обработка отправки формы
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Очищаем предыдущие сообщения
+            clearMessages(messagesDiv);
+            clearValidation(form);
+
+            // Валидация
+            if (!validateExtendedForm(form)) {
+                return;
+            }
+
+            // Проверяем reCAPTCHA
+            const widgetId = recaptchaWidgets.get(form);
+            const recaptchaResponse = widgetId !== undefined ? grecaptcha.getResponse(widgetId) : '';
+
+            if (!recaptchaResponse) {
+                showMessage(messagesDiv, 'Пожалуйста, подтвердите, что вы не робот', 'danger');
+                return;
+            }
+
+            // Показываем спиннер
+            setLoadingState(submitBtn, btnText, btnSpinner, true);
+
+            // Собираем данные формы
+            const formData = new FormData(form);
+            formData.append('action', 'submit_extended_contact_form');
+            formData.append('nonce', extendedForm.nonce);
+            formData.append('g-recaptcha-response', recaptchaResponse);
+
+            // Отправляем AJAX запрос
+            fetch(extendedForm.ajaxUrl, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setLoadingState(submitBtn, btnText, btnSpinner, false);
+
+                    if (data.success) {
+                        showMessage(messagesDiv, data.data.message || 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.', 'success');
+                        resetExtendedForm(form, messagesDiv);
+                    } else {
+                        showMessage(messagesDiv, data.data || 'Произошла ошибка при отправке. Попробуйте еще раз.', 'danger');
+                    }
+
+                    // Сбрасываем reCAPTCHA
+                    if (widgetId !== undefined) {
+                        grecaptcha.reset(widgetId);
+                    }
+                })
+                .catch(error => {
+                    setLoadingState(submitBtn, btnText, btnSpinner, false);
+                    showMessage(messagesDiv, 'Произошла ошибка при отправке. Попробуйте еще раз.', 'danger');
+
+                    if (widgetId !== undefined) {
+                        grecaptcha.reset(widgetId);
+                    }
+                });
+        });
+    }
+
+    // ============================================================================
+    // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+    // ============================================================================
+
+    function fillHiddenFields(form) {
+        const pageUrl = form.querySelector('input[name="page-url"]');
+        const pageTitle = form.querySelector('input[name="page-title"]');
+        const referrer = form.querySelector('input[name="referrer"]');
+        const userAgent = form.querySelector('input[name="user-agent"]');
+
+        if (pageUrl) pageUrl.value = window.location.href;
+        if (pageTitle) pageTitle.value = document.title;
+        if (referrer) referrer.value = document.referrer || '';
+        if (userAgent) userAgent.value = navigator.userAgent;
+    }
+
+    function setupFileUpload(form) {
+        const fileInput = form.querySelector('.file-upload');
+        const fileName = form.querySelector('.file-name');
+
+        if (fileInput && fileName) {
+            fileInput.addEventListener('change', function (e) {
+                if (e.target.files && e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    const maxSize = 5 * 1024 * 1024; // 5MB
+
+                    if (file.size > maxSize) {
+                        const messagesDiv = form.querySelector('#form-messages, #extended-form-messages');
+                        showMessage(messagesDiv, 'Размер файла не должен превышать 5MB', 'danger');
+                        this.value = '';
+                        fileName.textContent = 'Файл не прикреплен';
+                        return;
+                    }
+
+                    fileName.textContent = file.name;
+                } else {
+                    fileName.textContent = 'Файл не прикреплен';
+                }
+            });
+        }
+    }
+
+    function setupAllCheckboxes(form) {
+        // Чекбоксы с картинками
+        const imageContainers = form.querySelectorAll('.image-checkbox-container');
+        imageContainers.forEach(container => {
+            const checkbox = container.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                container.addEventListener('click', function (e) {
+                    if (e.target !== checkbox) {
+                        e.preventDefault();
+                        checkbox.checked = !checkbox.checked;
+                        updateCheckboxState(container, checkbox);
+                    }
+                });
+
+                checkbox.addEventListener('change', function () {
+                    updateCheckboxState(container, checkbox);
+                });
+
+                updateCheckboxState(container, checkbox);
+            }
+        });
+
+        // Текстовые чекбоксы
+        const textContainers = form.querySelectorAll('.custom-checkbox-container');
+        textContainers.forEach(container => {
+            const checkbox = container.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                container.addEventListener('click', function (e) {
+                    if (e.target !== checkbox) {
+                        e.preventDefault();
+                        checkbox.checked = !checkbox.checked;
+                        updateCheckboxState(container, checkbox);
+                    }
+                });
+
+                checkbox.addEventListener('change', function () {
+                    updateCheckboxState(container, checkbox);
+                });
+
+                updateCheckboxState(container, checkbox);
             }
         });
     }
 
-    // Простая валидация формы
-    function validateForm(form) {
-        const requiredFields = form.querySelectorAll('[required]');
+    function updateCheckboxState(container, checkbox) {
+        if (checkbox.checked) {
+            container.classList.add('active');
+        } else {
+            container.classList.remove('active');
+        }
+    }
+
+    function validateCustomForm(form) {
         let isValid = true;
 
-        requiredFields.forEach(function (field) {
-            if (!field.value.trim()) {
-                field.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                field.classList.remove('is-invalid');
-            }
-        });
+        // Валидация имени
+        const name = form.querySelector('input[name="your-name"]');
+        if (!name.value.trim()) {
+            markFieldInvalid(name);
+            isValid = false;
+        }
 
-        if (!isValid) {
-            let messageContainer = form.querySelector('#form-messages, .form-messages');
-            if (messageContainer) {
-                messageContainer.innerHTML = '<div class="alert alert-danger">Пожалуйста, заполните все обязательные поля</div>';
-            }
+        // Валидация телефона
+        const phone = form.querySelector('input[name="your-phone"]');
+        const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+        if (!phone.value.trim() || !phoneRegex.test(phone.value.replace(/[\s\-\(\)]/g, ''))) {
+            markFieldInvalid(phone);
+            isValid = false;
+        }
+
+        // Валидация email
+        const email = form.querySelector('input[name="your-email"]');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.value.trim() || !emailRegex.test(email.value)) {
+            markFieldInvalid(email);
+            isValid = false;
         }
 
         return isValid;
     }
 
-    // Обработка отправки форм
-    function setupFormHandlers() {
-        const forms = document.querySelectorAll('form[action*="mails/"], #custom-contact-form, form[id*="contact"], form[id*="callback"], .contact-form');
+    function validateExtendedForm(form) {
+        let isValid = true;
 
-        forms.forEach(function (form, index) {
-            // Проверяем, не обработана ли уже форма
-            if (form.hasAttribute('data-recaptcha-processed')) {
-                return;
-            }
+        // Валидация имени
+        const name = form.querySelector('input[name="your-name"]');
+        if (!name.value.trim()) {
+            markFieldInvalid(name);
+            isValid = false;
+        }
 
-            // Помечаем форму как обработанную
-            form.setAttribute('data-recaptcha-processed', 'true');
+        // Валидация телефона
+        const phone = form.querySelector('input[name="your-phone"]');
+        const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+        if (!phone.value.trim() || !phoneRegex.test(phone.value.replace(/[\s\-\(\)]/g, ''))) {
+            markFieldInvalid(phone);
+            isValid = false;
+        }
 
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
+        // Валидация email
+        const email = form.querySelector('input[name="your-email"]');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.value.trim() || !emailRegex.test(email.value)) {
+            markFieldInvalid(email);
+            isValid = false;
+        }
 
-                // Проверяем валидацию
-                if (!validateForm(form)) {
-                    return;
-                }
+        // Валидация селекта
+        const productType = form.querySelector('select[name="product-type"]');
+        if (productType && !productType.value) {
+            markFieldInvalid(productType);
+            isValid = false;
+        }
 
-                // Показываем индикатор загрузки
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn ? submitBtn.innerHTML : '';
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
-                }
+        return isValid;
+    }
 
-                // Выполняем reCAPTCHA и отправляем форму
-                executeRecaptcha(form, 'contact_form')
-                    .then(function (token) {
-                        form.submit();
-                    })
-                    .catch(function (error) {
-                        console.error('Ошибка reCAPTCHA:', error);
+    function markFieldInvalid(field) {
+        field.classList.add('is-invalid');
 
-                        // Восстанавливаем кнопку
-                        if (submitBtn) {
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = originalText;
-                        }
+        const removeInvalid = function () {
+            field.classList.remove('is-invalid');
+        };
 
-                        // Показываем ошибку
-                        let messageContainer = form.querySelector('#form-messages, .form-messages');
-                        if (messageContainer) {
-                            messageContainer.innerHTML = `<div class="alert alert-danger">Ошибка безопасности. Попробуйте обновить страницу.</div>`;
-                        }
-                    });
-            });
+        field.addEventListener('input', removeInvalid, { once: true });
+
+        if (field.tagName === 'SELECT') {
+            field.addEventListener('change', removeInvalid, { once: true });
+        }
+    }
+
+    function clearValidation(form) {
+        form.querySelectorAll('.is-invalid').forEach(field => {
+            field.classList.remove('is-invalid');
         });
     }
 
-    // Обработчик для загрузки файлов
-    function setupFileHandlers() {
-        const fileInputs = document.querySelectorAll('.file-upload');
-        fileInputs.forEach(function (fileInput) {
-            const wrapper = fileInput.closest('.file-upload-wrapper');
-            const fileName = wrapper ? wrapper.querySelector('.file-name') : null;
-
-            if (fileName) {
-                fileInput.addEventListener('change', function (e) {
-                    if (e.target.files.length > 0) {
-                        fileName.textContent = e.target.files[0].name;
-                    } else {
-                        fileName.textContent = 'Файл не прикреплен';
-                    }
-                });
-            }
-        });
-
-        // Обработка кнопок file upload
-        const fileUploadBtns = document.querySelectorAll('.file-upload-btn');
-        fileUploadBtns.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                const wrapper = btn.closest('.file-upload-wrapper');
-                const fileInput = wrapper ? wrapper.querySelector('.file-upload') : null;
-
-                if (fileInput) {
-                    fileInput.click();
-                }
-            });
-        });
+    function setLoadingState(submitBtn, btnText, btnSpinner, loading) {
+        if (loading) {
+            submitBtn.disabled = true;
+            if (btnText) btnText.style.display = 'none';
+            if (btnSpinner) btnSpinner.style.display = 'inline-block';
+        } else {
+            submitBtn.disabled = false;
+            if (btnText) btnText.style.display = 'inline-block';
+            if (btnSpinner) btnSpinner.style.display = 'none';
+        }
     }
 
-    // Заполнение полей во всех формах при загрузке
-    function initializeAllForms() {
-        const forms = document.querySelectorAll('form');
-        forms.forEach(function (form) {
-            fillHiddenFields(form);
-        });
-
-        // Обработчик для модальных окон - заполняем поля при открытии модалки
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(function (modal) {
-            modal.addEventListener('show.bs.modal', function () {
-                const form = modal.querySelector('form');
-                if (form) {
-                    fillHiddenFields(form);
-                }
-            });
-        });
-
-        // Для форм с количеством - обновляем данные при изменении количества
-        const quantityInputs = document.querySelectorAll('input[name="quantity"]');
-        quantityInputs.forEach(function (input) {
-            input.addEventListener('change', function () {
-                const form = input.closest('form');
-                if (form) {
-                    fillHiddenFields(form);
-                }
-            });
-        });
+    function showMessage(messagesDiv, message, type) {
+        if (messagesDiv) {
+            messagesDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            messagesDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
     }
 
-    // Инициализация
-    loadRecaptchaAPI()
-        .then(() => {
-            initializeAllForms();
-            setupFormHandlers();
-            setupFileHandlers();
-        })
-        .catch((error) => {
-            // Если reCAPTCHA не работает, все равно настраиваем формы
-            initializeAllForms();
-            setupFormHandlers();
-            setupFileHandlers();
-            alert('Ошибка загрузки системы безопасности. Обновите страницу или попробуйте позже.');
+    function clearMessages(messagesDiv) {
+        if (messagesDiv) {
+            messagesDiv.innerHTML = '';
+        }
+    }
+
+    function resetForm(form, messagesDiv) {
+        form.reset();
+
+        // Сбрасываем чекбоксы
+        form.querySelectorAll('.image-checkbox-container input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
         });
-});
+
+        // Сбрасываем файл
+        const fileName = form.querySelector('.file-name');
+        if (fileName) {
+            fileName.textContent = 'Файл не прикреплен';
+        }
+
+        // Очищаем валидацию
+        clearValidation(form);
+    }
+
+    function resetExtendedForm(form, messagesDiv) {
+        form.reset();
+
+        // Сбрасываем все чекбоксы
+        form.querySelectorAll('.image-checkbox-container, .custom-checkbox-container').forEach(container => {
+            container.classList.remove('active');
+        });
+
+        // Сбрасываем файл
+        const fileName = form.querySelector('.file-name');
+        if (fileName) {
+            fileName.textContent = 'Файл не прикреплен';
+        }
+
+        // Очищаем валидацию
+        clearValidation(form);
+    }
+
+    // ============================================================================
+    // ЗАПУСК
+    // ============================================================================
+
+    document.addEventListener('DOMContentLoaded', function () {
+        loadRecaptchaAPI()
+            .then(() => {
+                initializeForms();
+            })
+            .catch((error) => {
+                console.error('Ошибка загрузки reCAPTCHA:', error);
+                // Инициализируем формы даже без reCAPTCHA
+                initializeForms();
+            });
+    });
+
+})();

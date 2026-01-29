@@ -1,1 +1,1 @@
-document.addEventListener("DOMContentLoaded",function(){var e=document.getElementsByClassName("telMask");new Inputmask("+7(999)999-99-99").mask(e)});
+document.addEventListener("DOMContentLoaded",function(){if("undefined"!=typeof Inputmask){var e=document.querySelectorAll(".telMask");if(0<e.length){const n=new Inputmask("+7(999)999-99-99");n.mask(e)}}else console.warn("Inputmask не загружена. Маска для телефонов не применена.")});

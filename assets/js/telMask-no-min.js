@@ -9,7 +9,15 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
-  var telMask = document.getElementsByClassName('telMask');
-  var im = new Inputmask('+7(999)999-99-99');
-  im.mask(telMask);
+    // Проверяем наличие библиотеки Inputmask
+    if (typeof Inputmask === 'undefined') {
+        console.warn('Inputmask не загружена. Маска для телефонов не применена.');
+        return;
+    }
+
+    const telInputs = document.querySelectorAll('.telMask');
+    if (telInputs.length > 0) {
+        const im = new Inputmask('+7(999)999-99-99');
+        im.mask(telInputs);
+    }
 })

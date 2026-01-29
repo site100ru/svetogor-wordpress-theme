@@ -11,7 +11,7 @@ $id_prefix = isset($id_prefix) ? $id_prefix : 'form-' . uniqid();
     </div>
     <div class="col-md-4 col-12 mb-3 mb-md-0">
         <label for="<?php echo $id_prefix; ?>-phone-input" class="form-label">Телефон</label>
-        <input type="tel" class="form-control" name="your-phone" id="<?php echo $id_prefix; ?>-phone-input" required>
+        <input type="tel" class="form-control telMask" name="your-phone" id="<?php echo $id_prefix; ?>-phone-input" required>
     </div>
     <div class="col-md-4 col-12">
         <label for="<?php echo $id_prefix; ?>-email-input" class="form-label">Email</label>
