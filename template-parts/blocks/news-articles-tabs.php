@@ -123,7 +123,7 @@ if ($show_articles) {
                                             <?php endif; ?>
                                         </div>
                                         <div class="card-body d-flex flex-column">
-                                            <h3 class="h2 card-title"><?php the_title(); ?></h3>
+                                            <h3 class="h5 card-title"><?php the_title(); ?></h3>
                                             <p class="card-text mb-0">
                                                 <?php echo get_news_excerpt(get_the_ID()); ?>
                                             </p>
@@ -171,7 +171,7 @@ if ($show_articles) {
                                             <?php endif; ?>
                                         </div>
                                         <div class="card-body d-flex flex-column">
-                                            <h3 class="h2 card-title"><?php the_title(); ?></h3>
+                                            <h3 class="h5 card-title"><?php the_title(); ?></h3>
                                             <p class="card-text mb-0">
                                                 <?php echo get_article_excerpt(get_the_ID()); ?>
                                             </p>
