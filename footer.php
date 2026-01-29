@@ -316,6 +316,49 @@
 </script>
 <!-- /Всплывающая форма Политики конфиденциальности -->
 
+<!-- reCAPTCHA v3 для всех форм -->
+<script src='https://www.google.com/recaptcha/api.js?render=6LdV1IcUAAAAADRQAhpGL8dVj5_t0nZDPh9m_0tn'></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим все формы, которые отправляются на PHP-обработчики
+    const forms = document.querySelectorAll('form[action*="form-handler.php"]');
+    
+    forms.forEach(function(form) {
+        const recaptchaInput = form.querySelector('input[name="g-recaptcha-response"]');
+        
+        // Если в форме есть поле для reCAPTCHA
+        if (recaptchaInput) {
+            form.addEventListener('submit', function(e) {
+                // Только если токена еще нет или он пустой
+                if (!recaptchaInput.value) {
+                    e.preventDefault();
+                    
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute('6LdV1IcUAAAAADRQAhpGL8dVj5_t0nZDPh9m_0tn', {action: 'submit'})
+                            .then(function(token) {
+                                // Вставляем свежий токен
+                                recaptchaInput.value = token;
+                                // Отправляем форму
+                                form.submit();
+                            });
+                    });
+                }
+            });
+        }
+    });
+    
+    // Заполняем скрытые поля для всех форм
+    const allForms = document.querySelectorAll('form[method="post"]');
+    allForms.forEach(function(form) {
+        const pageUrl = form.querySelector('input[name="page-url"]');
+        const pageTitle = form.querySelector('input[name="page-title"]');
+        
+        if (pageUrl) pageUrl.value = window.location.href;
+        if (pageTitle) pageTitle.value = document.title;
+    });
+});
+</script>
+
 <?php wp_footer(); ?>
 </div>
 </body>

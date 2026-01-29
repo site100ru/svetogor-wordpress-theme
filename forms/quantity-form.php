@@ -30,6 +30,7 @@
         <!-- Скрытые поля -->
         <input type="hidden" name="page-url" value="">
         <input type="hidden" name="page-title" value="">
+        <input type="hidden" name="g-recaptcha-response" value="">
         <input type="hidden" name="product-id" value="">
         <input type="hidden" name="product-name" value="">
     </div>

@@ -19,7 +19,9 @@
 
         <!-- Скрытые поля -->
         <input type="hidden" name="page-url" value="">
+        <input type="hidden" name="g-recaptcha-response" value="">
         <input type="hidden" name="page-title" value="">
+        
     </div>
     <div class="modal-footer justify-content-">
         <div class="row w-100 m-0">
