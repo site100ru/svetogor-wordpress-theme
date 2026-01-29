@@ -359,6 +359,48 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим все кнопки загрузки файлов
+    const fileUploaders = document.querySelectorAll('.file-upload-wrapper');
+    
+    fileUploaders.forEach(function(wrapper) {
+        const fileInput = wrapper.querySelector('.file-upload');
+        const fileName = wrapper.querySelector('.file-name');
+        const fileButton = wrapper.querySelector('.file-upload-btn');
+        
+        if (fileInput && fileName) {
+            // Клик по кнопке открывает выбор файла
+            if (fileButton) {
+                fileButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    fileInput.click();
+                });
+            }
+            
+            // Обновляем название при выборе файла
+            fileInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    const maxSize = 5 * 1024 * 1024; // 5MB
+                    
+                    if (file.size > maxSize) {
+                        alert('Размер файла не должен превышать 5MB');
+                        fileInput.value = '';
+                        fileName.textContent = 'Файл не прикреплен';
+                        return;
+                    }
+                    
+                    fileName.textContent = file.name;
+                } else {
+                    fileName.textContent = 'Файл не прикреплен';
+                }
+            });
+        }
+    });
+});
+</script>
+
 <?php wp_footer(); ?>
 </div>
 </body>

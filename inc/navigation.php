@@ -634,9 +634,9 @@ function svetogor_enqueue_navigation_assets()
 {
     wp_enqueue_script(
         'svetogor-navigation',
-        get_template_directory_uri() . '/assets/js/navigation.js',
+        get_template_directory_uri() . '/js/navigation.js',
         ['jquery'],
-        '1.0',
+        '',
         true
     );
 

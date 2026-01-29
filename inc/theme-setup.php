@@ -86,6 +86,57 @@ function svetogor_widgets_init() {
 add_action('widgets_init', 'svetogor_widgets_init');
 
 /**
+ * Preload критичных ресурсов
+ */
+function svetogor_preload_resources() {
+    ?>
+    <!-- Preload критичных ресурсов -->
+    <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/css/bootstrap-custom.min.css" as="style">
+    <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/css/theme.css" as="style">
+    <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/css/font.css" as="style">
+    <?php
+}
+add_action('wp_head', 'svetogor_preload_resources', 1);
+
+/**
+ * Инлайн критичный CSS
+ */
+function svetogor_critical_css() {
+    ?>
+    <style id="glide-critical-css">
+        /* Критичный CSS для слайдеров */
+        .glide:not([data-glide-initialized]) {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .glide:not([data-glide-initialized]) .glide__slides {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .glide:not([data-glide-initialized]) .glide__slide {
+            flex-shrink: 0;
+            min-height: 200px;
+            background: #f5f5f5;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .glide[data-glide-initialized="true"] {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
+    <?php
+}
+add_action('wp_head', 'svetogor_critical_css', 2);
+
+/**
  * Подключение стилей и скриптов
  */
 function svetogor_scripts() {
@@ -93,17 +144,20 @@ function svetogor_scripts() {
     wp_enqueue_style('svetogor-style', get_stylesheet_uri(), array(), _S_VERSION);
     wp_style_add_data('svetogor-style', 'rtl', 'replace');
 
-    // Навигация
-    wp_enqueue_script('svetogor-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
-
-    // Регистрация и подключение стилей
+    // Критичные стили - загружаем сразу
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap-custom.min.css', array(), '1.0');
     wp_enqueue_style('theme-style', get_template_directory_uri() . '/assets/css/theme.css', array('bootstrap'), '1.0');
     wp_enqueue_style('font-style', get_template_directory_uri() . '/assets/css/font.css', array(), '1.0');
     
-    // Glide.js - ЛОКАЛЬНЫЕ ФАЙЛЫ
+    // Некритичные стили - загружаем асинхронно
     wp_enqueue_style('glide-core', get_template_directory_uri() . '/assets/css/glide.core.min.css', array(), '3.6.0');
     
+    // jQuery в footer (важно!)
+    wp_scripts()->add_data('jquery', 'group', 1);
+    wp_scripts()->add_data('jquery-core', 'group', 1);
+    wp_scripts()->add_data('jquery-migrate', 'group', 1);
+    
+    // Скрипты с defer
     wp_enqueue_script(
         'glide-js',
         get_template_directory_uri() . '/assets/js/glide.min.js',
@@ -128,7 +182,6 @@ function svetogor_scripts() {
         true
     );
 
-    // Скрипты
     wp_enqueue_script('inputmask', get_template_directory_uri() . '/assets/js/inputmask.min.js', array('jquery'), '1.0', true);
     wp_enqueue_script('tel-mask', get_template_directory_uri() . '/assets/js/telMask.js', array('jquery', 'inputmask'), '1.0', true);
     wp_enqueue_script('theme-script', get_template_directory_uri() . '/assets/js/theme.js', array('jquery', 'bootstrap-bundle'), '1.0', true);
@@ -144,44 +197,48 @@ function svetogor_scripts() {
 add_action('wp_enqueue_scripts', 'svetogor_scripts');
 
 /**
- * Инлайн критичный CSS для слайдеров
+ * Делаем некритичные CSS асинхронными
  */
-function svetogor_critical_css() {
-    ?>
-    <style id="glide-critical-css">
-        /* для слайдеров */
-        .glide:not([data-glide-initialized]) {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        /* Скелетон для слайдеров во время загрузки */
-        .glide:not([data-glide-initialized]) .glide__slides {
-            display: flex;
-            gap: 24px;
-        }
-        
-        .glide:not([data-glide-initialized]) .glide__slide {
-            flex-shrink: 0;
-            min-height: 200px;
-            background: #f5f5f5;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-        
-        /* Показываем инициализированные слайдеры */
-        .glide[data-glide-initialized="true"] {
-            opacity: 1 !important;
-            visibility: visible !important;
-        }
-    </style>
-    <?php
+function svetogor_async_css($html, $handle) {
+    // Некритичные стили загружаем асинхронно
+    $async_styles = array(
+        'glide-core',
+        'wc-blocks-style',
+        'wp-block-library'
+    );
+    
+    if (in_array($handle, $async_styles)) {
+        $html = str_replace("rel='stylesheet'", "rel='preload' as='style' onload=\"this.onload=null;this.rel='stylesheet'\"", $html);
+        // Fallback для браузеров без JS
+        $html .= '<noscript><link rel="stylesheet" href="' . esc_url(wp_styles()->registered[$handle]->src) . '"></noscript>';
+    }
+    
+    return $html;
 }
-add_action('wp_head', 'svetogor_critical_css', 1);
+add_filter('style_loader_tag', 'svetogor_async_css', 10, 2);
+
+/**
+ * Добавляем defer к некритичным скриптам
+ */
+function svetogor_defer_scripts($tag, $handle, $src) {
+    // Список скриптов для defer (НЕ добавляем jQuery!)
+    $defer_scripts = array(
+        'inputmask',
+        'tel-mask',
+        'theme-script',
+        'global-recaptcha',
+        'glide-js',
+        'glide-init',
+        'portfolio-single'
+    );
+    
+    if (in_array($handle, $defer_scripts)) {
+        return str_replace(' src', ' defer src', $tag);
+    }
+    
+    return $tag;
+}
+add_filter('script_loader_tag', 'svetogor_defer_scripts', 10, 3);
 
 /**
  * Инициализация сессий
@@ -213,29 +270,8 @@ remove_filter('pre_term_description', 'wp_filter_kses');
 remove_filter('term_description', 'wp_kses_data');
 
 /**
- * Отложенная загрузка для не критичных скриптов
+ * Отключаем Emoji
  */
-function svetogor_defer_scripts($tag, $handle, $src) {
-    // Список скриптов для defer
-    $defer_scripts = array(
-        'inputmask',
-        'tel-mask',
-        'theme-script',
-        'global-recaptcha',
-        'bootstrap-bundle',
-        'glide-js',
-        'glide-init'
-    );
-    
-    if (in_array($handle, $defer_scripts)) {
-        return str_replace(' src', ' defer src', $tag);
-    }
-    
-    return $tag;
-}
-add_filter('script_loader_tag', 'svetogor_defer_scripts', 10, 3);
-
-// Отключаем Emoji
 function disable_emojis() {
     remove_action('wp_head', 'print_emoji_detection_script', 7);
     remove_action('admin_print_scripts', 'print_emoji_detection_script');
@@ -247,7 +283,9 @@ function disable_emojis() {
 }
 add_action('init', 'disable_emojis');
 
-// Отключаем Gutenberg стили (используем ACF)
+/**
+ * Отключаем Gutenberg стили (используем ACF)
+ */
 function remove_wp_block_library_css() {
     if (!is_admin()) {
         wp_dequeue_style('wp-block-library');
@@ -258,6 +296,18 @@ function remove_wp_block_library_css() {
 }
 add_action('wp_enqueue_scripts', 'remove_wp_block_library_css', 100);
 
-
-// Отключаем стандартную иконку сайта WordPress
+/**
+ * Отключаем стандартную иконку сайта WordPress
+ */
 add_filter('get_site_icon_url', '__return_false');
+
+/**
+ * Удаляем лишние DNS prefetch
+ */
+function remove_dns_prefetch($hints, $relation_type) {
+    if ('dns-prefetch' === $relation_type) {
+        return array_diff(wp_dependencies_unique_hosts(), $hints);
+    }
+    return $hints;
+}
+add_filter('wp_resource_hints', 'remove_dns_prefetch', 10, 2);
