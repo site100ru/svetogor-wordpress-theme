@@ -961,9 +961,20 @@ function output_seo_meta_tags()
 
     // Если нет изображения, используем логотип сайта
     if (!$seo_image) {
-        $custom_logo_id = get_theme_mod('custom_logo');
-        if ($custom_logo_id) {
-            $seo_image = wp_get_attachment_url($custom_logo_id);
+        // Сначала пробуем логотип из ACF
+        if (function_exists('get_field')) {
+            $company_logo = get_field('company_logo', 'option');
+            if ($company_logo && is_array($company_logo) && !empty($company_logo['url'])) {
+                $seo_image = $company_logo['url'];
+            }
+        }
+        
+        // Если нет в ACF, пробуем стандартный логотип WordPress
+        if (!$seo_image) {
+            $custom_logo_id = get_theme_mod('custom_logo');
+            if ($custom_logo_id) {
+                $seo_image = wp_get_attachment_url($custom_logo_id);
+            }
         }
     }
 
