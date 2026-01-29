@@ -70,7 +70,7 @@ function render_product_card($product)
         </a>
         <div class="card-body">
             <a href="<?php echo esc_url(get_permalink($product->get_id())); ?>">
-                <h4 class="h5 card-title"><?php echo esc_html($product->get_name()); ?></h4>
+                <h3 class="h5 card-title"><?php echo esc_html($product->get_name()); ?></h3>
             </a>
             <a href="<?php echo esc_url(get_permalink()); ?>">
                 <p class="card-text">
