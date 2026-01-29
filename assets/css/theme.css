@@ -1481,9 +1481,9 @@ p a:hover {
 	margin-bottom: clamp(1rem, -17.885rem + 28.85vw, 3.75rem) !important;
 }
 
-.section-page-comprehensive .row-cards > div:last-child {
+/* .section-page-comprehensive .row-cards > div:last-child {
 	margin-bottom: 0 !important;
-}
+} */
 .section-page-comprehensive .section-page-comprehensived .row-cards > div:last-child {
 	margin-bottom: clamp(1rem, -17.885rem + 28.85vw, 3.75rem) !important;
 }
