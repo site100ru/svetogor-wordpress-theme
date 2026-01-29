@@ -1,27 +1,32 @@
 <?php
 
 /**
- * ОПТИМИЗИРОВАННАЯ НАВИГАЦИЯ SVETOGOR
- * Убраны дублирования, улучшена структура
+ * ОПТИМИЗИРОВАННАЯ НАВИГАЦИЯ SVETOGOR V2
+ * - Единый запрос для всех данных меню
  */
 
 if (!defined('ABSPATH')) exit;
 
 // ============================================================================
-// CORE: Получение данных
+// CORE: Получение данных с кешированием
 // ============================================================================
 
 /**
- * Получение категорий ВТОРОГО уровня (дочерние от корневых)
+ * Получить ВСЕ данные меню одним запросом (ГЛАВНАЯ ФУНКЦИЯ)
+ * Кеш на 12 часов
  */
-function svetogor_get_second_level_categories()
+function svetogor_get_all_menu_data()
 {
-    static $cache = null;
+    $cache_key = 'svetogor_full_menu_data_v2';
+    $cached = get_transient($cache_key);
 
-    if ($cache !== null) return $cache;
+    if ($cached !== false) {
+        return $cached;
+    }
 
     if (!class_exists('WooCommerce')) return [];
 
+    // Получаем ВСЕ категории одним запросом
     $all_categories = get_terms([
         'taxonomy' => 'product_cat',
         'hide_empty' => false,
@@ -32,74 +37,128 @@ function svetogor_get_second_level_categories()
         'order' => 'ASC'
     ]);
 
-    if (!$all_categories || is_wp_error($all_categories)) return [];
+    if (!$all_categories || is_wp_error($all_categories)) {
+        return [];
+    }
 
-    $second_level = [];
+    $menu_data = [
+        'second_level' => [],
+        'third_level' => [],
+        'products' => [],
+        'icons' => []
+    ];
+
+    $third_level_ids = [];
+
+    // Разделяем категории по уровням
     foreach ($all_categories as $cat) {
         if ($cat->parent == 0) continue;
 
         $parent_term = get_term($cat->parent, 'product_cat');
-        if ($parent_term && !is_wp_error($parent_term) && $parent_term->parent == 0) {
-            $second_level[] = $cat;
+
+        if (!$parent_term || is_wp_error($parent_term)) continue;
+
+        // Категории ВТОРОГО уровня (дочерние от корневых)
+        if ($parent_term->parent == 0) {
+            $menu_data['second_level'][] = $cat;
+
+            // Кешируем иконку
+            $thumbnail_id = get_term_meta($cat->term_id, 'thumbnail_id', true);
+            if ($thumbnail_id && $url = wp_get_attachment_image_url($thumbnail_id, 'thumbnail')) {
+                $menu_data['icons'][$cat->term_id] = $url;
+            }
+        }
+
+        // Категории ТРЕТЬЕГО уровня (дочерние от второго)
+        if ($parent_term->parent != 0) {
+            if (!isset($menu_data['third_level'][$cat->parent])) {
+                $menu_data['third_level'][$cat->parent] = [];
+            }
+            $menu_data['third_level'][$cat->parent][] = $cat;
+            $third_level_ids[] = $cat->term_id;
         }
     }
 
-    $cache = $second_level;
-    return $second_level;
+    // Получаем товары для категорий третьего уровня ОДНИМ запросом
+    if (!empty($third_level_ids)) {
+        $all_products = get_posts([
+            'post_type' => 'product',
+            'posts_per_page' => 200, // Достаточный лимит
+            'post_status' => 'publish',
+            'tax_query' => [[
+                'taxonomy' => 'product_cat',
+                'field' => 'term_id',
+                'terms' => $third_level_ids,
+            ]],
+            'orderby' => 'menu_order',
+            'order' => 'ASC'
+        ]);
+
+        // Группируем товары по категориям
+        foreach ($all_products as $product) {
+            $product_cats = wp_get_post_terms($product->ID, 'product_cat', ['fields' => 'ids']);
+
+            foreach ($product_cats as $cat_id) {
+                // Только категории третьего уровня
+                if (!in_array($cat_id, $third_level_ids)) continue;
+
+                if (!isset($menu_data['products'][$cat_id])) {
+                    $menu_data['products'][$cat_id] = [];
+                }
+
+                // Ограничиваем 5 товарами на категорию
+                if (count($menu_data['products'][$cat_id]) < 5) {
+                    $menu_data['products'][$cat_id][] = $product;
+                }
+            }
+        }
+    }
+
+    // Кешируем на 12 часов
+    set_transient($cache_key, $menu_data, 12 * HOUR_IN_SECONDS);
+
+    return $menu_data;
 }
 
 /**
- * Получение категорий ТРЕТЬЕГО уровня
+ * Получение категорий ВТОРОГО уровня (используют общий кеш)
+ */
+function svetogor_get_second_level_categories()
+{
+    $data = svetogor_get_all_menu_data();
+    return $data['second_level'] ?? [];
+}
+
+/**
+ * Получение категорий ТРЕТЬЕГО уровня (используют общий кеш)
  */
 function svetogor_get_third_level_categories($parent_id)
 {
-    if (!class_exists('WooCommerce')) return [];
-
-    $third_level = get_terms([
-        'taxonomy' => 'product_cat',
-        'hide_empty' => false,
-        'parent' => $parent_id,
-        'meta_query' => [
-            ['key' => 'show_in_header', 'value' => '1', 'compare' => '=']
-        ],
-        'orderby' => 'menu_order',
-        'order' => 'ASC',
-        'number' => 20
-    ]);
-
-    return $third_level && !is_wp_error($third_level) ? $third_level : [];
+    $data = svetogor_get_all_menu_data();
+    return $data['third_level'][$parent_id] ?? [];
 }
 
 /**
- * Получение товаров категории
+ * Получение товаров категории (используют общий кеш)
  */
 function svetogor_get_category_products($category_id, $limit = 5)
 {
-    if (!class_exists('WooCommerce')) return [];
-
-    return get_posts([
-        'post_type' => 'product',
-        'posts_per_page' => $limit,
-        'post_status' => 'publish',
-        'tax_query' => [[
-            'taxonomy' => 'product_cat',
-            'field' => 'term_id',
-            'terms' => $category_id,
-        ]],
-        'orderby' => 'menu_order',
-        'order' => 'ASC'
-    ]);
+    $data = svetogor_get_all_menu_data();
+    $products = $data['products'][$category_id] ?? [];
+    return array_slice($products, 0, $limit);
 }
 
 /**
- * Безопасное получение иконки
+ * Безопасное получение иконки (используют общий кеш)
  */
 function svetogor_get_category_icon($term_id)
 {
-    $thumbnail_id = get_term_meta($term_id, 'thumbnail_id', true);
-    if ($thumbnail_id && $url = wp_get_attachment_image_url($thumbnail_id, 'thumbnail')) {
-        return $url;
+    $data = svetogor_get_all_menu_data();
+
+    if (isset($data['icons'][$term_id])) {
+        return $data['icons'][$term_id];
     }
+
     return get_template_directory_uri() . '/assets/img/ico/default-category.svg';
 }
 
@@ -114,6 +173,34 @@ function svetogor_create_anchor_link($parent_category, $current_category)
     }
     return $parent_link . '#' . $current_category->slug;
 }
+
+/**
+ * Очистка кеша навигации
+ */
+function svetogor_clear_navigation_cache($term_id = null)
+{
+    delete_transient('svetogor_full_menu_data_v2');
+
+    // Логируем очистку (для отладки)
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('Svetogor Navigation Cache Cleared');
+    }
+}
+
+// Хуки для автоматической очистки кеша
+add_action('created_product_cat', 'svetogor_clear_navigation_cache');
+add_action('edited_product_cat', 'svetogor_clear_navigation_cache');
+add_action('delete_product_cat', 'svetogor_clear_navigation_cache');
+add_action('save_post_product', 'svetogor_clear_navigation_cache');
+add_action('delete_post', 'svetogor_clear_navigation_cache');
+add_action('woocommerce_update_product', 'svetogor_clear_navigation_cache');
+
+// Очистка кеша при обновлении метаполей категорий
+add_action('update_term_meta', function ($meta_id, $object_id, $meta_key) {
+    if ($meta_key === 'show_in_header' || $meta_key === 'thumbnail_id') {
+        svetogor_clear_navigation_cache();
+    }
+}, 10, 3);
 
 // ============================================================================
 // RENDER: Вывод элементов меню
@@ -313,7 +400,7 @@ function svetogor_render_mobile_menu()
     ?>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Меню</h5>
+            <h2 class="offcanvas-title">Меню</h2>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body position-relative">
@@ -367,7 +454,7 @@ function svetogor_render_mobile_level2()
     $categories = svetogor_get_second_level_categories();
 ?>
     <div class="mobile-view level-2" id="products-menu-view">
-        <h5 class="mobile-view-title">Продукция</h5>
+        <h3 class="mobile-view-title">Продукция</h3>
         <?php foreach ($categories as $cat):
             $icon = svetogor_get_category_icon($cat->term_id);
         ?>
@@ -394,8 +481,8 @@ function svetogor_render_mobile_level3()
         $third_level = svetogor_get_third_level_categories($second_cat->term_id);
     ?>
         <div class="mobile-view level-3" id="<?= $second_cat->term_id ?>-menu-view">
-            <a href="<?= get_term_link($second_cat) ?>" class="mobile-view-title h5">
-                <?= esc_html($second_cat->name) ?>
+            <a href="<?= get_term_link($second_cat) ?>" class="mobile-view-title">
+                <h3><?= esc_html($second_cat->name) ?></h3>
             </a>
 
             <?php foreach ($third_level as $third_cat):
@@ -403,7 +490,7 @@ function svetogor_render_mobile_level3()
             ?>
                 <div class="mb-4">
                     <a href="<?= get_term_link($third_cat) ?>">
-                        <?= esc_html($third_cat->name) ?>
+                        <h4><?= esc_html($third_cat->name) ?></h4>
                     </a>
 
                     <?php if (!empty($products)): ?>
@@ -475,10 +562,8 @@ function svetogor_render_mobile_footer_info()
             <?php
             $total = count($header_socials);
             foreach ($header_socials as $index => $social):
-                // ИСПОЛЬЗУЕМ КОРОТКИЕ КЛЮЧИ: icon, url, name
                 if (!isset($social['icon']) || !isset($social['url'])) continue;
 
-                // Последний элемент без отступа справа
                 $is_last = ($index === $total - 1);
                 $padding_class = $is_last ? 'pe-0' : 'pe-2';
             ?>

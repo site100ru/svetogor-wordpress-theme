@@ -3,8 +3,8 @@
 * Template Name: PAGE About Us
 */
 
-add_action('wp_head', function() {
-    ?>
+add_action('wp_head', function () {
+?>
     <style>
         .hero-section h1 {
             font-size: clamp(1.25rem, 0.341rem + 4.55vw, 3.75rem);
@@ -15,8 +15,21 @@ add_action('wp_head', function() {
             font-size: clamp(1.125rem, 0.966rem + 0.8vw, 1.563rem);
             font-weight: 400;
         }
+
+        .card.card-portfolio-aboutUs {
+            border-radius: 0;
+            height: 100%;
+            max-height: 416px;
+        }
+
+        .card.card-portfolio-aboutUs .card-img-container,
+        .card.card-portfolio-aboutUs .card-img-container img {
+            height: 100%;
+            max-height: 416px;
+            border-radius: 0;
+        }
     </style>
-    <?php
+<?php
 });
 
 get_header();
@@ -29,16 +42,16 @@ $hero_bg_url = '';
 
 // Получаем URL фонового изображения
 if ($hero_bg_id) {
-  $hero_bg_data = wp_get_attachment_image_src($hero_bg_id, 'full');
-  if ($hero_bg_data) {
-    $hero_bg_url = $hero_bg_data[0];
-  }
+    $hero_bg_data = wp_get_attachment_image_src($hero_bg_id, 'full');
+    if ($hero_bg_data) {
+        $hero_bg_url = $hero_bg_data[0];
+    }
 }
 
 ?>
 
 <!-- HERO СЕКЦИЯ -->
-<section class="hero-section" <?php if ($hero_bg_url): ?>style="background-image: url('<?php echo esc_url($hero_bg_url); ?>'); height: 500px;" <?php endif; ?> >
+<section class="hero-section" <?php if ($hero_bg_url): ?>style="background-image: url('<?php echo esc_url($hero_bg_url); ?>'); height: 500px;" <?php endif; ?>>
     <div class="container position-relative">
         <div class="row">
             <div class="col hero-content">
@@ -57,7 +70,7 @@ if ($hero_bg_id) {
     </div>
 </section>
 
-<section class="section">
+<div class="section">
     <div class="container">
         <div class="row align-items-start justify-content-center background-color-field-text-only">
 
@@ -69,7 +82,7 @@ if ($hero_bg_id) {
             </div>
         </div>
     </div>
-</section>
+</div>
 
 <section class="section section-glide section-clients bg-grey">
     <div class="container">
@@ -139,12 +152,12 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
             </div>
         </div>
 
-        <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable"      data-glide-perview="3"
-          data-glide-gap="30"
-          data-glide-autoplay="4000"
-          data-glide-perview-md="2"
-          data-glide-perview-sm="1"
-     id="<?php echo esc_attr($slider_id); ?>">
+        <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable" data-glide-perview="3"
+            data-glide-gap="30"
+            data-glide-autoplay="4000"
+            data-glide-perview-md="2"
+            data-glide-perview-sm="1"
+            id="<?php echo esc_attr($slider_id); ?>">
             <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
                     <?php foreach ($portfolio_items as $item): ?>
@@ -165,10 +178,10 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
 
             <div class="glide__arrows" data-glide-el="controls">
                 <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
-                    <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" >
+                    <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад">
                 </button>
                 <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
-                    <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" >
+                    <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед">
                 </button>
             </div>
         </div>
@@ -193,28 +206,28 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
 
         <div class="row mt-4">
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-1.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Выгодная, гибкая ценовая политика" >
+                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-1.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Выгодная, гибкая ценовая политика">
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-2.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Надежно! Гарантированно получите свой заказ в срок" >
+                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-2.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Надежно! Гарантированно получите свой заказ в срок">
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-3.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Мы используем только лучшие комплектующие" >
+                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-3.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Мы используем только лучшие комплектующие">
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-4.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Мы следим за качеством наших изделий" >
+                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-4.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Мы следим за качеством наших изделий">
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-5.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Один час на рассчет вашего заказа" >
+                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-5.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Один час на рассчет вашего заказа">
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-6.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Пять дней срок реализации заказа" >
+                <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/section-advantage-6.jpg" class="img-fluid w-100" style="border-radius: 5px;" alt="Пять дней срок реализации заказа">
             </div>
         </div>
     </div>
 </section>
 
-<section class="section">
+<div class="section">
     <div class="container">
         <div class="row align-items-start justify-content-center background-color-field-text-only">
 
@@ -223,13 +236,12 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
                 <div class="text-content">
                     <p>
                         Компания постоянно обновляет ассортимент продукции, следуя современным трендам и технологиям. Наша команда профессионалов стремится к тому, чтобы каждый проект, независимо от его масштаба, был выполнен с высоким уровнем профессионализма и вниманием к деталям. Мы ценим доверие наших клиентов и всегда готовы к новым вызовам, стремясь к совершенству в каждом аспекте нашей работы.
-                    <p></p>
                     </p>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
 <?php get_template_part('template-parts/blocks/clients-slider/clients-slider'); ?>
 
@@ -273,22 +285,22 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
     <div class="container">
         <div class="section-title text-center">
             <h3>Лица компании</h3>
-            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" >
+            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
         </div>
 
-        <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable"      data-glide-perview="3"
-          data-glide-gap="30"
-          data-glide-autoplay="4000"
-          data-glide-perview-md="2"
-          data-glide-perview-sm="1"
-     id="<?php echo esc_attr($slider_id); ?>">
+        <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable" data-glide-perview="3"
+            data-glide-gap="30"
+            data-glide-autoplay="4000"
+            data-glide-perview-md="2"
+            data-glide-perview-sm="1"
+            id="<?php echo esc_attr($slider_id); ?>">
             <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
                     <?php foreach ($portfolio_items_people as $item): ?>
                         <li class="glide__slide card">
                             <div class="w-100">
                                 <div class="card-img-container" style="max-height: 306px; max-width: 306px; align-self: center; margin: 0 auto 16px;">
-                                    <img loading="lazy" src="<?php echo get_template_directory_uri() . esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="card-img-top h-100 w-100 mx-auto" style="aspect-ratio: auto" >
+                                    <img loading="lazy" src="<?php echo get_template_directory_uri() . esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="card-img-top h-100 w-100 mx-auto" style="aspect-ratio: auto">
                                 </div>
                                 <div class="card-body text-center">
                                     <h4 class="h5 card-title"><?php echo esc_html($item['title']); ?></h4>
@@ -302,10 +314,10 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
 
             <div class="glide__arrows" data-glide-el="controls">
                 <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
-                    <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" style="top: 50%;" >
+                    <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" style="top: 50%;">
                 </button>
                 <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
-                    <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" style="top: 50%;" >
+                    <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" style="top: 50%;">
                 </button>
             </div>
         </div>
@@ -313,39 +325,9 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
 </section>
 
 
-<style>
-    .card.card-portfolio-aboutUs {
-        border-radius: 0;
-        height: 100%;
-        max-height: 416px;
-    }
 
-    .card.card-portfolio-aboutUs .card-img-container,
-    .card.card-portfolio-aboutUs .card-img-container img {
-        height: 100%;
-        max-height: 416px;
-        border-radius: 0;
-    }
 
-</style>
-
-<?php
-/**
- * HTML код с карточками и модалкой с Glide
- */
-$images = array(
-    'portfolio-card-1.jpg',
-    'portfolio-card-2.jpg',
-    'portfolio-card-3.jpg',
-    'portfolio-card-4.jpg',
-    'portfolio-card-5.jpg',
-    'portfolio-card-6.jpg',
-    'portfolio-card-7.jpg',
-    'portfolio-card-8.jpg',
-);
-?>
-
-<section class="section">
+<div class="section">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-6 col-lg-3 mb-4">
@@ -406,52 +388,66 @@ $images = array(
             </div>
         </div>
     </div>
-</section>
+</div>
 
-<!-- Модалка с Glide -->
-<div id="galleryModal" class="portfolio-gallery-modal" style="background: rgba(0, 0, 0, 0.85); display: none; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 9999;">
-    
-    <div class="glide glide-auto" 
-        data-glide-perview="3"
-        data-glide-gap="30"
-        data-glide-autoplay="4000"
-        data-glide-perview-md="2"
-        data-glide-perview-sm="1"
-        id="galleryGlide" style="width: 100%; height: 100%;">
-        <div class="glide__track" data-glide-el="track" style="height: 100%;">
-            <ul class="glide__slides" style="height: 100%;">
-                <?php foreach($images as $img_id): ?>
-                    <?php 
-                    // Получаем атрибут alt для изображения
-                    $alt_text = get_post_meta($img_id, '_wp_attachment_image_alt', true) ?: 'Изображение портфолио';
-                    ?>
-                    <li class="glide__slide" style="display: flex; align-items: center; justify-content: center;">
-                        <img loading="lazy" src="<?php echo wp_get_attachment_url($img_id); ?>" alt="<?php echo esc_attr($alt_text); ?>" style="max-width: 90%; max-height: 90vh; object-fit: contain;">
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+<div id="galleryWrapper" style="background: rgba(0,0,0,0.85); display: block; position: fixed; inset: 0; z-index: 9999;">
+
+    <!-- Крестик закрытия -->
+    <button type="button" class="btn-close position-fixed top-0 end-0 m-3" onclick="closeGallery()" aria-label="Close" style="z-index: 10000;"></button>
+
+    <!-- Пример одной карусели -->
+    <div id="gallery-123" class="carousel slide" data-bs-ride="carousel" style="display: block; position: fixed; top: 0; height: 100%; width: 100%;">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#gallery-123" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#gallery-123" data-bs-slide-to="1" aria-label="Slide 2"></button>
         </div>
-        
-        <div class="glide__arrows" data-glide-el="controls">
-            <button class="glide__arrow glide__arrow--left btn-carousel-left" data-glide-dir="&lt;">
-                <img loading="lazy" src="<?php echo esc_url(isset($prev_arrow['url']) ? $prev_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-left.svg'); ?>" alt="Назад" style="top: 50%;" >
-            </button>
-            <button class="glide__arrow glide__arrow--right btn-carousel-right" data-glide-dir="&gt;">
-                <img loading="lazy" src="<?php echo esc_url(isset($next_arrow['url']) ? $next_arrow['url'] : get_template_directory_uri() . '/assets/img/ico/arrow-right.svg'); ?>" alt="Вперед" style="top: 50%;" >
-            </button>
+        <div class="carousel-inner h-100">
+            <div class="carousel-item h-100 active" data-bs-interval="999999999">
+                <div class="row align-items-center h-100">
+                    <div class="col text-center">
+                        <img src="https://site100.ru/furniture/wp-content/uploads/sites/3/2025/09/g5-3.webp" class="img-fluid" style="max-width: 90vw; max-height: 90vh;" alt="Шкаф #001">
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item h-100" data-bs-interval="999999999">
+                <div class="row align-items-center h-100">
+                    <div class="col text-center">
+                        <img src="https://site100.ru/furniture/wp-content/uploads/sites/3/2025/09/g5-2.webp" class="img-fluid" style="max-width: 90vw; max-height: 90vh;" alt="Шкаф #001">
+                    </div>
+                </div>
+            </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#gallery-123" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#gallery-123" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+        </button>
     </div>
 
-    <button onclick="closeGallery()" class="btn-close btn-close-white" style="position: fixed; top: 25px; right: 25px; z-index: 99999;" aria-label="Close"></button>
 </div>
+
+<script>
+function closeGallery() {
+    document.getElementById('galleryWrapper').style.display = 'none';
+    // Останавливаем все карусели при закрытии
+    const carousels = document.querySelectorAll('.carousel');
+    carousels.forEach(c => bootstrap.Carousel.getInstance(c)?.pause());
+}
+</script>
+
+
+
 
 
 <?php get_template_part('template-parts/blocks/news-articles-tabs'); ?>
 
 <?php get_template_part('template-parts/blocks/portfolio-slider/portfolio-gallery-modal'); ?>
-<?php  
-    set_query_var('portfolio_data', array( 'show_button' => true )); 
-    get_template_part('template-parts/blocks/portfolio-slider/portfolio-slider'); 
+<?php
+set_query_var('portfolio_data', array('show_button' => true));
+get_template_part('template-parts/blocks/portfolio-slider/portfolio-slider');
 ?>
 
 <?php
