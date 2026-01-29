@@ -211,3 +211,11 @@ add_action('template_redirect', function() {
         exit;
     }
 });
+
+
+add_action('template_redirect', function () {
+    if (is_post_type_archive('services')) {
+        wp_safe_redirect(home_url('/uslugi.html/'), 301);
+        exit;
+    }
+});

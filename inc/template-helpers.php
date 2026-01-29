@@ -176,7 +176,7 @@ function render_service_card($post_id)
                 </div>
                 <div class="col-12 col-lg-8">
                     <div class="card-body">
-                        <h5 class="card-title mb-3"><?php echo esc_html($title); ?></h5>
+                        <h4 class="card-title mb-3"><?php echo esc_html($title); ?></h4>
                         <p class="card-text"><?php echo esc_html($excerpt); ?></p>
                         <span class="btn btn-invert">Подробнее</span>
                     </div>

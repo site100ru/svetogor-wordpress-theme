@@ -41,7 +41,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
 
 <!-- КОНТЕНТ -->
 <section class="section section-page-comprehensive box-shadow-main">
-    <div class="container">
+    <div class="container section-page-comprehensived">
         <div class="section-content-cards">
             <div class="section-title text-center">
                 <h3>

@@ -1470,7 +1470,7 @@ p a:hover {
 
 /*** SECTION PAGE COMPREHENSIVE ***/
 .section-page-comprehensive .row-cards {
-	margin-bottom: clamp(0rem, -17.885rem + 28.85vw, 3.75rem);
+	margin-bottom: clamp(1rem, -17.885rem + 28.85vw, 3.75rem);
 }
 
 .section-page-comprehensive .row-cards:last-child {
@@ -1478,11 +1478,14 @@ p a:hover {
 }
 
 .section-page-comprehensive .row-cards > div {
-	margin-bottom: clamp(0rem, -17.885rem + 28.85vw, 3.75rem) !important;
+	margin-bottom: clamp(1rem, -17.885rem + 28.85vw, 3.75rem) !important;
 }
 
 .section-page-comprehensive .row-cards > div:last-child {
 	margin-bottom: 0 !important;
+}
+.section-page-comprehensive .section-page-comprehensived .row-cards > div:last-child {
+	margin-bottom: clamp(1rem, -17.885rem + 28.85vw, 3.75rem) !important;
 }
 
 .section-page-comprehensive .row-cards .card-text {
@@ -2261,6 +2264,7 @@ option:hover {
 		max-width: 500px;
 		padding-inline: 20px;
 		margin: 0;
+        justify-self: center;
 	}
 }
 
