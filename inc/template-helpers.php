@@ -141,7 +141,7 @@ function render_card($post_id, $post_type = 'post')
                 <?php endif; ?>
             </div>
             <div class="card-body d-flex flex-column">
-                <h5 class="card-title"><?php echo esc_html($title); ?></h5>
+                <h5 class="h5 card-title"><?php echo esc_html($title); ?></h5>
                 <p class="card-text mb-0"><?php echo esc_html($excerpt); ?></p>
                 <?php if ($post_type !== 'services'): ?>
                     <div class="mt-auto d-flex justify-content-start align-items-center pt-2">
