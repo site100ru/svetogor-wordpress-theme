@@ -28,7 +28,7 @@ if ($_POST) {
     $Return = getCaptcha($_POST['g-recaptcha-response']);
 
     // Если reCAPTCHA пройдена успешно
-    if ($Return->success == true && $Return->score > 0.125) {
+    if ($Return->success == true && $Return->score > 0.5) {
 
         // Получаем данные из формы с проверкой существования
         $name = isset($_POST['name']) && $_POST['name'] ? sanitize_text_field($_POST['name']) : 'Не указано';

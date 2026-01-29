@@ -234,9 +234,9 @@
 </div>
 
 <!-- Показываем сообщение об успешной отправки -->
-<div style="display: <?php echo $_SESSION['display'] ?>;" onclick="modalClose();">
+<div style="display: <?php echo $_SESSION['display'] ?>;" onclick="f1();">
     <div id="background-msg" style="display: <?php echo $_SESSION['display'] ?>;"></div>
-    <button id="btn-close" type="button" class="btn-close btn-close-white" onclick="modalClose();"
+    <button id="btn-close" type="button" class="btn-close btn-close-white" onclick="f1();"
         style="position: absolute; z-index: 9999; top: 15px; right: 15px;"></button>
     <div id="message">
         <?php echo $_SESSION['recaptcha'];
