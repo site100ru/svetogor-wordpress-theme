@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Block Name: Gallery
  * Description: Блок галереи изображений
@@ -16,37 +17,37 @@ $bg_class = ($background_color == 'bg-grey') ? 'bg-grey' : '';
 // Определяем класс для расположения
 $justify_class = '';
 if (!empty($alignment)) {
-  $justify_class = 'justify-content-' . $alignment;
+    $justify_class = 'justify-content-' . $alignment;
 }
 ?>
 
 <!-- Изображения -->
 <section class="section section-works section-glide <?php echo $bg_class; ?>">
-  <div class="container">
-    <div class="section-title text-center">
-      <h3><?php echo esc_html($title); ?></h3>
-      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" >
-    </div>
-
-    <div class="row <?php echo $justify_class; ?>">
-      <?php if ($images && is_array($images)): ?>
-        <?php foreach ($images as $index => $image):
-          $image_url = $image['sizes']['medium'] ?? $image['url'];
-          $image_alt = $image['alt'] ?: 'Изображение ' . ($index + 1);
-          ?>
-          <div class="col-12 col-md-6 col-lg-4 mb-4">
-            <div class="card-img-container">
-              <img loading="lazy" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($image_alt); ?>" class="card-img-top">
-            </div>
-          </div>
-        <?php endforeach; ?>
-      <?php else: ?>
-        <div class="col-12">
-          <div class="text-center py-4">
-            <p class="text-muted">Изображения не добавлены</p>
-          </div>
+    <div class="container">
+        <div class="section-title text-center">
+            <h3><?php echo esc_html($title); ?></h3>
+            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
         </div>
-      <?php endif; ?>
+
+        <div class="row <?php echo $justify_class; ?>">
+            <?php if ($images && is_array($images)): ?>
+                <?php foreach ($images as $index => $image):
+                    $image_url = $image['sizes']['medium'] ?? $image['url'];
+                    $image_alt = $image['alt'] ?: 'Изображение ' . ($index + 1);
+                ?>
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card-img-container">
+                            <img loading="lazy" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($image_alt); ?>" class="card-img-top">
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12">
+                    <div class="text-center py-4">
+                        <p class="text-muted">Изображения не добавлены</p>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
-  </div>
 </section>
