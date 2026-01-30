@@ -136,6 +136,26 @@ function svetogor_critical_css() {
 }
 add_action('wp_head', 'svetogor_critical_css', 2);
 
+
+/**
+ * Preload критических шрифтов
+ */
+function svetogor_preload_fonts() {
+    // Только самые критичные шрифты, которые используются
+    $fonts = array(
+        '/assets/fonts/HelveticaNeueCyr/HelveticaNeueCyr-Light.ttf',
+        '/assets/fonts/HelveticaNeueCyr/HelveticaNeueCyr-Roman.ttf',
+        '/assets/fonts/Gilroy/Gilroy-Light.ttf',
+        '/assets/fonts/Gilroy/Gilroy-Regular.ttf',
+    );
+    
+    foreach ($fonts as $font) {
+        echo '<link rel="preload" href="' . get_template_directory_uri() . $font . '" as="font" type="font/ttf" crossorigin>' . "\n";
+    }
+}
+add_action('wp_head', 'svetogor_preload_fonts', 1); // Приоритет 1 - загружается первым
+
+
 /**
  * Подключение стилей и скриптов
  */
@@ -144,10 +164,12 @@ function svetogor_scripts() {
     wp_enqueue_style('svetogor-style', get_stylesheet_uri(), array(), _S_VERSION);
     wp_style_add_data('svetogor-style', 'rtl', 'replace');
 
-    // Критичные стили - загружаем сразу
-    wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap-custom.min.css', array(), '1.0');
-    wp_enqueue_style('theme-style', get_template_directory_uri() . '/assets/css/theme.css', array('bootstrap'), '1.0');
+    // загружаем ПЕРВЫМ, чтобы @font-face объявились раньше
     wp_enqueue_style('font-style', get_template_directory_uri() . '/assets/css/font.css', array(), '1.0');
+    
+    // Критичные стили
+    wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap-custom.min.css', array(), '1.0');
+    wp_enqueue_style('theme-style', get_template_directory_uri() . '/assets/css/theme.css', array('bootstrap', 'font-style'), '1.0');
     
     // Некритичные стили - загружаем асинхронно
     wp_enqueue_style('glide-core', get_template_directory_uri() . '/assets/css/glide.core.min.css', array(), '3.6.0');
