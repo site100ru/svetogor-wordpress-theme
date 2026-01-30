@@ -400,7 +400,7 @@ function svetogor_render_mobile_menu()
     ?>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
         <div class="offcanvas-header">
-            <h2 class="offcanvas-title">Меню</h2>
+            <h2 class="h5 offcanvas-title">Меню</h2>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body position-relative">
@@ -454,7 +454,7 @@ function svetogor_render_mobile_level2()
     $categories = svetogor_get_second_level_categories();
 ?>
     <div class="mobile-view level-2" id="products-menu-view">
-        <h3 class="mobile-view-title">Продукция</h3>
+        <h3 class="h5 mobile-view-title">Продукция</h3>
         <?php foreach ($categories as $cat):
             $icon = svetogor_get_category_icon($cat->term_id);
         ?>
@@ -481,8 +481,8 @@ function svetogor_render_mobile_level3()
         $third_level = svetogor_get_third_level_categories($second_cat->term_id);
     ?>
         <div class="mobile-view level-3" id="<?= $second_cat->term_id ?>-menu-view">
-            <a href="<?= get_term_link($second_cat) ?>" class="mobile-view-title">
-                <h3><?= esc_html($second_cat->name) ?></h3>
+            <a href="<?= get_term_link($second_cat) ?>" class="mobile-view-title h5">
+                <?= esc_html($second_cat->name) ?>
             </a>
 
             <?php foreach ($third_level as $third_cat):
@@ -490,7 +490,7 @@ function svetogor_render_mobile_level3()
             ?>
                 <div class="mb-4">
                     <a href="<?= get_term_link($third_cat) ?>">
-                        <h4><?= esc_html($third_cat->name) ?></h4>
+                        <?= esc_html($third_cat->name) ?>
                     </a>
 
                     <?php if (!empty($products)): ?>
