@@ -88,7 +88,7 @@ if ($hero_bg_id) {
     <div class="container">
         <div class="section-title text-center">
             <h2>Этапы развития компании</h2>
-            <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+            <img width="62" height="14" loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
         </div>
 
         <div class="row">
@@ -138,7 +138,7 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
     <div class="container">
         <div class="section-title text-center">
             <h3>Благодаря этому достигается высокое качество изделий</h3>
-            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+            <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
         </div>
 
         <div class="row">
@@ -194,7 +194,7 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
     <div class="container">
         <div class="section-title text-center">
             <h3>Почему клиенты выбирают нас на протяжении многих лет?</h3>
-            <img loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+            <img width="62" height="14" loading="lazy" decoding="async" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
         </div>
 
         <div class="row">
@@ -285,7 +285,7 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
     <div class="container">
         <div class="section-title text-center">
             <h3>Лица компании</h3>
-            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+            <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
         </div>
 
         <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable" data-glide-perview="3"

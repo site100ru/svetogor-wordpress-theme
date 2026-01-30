@@ -34,7 +34,7 @@ $bg_class = ($clients_background === 'bg-grey') ? 'bg-grey' : '';
     <div class="container">
         <div class="section-title text-center">
             <h2><?php echo esc_html($clients_title); ?></h2>
-            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+            <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
         </div>
 
         <div class="glide glide-auto"      data-glide-perview="6"

@@ -228,7 +228,7 @@ function render_archive_template($args = array())
                 <!-- Заголовок -->
                 <div class="section-title text-center">
                     <h3><?php echo esc_html($args['title']); ?></h3>
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+                    <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
                 </div>
 
                 <!-- Карточки -->
@@ -288,7 +288,7 @@ function render_related_posts($current_id, $post_type, $title, $archive_link, $b
         <div class="container">
             <div class="section-title text-center">
                 <h2><?php echo esc_html($title); ?></h2>
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+                <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
             </div>
 
             <div class="tab-pane fade show active">

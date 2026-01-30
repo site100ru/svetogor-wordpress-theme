@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Block Name: Раскрывающий текст
  * Description: Блок с общей информацией и возможностью скрыть/показать дополнительный текст
@@ -27,8 +28,8 @@ $section_class = 'section section-product-list';
 $section_class .= $background_color_general_info === 'grey' ? ' bg-grey' : '';
 
 // Добавляем стили в head через wp_add_inline_style
-add_action('wp_head', function() {
-    ?>
+add_action('wp_head', function () {
+?>
     <style>
         .general-info .additional-content {
             max-height: 0;
@@ -54,7 +55,7 @@ add_action('wp_head', function() {
             margin-top: 1rem;
         }
     </style>
-    <?php
+<?php
 });
 ?>
 
@@ -63,7 +64,7 @@ add_action('wp_head', function() {
         <?php if (!empty($section_title_general_info)): ?>
             <div class="section-title text-center">
                 <h3><?php echo esc_html($section_title_general_info); ?></h3>
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="Точки">
+                <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="Точки">
             </div>
         <?php endif; ?>
 
@@ -81,12 +82,12 @@ add_action('wp_head', function() {
                     </div>
 
                     <div class="text-center mt-4">
-                        <button class="btn expand-btn" 
-                                type="button"
-                                data-target="#additionalText-<?php echo esc_attr($block['id']); ?>"
-                                data-text-show="<?php echo esc_attr($button_text); ?>"
-                                data-text-hide="<?php echo esc_attr($button_text_collapse); ?>"
-                                data-section-id="<?php echo esc_attr($id); ?>">
+                        <button class="btn expand-btn"
+                            type="button"
+                            data-target="#additionalText-<?php echo esc_attr($block['id']); ?>"
+                            data-text-show="<?php echo esc_attr($button_text); ?>"
+                            data-text-hide="<?php echo esc_attr($button_text_collapse); ?>"
+                            data-section-id="<?php echo esc_attr($id); ?>">
                             <?php echo esc_html($button_text); ?>
                         </button>
                     </div>
@@ -97,51 +98,51 @@ add_action('wp_head', function() {
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const expandButtons = document.querySelectorAll('.general-info .expand-btn');
-    
-    expandButtons.forEach(function(button) {
-        const targetId = button.getAttribute('data-target');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-            const textShow = button.getAttribute('data-text-show');
-            const textHide = button.getAttribute('data-text-hide');
-            const sectionId = button.getAttribute('data-section-id');
-            
-            let isExpanded = false;
-            
-            button.addEventListener('click', function() {
-                if (!isExpanded) {
-                    targetElement.classList.add('expanding');
-                    button.textContent = textHide;
-                    isExpanded = true;
-                    
-                    setTimeout(() => {
-                        targetElement.classList.add('expanded');
-                        targetElement.classList.remove('expanding');
-                    }, 500);
-                    
-                } else {
-                    targetElement.classList.remove('expanded');
-                    targetElement.classList.add('expanding');
-                    button.textContent = textShow;
-                    isExpanded = false;
-                    
-                    const section = document.getElementById(sectionId);
-                    if (section) {
-                        section.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'start' 
-                        });
+    document.addEventListener('DOMContentLoaded', function() {
+        const expandButtons = document.querySelectorAll('.general-info .expand-btn');
+
+        expandButtons.forEach(function(button) {
+            const targetId = button.getAttribute('data-target');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                const textShow = button.getAttribute('data-text-show');
+                const textHide = button.getAttribute('data-text-hide');
+                const sectionId = button.getAttribute('data-section-id');
+
+                let isExpanded = false;
+
+                button.addEventListener('click', function() {
+                    if (!isExpanded) {
+                        targetElement.classList.add('expanding');
+                        button.textContent = textHide;
+                        isExpanded = true;
+
+                        setTimeout(() => {
+                            targetElement.classList.add('expanded');
+                            targetElement.classList.remove('expanding');
+                        }, 500);
+
+                    } else {
+                        targetElement.classList.remove('expanded');
+                        targetElement.classList.add('expanding');
+                        button.textContent = textShow;
+                        isExpanded = false;
+
+                        const section = document.getElementById(sectionId);
+                        if (section) {
+                            section.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+
+                        setTimeout(() => {
+                            targetElement.classList.remove('expanding');
+                        }, 500);
                     }
-                    
-                    setTimeout(() => {
-                        targetElement.classList.remove('expanding');
-                    }, 500);
-                }
-            });
-        }
+                });
+            }
+        });
     });
-});
 </script>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Block Name: Not Found Product
  * Description: Блок "Не нашли нужного товара?" с данными из настроек сайта
@@ -24,64 +25,64 @@ $image_alt = $background_image ? $background_image['alt'] : 'Изображен�
 
 <!-- Не нашли нужного товара? -->
 <section class="section section-half <?php echo esc_attr($bg_class); ?>">
-  <div class="d-flex flex-wrap half-bg">
-    <!-- Левая часть с фоном -->
-    <div class="left-part flex-grow-1"></div>
+    <div class="d-flex flex-wrap half-bg">
+        <!-- Левая часть с фоном -->
+        <div class="left-part flex-grow-1"></div>
 
-    <!-- Правая часть с картинкой (скрывается на мобилках) -->
-    <div class="right-part d-none d-md-block">
-      <img loading="lazy" src="<?php echo esc_url($image_src); ?>" alt="<?php echo esc_attr($image_alt); ?>" class="img-cover">
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="row justify-content-center py-5">
-      <div class="col-md-6 col-lg-5 text-md-end">
-        <h2 class="mb-1"><?php echo esc_html($title); ?></h2>
-
-        <div class="order-description mb-3">
-          <?php echo wp_kses_post($description); ?>
+        <!-- Правая часть с картинкой (скрывается на мобилках) -->
+        <div class="right-part d-none d-md-block">
+            <img loading="lazy" src="<?php echo esc_url($image_src); ?>" alt="<?php echo esc_attr($image_alt); ?>" class="img-cover">
         </div>
-
-        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid mb-5">
-
-        <br>
-
-        <?php if (!empty($button_text)): ?>
-          <button type="button" class="btn mb-4" data-bs-toggle="modal" data-bs-target="#callbackModal">
-            <?php echo esc_html($button_text); ?>
-          </button>
-        <?php endif; ?>
-
-        <!-- Социальные сети из настроек (только те, что отмечены для блоков) -->
-        <?php
-        $social_networks = get_field('social_networks', 'option');
-        if ($social_networks):
-          $block_socials = array_filter($social_networks, function ($social) {
-            return !empty($social['show_in_blocks']);
-          });
-
-          if (!empty($block_socials)):
-            ?>
-            <div class="row justify-content-md-end">
-              <div class="col">
-                <ul class="nav justify-content-md-end gap-3">
-                  <?php foreach ($block_socials as $social): ?>
-                    <li class="nav-item">
-                      <a class="nav-link ico-button" href="<?php echo esc_url($social['url']); ?>"
-                        title="<?php echo esc_attr($social['name']); ?>">
-                        <img loading="lazy" src="<?php echo esc_url($social['icon']['url']); ?>" alt="<?php echo esc_attr($social['name']); ?>">
-                      </a>
-                    </li>
-                  <?php endforeach; ?>
-                </ul>
-              </div>
-            </div>
-          <?php endif; ?>
-        <?php endif; ?>
-      </div>
-
-      <div class="col-md-6 col-lg-7"></div>
     </div>
-  </div>
+
+    <div class="container">
+        <div class="row justify-content-center py-5">
+            <div class="col-md-6 col-lg-5 text-md-end">
+                <h2 class="mb-1"><?php echo esc_html($title); ?></h2>
+
+                <div class="order-description mb-3">
+                    <?php echo wp_kses_post($description); ?>
+                </div>
+
+                <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid mb-5">
+
+                <br>
+
+                <?php if (!empty($button_text)): ?>
+                    <button type="button" class="btn mb-4" data-bs-toggle="modal" data-bs-target="#callbackModal">
+                        <?php echo esc_html($button_text); ?>
+                    </button>
+                <?php endif; ?>
+
+                <!-- Социальные сети из настроек (только те, что отмечены для блоков) -->
+                <?php
+                $social_networks = get_field('social_networks', 'option');
+                if ($social_networks):
+                    $block_socials = array_filter($social_networks, function ($social) {
+                        return !empty($social['show_in_blocks']);
+                    });
+
+                    if (!empty($block_socials)):
+                ?>
+                        <div class="row justify-content-md-end">
+                            <div class="col">
+                                <ul class="nav justify-content-md-end gap-3">
+                                    <?php foreach ($block_socials as $social): ?>
+                                        <li class="nav-item">
+                                            <a class="nav-link ico-button" href="<?php echo esc_url($social['url']); ?>"
+                                                title="<?php echo esc_attr($social['name']); ?>">
+                                                <img width="40" height="40" loading="lazy" src="<?php echo esc_url($social['icon']['url']); ?>" alt="<?php echo esc_attr($social['name']); ?>">
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+
+            <div class="col-md-6 col-lg-7"></div>
+        </div>
+    </div>
 </section>

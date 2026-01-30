@@ -303,7 +303,7 @@ function render_woocommerce_crosssells($product_id = null, $limit = 6, $backgrou
         <div class="container">
             <div class="section-title text-center">
                 <h3>А еще Вам может пригодиться</h3>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+                <img width="62" height="14" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
             </div>
             
             <div class="row g-4">
@@ -358,7 +358,7 @@ function render_related_categories_block($category_id, $title = 'А еще Ва�
         <div class="container">
             <div class="section-title text-center">
                 <h3><?php echo esc_html($title); ?></h3>
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
+                <img width="62" height="14" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid" />
             </div>
 
 			<!-- Карточки связанных категорий -->

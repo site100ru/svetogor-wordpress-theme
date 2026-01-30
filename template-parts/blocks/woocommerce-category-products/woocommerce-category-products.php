@@ -53,7 +53,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
         <div class="section-content-cards">
             <div class="section-title text-center">
                 <h3><?php echo esc_html($selected_category->name); ?></h3>
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+                <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
             </div>
 
             <!-- Десктопная версия -->

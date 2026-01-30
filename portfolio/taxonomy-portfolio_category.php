@@ -40,7 +40,7 @@ render_breadcrumbs(array(
                 <?php if (!empty($current_term->description)): ?>
                     <p class="category-description"><?php echo $current_term->description; ?></p>
                 <?php endif; ?>
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+                <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
             </div>
 
             <!-- Карточки -->

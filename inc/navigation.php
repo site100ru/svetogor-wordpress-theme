@@ -573,6 +573,8 @@ function svetogor_render_mobile_footer_info()
                     rel="noopener noreferrer">
                     <img loading="lazy"
                         src="<?= esc_url($social['icon']['url']) ?>"
+                        width="40" 
+                        height="40"
                         alt="<?= esc_attr($social['name'] ?? 'Social Network') ?>">
                 </a>
             <?php endforeach; ?>

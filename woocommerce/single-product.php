@@ -23,22 +23,22 @@ get_header('shop'); ?>
                     </li>
                     <?php
                     global $product;
-                    
+
                     // Получаем все категории товара
                     $terms = wp_get_post_terms($product->get_id(), 'product_cat');
-                    
+
                     if (!empty($terms)) {
                         $main_category = $terms[0];
-                        
+
                         // Собираем всю иерархию категорий
                         $category_hierarchy = array();
                         $current_cat = $main_category;
-                        
+
                         while ($current_cat) {
                             array_unshift($category_hierarchy, $current_cat);
                             $current_cat = $current_cat->parent ? get_term($current_cat->parent, 'product_cat') : false;
                         }
-                        
+
                         // Выводим все категории
                         foreach ($category_hierarchy as $category) {
                             echo '<li class="breadcrumb-item"><a href="' . get_term_link($category) . '">' . esc_html($category->name) . '</a></li>';
@@ -85,7 +85,7 @@ get_header('shop'); ?>
                     <div class="col-12 col-lg-4 product-descriprion">
                         <div class="section-title mb-0">
                             <h2 class="product_title"><?php the_title(); ?></h2>
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+                            <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
                         </div>
 
                         <?php

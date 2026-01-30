@@ -48,7 +48,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
                     Комплексное оформление <br>
                     <?php echo esc_html(mb_strtolower($current_term->name)); ?>
                 </h3>
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+                <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
             </div>
 
             <?php if (!empty($linked_categories) || !empty($linked_products)): ?>

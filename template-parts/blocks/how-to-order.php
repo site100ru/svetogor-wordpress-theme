@@ -47,7 +47,7 @@ $column_class = 'col-md-6 col-lg-' . (12 / intval($columns));
             <?php if (!empty($section_title)): ?>
                 <div class="section-title text-center">
                     <h3><?php echo esc_html($section_title); ?></h3>
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="Точки" >
+                    <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" class="img-fluid" alt="Точки" >
                 </div>
             <?php endif; ?>
 

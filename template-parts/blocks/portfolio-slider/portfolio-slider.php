@@ -67,7 +67,7 @@ wp_enqueue_script('portfolio-slider-js', get_template_directory_uri() . '/templa
     <div class="container">
         <div class="section-title text-center">
             <h3><?php echo esc_html($slider_title); ?></h3>
-            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Описание изображения" class="img-fluid">
+            <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Описание изображения" class="img-fluid">
         </div>
 
         <div class="glide glide-auto glide--ltr glide--carousel glide--swipeable" data-glide-perview="3"

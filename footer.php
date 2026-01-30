@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying the footer
  *
@@ -13,224 +14,221 @@
 
 <section class="footer">
     <h2 class="d-none">Подвал сайта</h2>
-	<!-- Desktop version -->
-	<div class="container py-5 d-none d-xl-block">
-		<div class="row align-items-center">
-			<div class="col-xl-3">
-				<a href="<?php echo esc_url(home_url('/')); ?>" id="navbar-brand-img">
-					<?php
-					$company_logo = get_company_logo();
-					if ($company_logo):
-						?>
-						<img src="<?php echo esc_url($company_logo['url']); ?>" class="img-fluid" alt="<?php echo esc_attr($company_logo['alt'] ?: get_bloginfo('name')); ?>" >
-					<?php endif; ?>
-				</a>
-			</div>
-			<div class="col-xl-7">
-				<div class="navbar-collapse">
-					<ul class="navbar-nav ms-auto mb-3 mb-lg-0 d-flex flex-row justify-content-center align-items-center">
-						<!-- Company Address -->
-						<li class="nav-item me-3">
-							<div class="d-flex align-items-center gap-3 lh-1 nav-link-email">
-								<img src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" alt="Адрес">
-								<span>
-									<?php echo nl2br(esc_html(get_company_address())); ?>
-								</span>
-							</div>
-						</li>
+    <!-- Desktop version -->
+    <div class="container py-5 d-none d-xl-block">
+        <div class="row align-items-center">
+            <div class="col-xl-3">
+                <a href="<?php echo esc_url(home_url('/')); ?>" id="navbar-brand-img">
+                    <?php
+                    $company_logo = get_company_logo();
+                    if ($company_logo):
+                    ?>
+                        <img width="230" height="70" src="<?php echo esc_url($company_logo['url']); ?>" class="img-fluid" alt="<?php echo esc_attr($company_logo['alt'] ?: get_bloginfo('name')); ?>">
+                    <?php endif; ?>
+                </a>
+            </div>
+            <div class="col-xl-7">
+                <div class="navbar-collapse">
+                    <ul class="navbar-nav ms-auto mb-3 mb-lg-0 d-flex flex-row justify-content-center align-items-center">
+                        <!-- Company Address -->
+                        <li class="nav-item me-3">
+                            <div class="d-flex align-items-center gap-3 lh-1 nav-link-email">
+                                <img width="24" height="24" src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" alt="Адрес">
+                                <span>
+                                    <?php echo nl2br(esc_html(get_company_address())); ?>
+                                </span>
+                            </div>
+                        </li>
 
-						<!-- Work Hours -->
-						<li class="nav-item me-3">
-							<div class="d-flex align-items-center gap-3 lh-1 nav-link-hourse">
-								<img src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>" alt="Время работы">
-								<span>
-									<?php echo nl2br(esc_html(get_company_work_hours())); ?>
-								</span>
-							</div>
-						</li>
+                        <!-- Work Hours -->
+                        <li class="nav-item me-3">
+                            <div class="d-flex align-items-center gap-3 lh-1 nav-link-hourse">
+                                <img width="24" height="24" src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>" alt="Время работы">
+                                <span>
+                                    <?php echo nl2br(esc_html(get_company_work_hours())); ?>
+                                </span>
+                            </div>
+                        </li>
 
-						<!-- Callback Button -->
-						<li class="nav-item me-3">
-							<button class="nav-link d-flex text-start align-items-center gap-3 lh-1" data-bs-toggle="modal"
-								data-bs-target="#callbackModal">
-								<img src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>" alt="Обратный звонок" >
-								<span>Обратный звонок</span>
-							</button>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-xl-2 text-end">
+                        <!-- Callback Button -->
+                        <li class="nav-item me-3">
+                            <button class="nav-link d-flex text-start align-items-center gap-3 lh-1" data-bs-toggle="modal" data-bs-target="#callbackModal">
+                                <img width="24" height="24" src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>" alt="Обратный звонок">
+                                <span>Обратный звонок</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-2 text-end">
 
-				<!-- Main Phone -->
-				<?php
-				$main_phone_data = get_main_phone_data();
-				if ($main_phone_data && isset($main_phone_data['phone_number']) && $main_phone_data['phone_number']):
-					?>
-					<a href="tel:<?php echo esc_attr(format_phone_for_href($main_phone_data['phone_number'])); ?>"
-						class="top-menu-tel nav-link">
-						<img src="<?php echo esc_url(get_contact_icon_url('global_phone_icon', 'mobile-phone-ico.svg')); ?>" class="me-2" alt="Телефон" >
-						<?php echo esc_html($main_phone_data['phone_number']); ?>
-					</a>
-				<?php endif; ?>
-			</div>
-		</div>
+                <!-- Main Phone -->
+                <?php
+                $main_phone_data = get_main_phone_data();
+                if ($main_phone_data && isset($main_phone_data['phone_number']) && $main_phone_data['phone_number']):
+                ?>
+                    <a href="tel:<?php echo esc_attr(format_phone_for_href($main_phone_data['phone_number'])); ?>"
+                        class="top-menu-tel nav-link">
+                        <img width="24" height="24" src="<?php echo esc_url(get_contact_icon_url('global_phone_icon', 'mobile-phone-ico.svg')); ?>" class="me-2" alt="Телефон">
+                        <?php echo esc_html($main_phone_data['phone_number']); ?>
+                    </a>
+                <?php endif; ?>
+            </div>
+        </div>
 
-		<!-- Footer Navigation Menu -->
-		<div class="row">
-			<div class="col py-4 d-flex justify-content-center align-items-center">
-				<?php display_footer_menu(); ?>
-			</div>
-		</div>
+        <!-- Footer Navigation Menu -->
+        <div class="row">
+            <div class="col py-4 d-flex justify-content-center align-items-center">
+                <?php display_footer_menu(); ?>
+            </div>
+        </div>
 
-		<!-- Social Networks -->
-		<div class="row justify-content-center footer-icon">
-			<div class="col">
-				<ul class="nav justify-content-center">
-					<?php
-					$footer_socials = get_footer_social_networks();
-					if ($footer_socials):
-						foreach ($footer_socials as $social):
-							if ($social['icon'] && $social['url']):
-								?>
-								<li class="nav-item">
-									<a class="nav-link ico-button px-2" href="<?php echo esc_url($social['url']); ?>" target="_blank">
-										<img src="<?php echo esc_url($social['icon']['url']); ?>"
-											alt="<?php echo esc_attr($social['name']); ?>" />
-									</a>
-								</li>
-								<?php
-							endif;
-						endforeach;
-					endif;
-					?>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<!-- /Desktop version -->
+        <!-- Social Networks -->
+        <div class="row justify-content-center footer-icon">
+            <div class="col">
+                <ul class="nav justify-content-center">
+                    <?php
+                    $footer_socials = get_footer_social_networks();
+                    if ($footer_socials):
+                        foreach ($footer_socials as $social):
+                            if ($social['icon'] && $social['url']):
+                    ?>
+                                <li class="nav-item">
+                                    <a class="nav-link ico-button px-2" href="<?php echo esc_url($social['url']); ?>" target="_blank">
+                                        <img src="<?php echo esc_url($social['icon']['url']); ?>" width="40" height="40" alt="<?php echo esc_attr($social['name']); ?>" />
+                                    </a>
+                                </li>
+                    <?php
+                            endif;
+                        endforeach;
+                    endif;
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /Desktop version -->
 
-	<!-- Mobile version -->
-	<div class="container d-xl-none">
-		<div class="row">
-			<div class="col py-5">
-				<a href="<?php echo esc_url(home_url('/')); ?>" id="navbar-brand-img-mobile">
-					<?php
-					$company_logo = get_company_logo();
-					if ($company_logo):
-						?>
-						<img src="<?php echo esc_url($company_logo['url']); ?>" class="img-fluid" alt="<?php echo esc_attr($company_logo['alt'] ?: get_bloginfo('name')); ?>" >
-					<?php endif; ?>
-				</a>
-				<ul class="ps-0 pt-0 pt-md-3 pb-2 navbar-nav">
-					<!-- Company Address -->
-					<li class="nav-item">
-						<div class="nav-link ps-0 pb-2">
-							<img src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" class="me-2" alt="Адрес" >
-							<?php echo esc_html(get_company_address()); ?>
-						</div>
-					</li>
+    <!-- Mobile version -->
+    <div class="container d-xl-none">
+        <div class="row">
+            <div class="col py-5">
+                <a href="<?php echo esc_url(home_url('/')); ?>" id="navbar-brand-img-mobile">
+                    <?php
+                    $company_logo = get_company_logo();
+                    if ($company_logo):
+                    ?>
+                        <img width="230" height="70" src="<?php echo esc_url($company_logo['url']); ?>" class="img-fluid" alt="<?php echo esc_attr($company_logo['alt'] ?: get_bloginfo('name')); ?>">
+                    <?php endif; ?>
+                </a>
+                <ul class="ps-0 pt-0 pt-md-3 pb-2 navbar-nav">
+                    <!-- Company Address -->
+                    <li class="nav-item">
+                        <div class="nav-link ps-0 pb-2">
+                            <img width="24" height="24" src="<?php echo esc_url(get_contact_icon_url('location_icon', 'location-ico.svg')); ?>" class="me-2" alt="Адрес">
+                            <?php echo esc_html(get_company_address()); ?>
+                        </div>
+                    </li>
 
-					<!-- Work Hours -->
-					<li class="nav-item">
-						<div class="nav-link ps-0 py-2">
-							<img src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>" class="me-2" alt="Время работы" >
-							<?php echo esc_html(get_company_work_hours()); ?>
-						</div>
-					</li>
+                    <!-- Work Hours -->
+                    <li class="nav-item">
+                        <div class="nav-link ps-0 py-2">
+                            <img width="24" height="24" src="<?php echo esc_url(get_contact_icon_url('clock_icon', 'clock-ico.svg')); ?>" class="me-2" alt="Время работы">
+                            <?php echo esc_html(get_company_work_hours()); ?>
+                        </div>
+                    </li>
 
-					<!-- Callback Button -->
-					<li class="nav-item">
-						<button class="nav-link ps-0 pt-2" data-bs-toggle="modal" data-bs-target="#callbackModal">
-							<img src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>" class="me-2" alt="Обратный звонок" >
-							Обратный звонок
-						</button>
-					</li>
-				</ul>
+                    <!-- Callback Button -->
+                    <li class="nav-item">
+                        <button class="nav-link ps-0 pt-2" data-bs-toggle="modal" data-bs-target="#callbackModal">
+                            <img width="24" height="24" src="<?php echo esc_url(get_contact_icon_url('callback_icon', 'callback-ico.svg')); ?>" class="me-2" alt="Обратный звонок">
+                            Обратный звонок
+                        </button>
+                    </li>
+                </ul>
 
-				<!-- Main Phone -->
-				<?php
-				$main_phone_data = get_main_phone_data();
-				if ($main_phone_data && isset($main_phone_data['phone_number']) && $main_phone_data['phone_number']):
-					?>
-					<a href="tel:<?php echo esc_attr(format_phone_for_href($main_phone_data['phone_number'])); ?>"
-						class="top-menu-tel nav-link">
-						<img src="<?php echo esc_url(get_phone_icon_url($main_phone_data)); ?>" class="me-2" style="position: relative; bottom: 1px" alt="Телефон" >
-						<?php echo esc_html($main_phone_data['phone_number']); ?>
-					</a>
-				<?php endif; ?>
+                <!-- Main Phone -->
+                <?php
+                $main_phone_data = get_main_phone_data();
+                if ($main_phone_data && isset($main_phone_data['phone_number']) && $main_phone_data['phone_number']):
+                ?>
+                    <a href="tel:<?php echo esc_attr(format_phone_for_href($main_phone_data['phone_number'])); ?>"
+                        class="top-menu-tel nav-link">
+                        <img width="24" height="24" src="<?php echo esc_url(get_phone_icon_url($main_phone_data)); ?>" class="me-2" style="position: relative; bottom: 1px" alt="Телефон">
+                        <?php echo esc_html($main_phone_data['phone_number']); ?>
+                    </a>
+                <?php endif; ?>
 
-				<!-- Social Networks -->
-				<ul class="nav pt-4 pb-3">
-					<?php
-					$footer_socials = get_footer_social_networks();
-					if ($footer_socials):
-						foreach ($footer_socials as $social):
-							if ($social['icon'] && $social['url']):
-								?>
-								<li class="nav-item">
-									<a class="nav-link ico-button ps-0 px-2" href="<?php echo esc_url($social['url']); ?>" target="_blank">
-										<img src="<?php echo esc_url($social['icon']['url']); ?>"
-											alt="<?php echo esc_attr($social['name']); ?>" />
-									</a>
-								</li>
-								<?php
-							endif;
-						endforeach;
-					endif;
-					?>
-				</ul>
+                <!-- Social Networks -->
+                <ul class="nav pt-4 pb-3">
+                    <?php
+                    $footer_socials = get_footer_social_networks();
+                    if ($footer_socials):
+                        foreach ($footer_socials as $social):
+                            if ($social['icon'] && $social['url']):
+                    ?>
+                                <li class="nav-item">
+                                    <a class="nav-link ico-button ps-0 px-2" href="<?php echo esc_url($social['url']); ?>" target="_blank">
+                                        <img src="<?php echo esc_url($social['icon']['url']); ?>" width="40" height="40" alt="<?php echo esc_attr($social['name']); ?>" />
+                                    </a>
+                                </li>
+                    <?php
+                            endif;
+                        endforeach;
+                    endif;
+                    ?>
+                </ul>
 
-				<!-- Mobile Footer Menu -->
-				<?php display_footer_menu_mobile(); ?>
-			</div>
-		</div>
-	</div>
+                <!-- Mobile Footer Menu -->
+                <?php display_footer_menu_mobile(); ?>
+            </div>
+        </div>
+    </div>
 
-	<hr>
+    <hr>
 
-	<!-- Footer -->
-	<footer id="colophon" class="site-footer">
-		<div class="container">
-			<div class="row">
-				<div class="col text-start text-md-center">
-					<div id="im-in-footer">
-						Создание, продвижение и поддержка:
-						<a href="https://site100.ru" class="text-decoration-underline">site100.ru</a>
+    <!-- Footer -->
+    <footer id="colophon" class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col text-start text-md-center">
+                    <div id="im-in-footer">
+                        Создание, продвижение и поддержка:
+                        <a href="https://site100.ru" class="text-decoration-underline">site100.ru</a>
                         <div class="policy-in-footer">
                             <a href="<?php echo get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf" class="text-decoration-underline" target="_blank">Политика конфиденциальности</a> | <a class="text-decoration-underline" href="<?php echo get_template_directory_uri(); ?>/docs/Consent-to-the-processing-of-personal-data.pdf" target="_blank">Согласие на обработку персональных данных</a>
                         </div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </section>
 
 <div class="modal fade" id="callbackModal">
-	<div class="modal-dialog modal-dialog-centered">
-		<?php include 'forms/simple-form.php'; ?>
-	</div>
+    <div class="modal-dialog modal-dialog-centered">
+        <?php include 'forms/simple-form.php'; ?>
+    </div>
 </div>
 
 <!-- Callback Modal -->
 <div class="modal fade" id="callbackModalTwo">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<?php include get_template_directory() . '/template-parts/blocks/forms/modal-extended-form.php'; ?>
-	</div>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <?php include get_template_directory() . '/template-parts/blocks/forms/modal-extended-form.php'; ?>
+    </div>
 </div>
 <!-- /Callback Modal -->
 
 <div class="modal fade" id="callbackModalFree">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<?php include 'forms/calculation-form.php'; ?>
-	</div>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <?php include 'forms/calculation-form.php'; ?>
+    </div>
 </div>
 
 <div class="modal fade" id="callbackModalFour">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<?php include 'forms/quantity-form.php'; ?>
-	</div>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <?php include 'forms/quantity-form.php'; ?>
+    </div>
 </div>
 
 <!-- Показываем сообщение об успешной отправки -->
@@ -245,11 +243,11 @@
 </div>
 
 <script>
-	function f1() {
+    function f1() {
         document.getElementById('background-msg').style.display = 'none';
         document.getElementById('message').style.display = 'none';
         document.getElementById('btn-close').style.display = 'none';
-	}
+    }
 </script>
 
 
@@ -262,14 +260,10 @@
                     На нашем сайте используются cookie-файлы, в том числе сервисов
                     веб-аналитики. Используя сайт, вы соглашаетесь на <a
                         href="<?= get_template_directory_uri(); ?>/docs/Consent-to-the-processing-of-personal-data.pdf"
-                        target="blank"
-                        >обработку персональных данных</a
-                    > при помощи cookie-файлов. Подробнее об обработке персональных данных
+                        target="blank">обработку персональных данных</a> при помощи cookie-файлов. Подробнее об обработке персональных данных
                     вы можете узнать в <a
                         href="<?= get_template_directory_uri(); ?>/docs/Privacy-Policy.pdf"
-                        target="blank"
-                        >Политике конфиденциальности.</a
-                    >
+                        target="blank">Политике конфиденциальности.</a>
                 </p>
             </div>
             <div class="col-md-3 text-md-center">
@@ -279,7 +273,7 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const popupForm = document.getElementById('popupForm');
         const closeBtn = document.getElementById('closeBtn');
 
@@ -319,86 +313,88 @@
 <!-- reCAPTCHA v3 для всех форм -->
 <script src='https://www.google.com/recaptcha/api.js?render=6LdV1IcUAAAAADRQAhpGL8dVj5_t0nZDPh9m_0tn'></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Находим все формы, которые отправляются на PHP-обработчики
-    const forms = document.querySelectorAll('form[action*="form-handler.php"]');
-    
-    forms.forEach(function(form) {
-        const recaptchaInput = form.querySelector('input[name="g-recaptcha-response"]');
-        
-        // Если в форме есть поле для reCAPTCHA
-        if (recaptchaInput) {
-            form.addEventListener('submit', function(e) {
-                // Только если токена еще нет или он пустой
-                if (!recaptchaInput.value) {
-                    e.preventDefault();
-                    
-                    grecaptcha.ready(function() {
-                        grecaptcha.execute('6LdV1IcUAAAAADRQAhpGL8dVj5_t0nZDPh9m_0tn', {action: 'submit'})
-                            .then(function(token) {
-                                // Вставляем свежий токен
-                                recaptchaInput.value = token;
-                                // Отправляем форму
-                                form.submit();
-                            });
-                    });
-                }
-            });
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Находим все формы, которые отправляются на PHP-обработчики
+        const forms = document.querySelectorAll('form[action*="form-handler.php"]');
+
+        forms.forEach(function(form) {
+            const recaptchaInput = form.querySelector('input[name="g-recaptcha-response"]');
+
+            // Если в форме есть поле для reCAPTCHA
+            if (recaptchaInput) {
+                form.addEventListener('submit', function(e) {
+                    // Только если токена еще нет или он пустой
+                    if (!recaptchaInput.value) {
+                        e.preventDefault();
+
+                        grecaptcha.ready(function() {
+                            grecaptcha.execute('6LdV1IcUAAAAADRQAhpGL8dVj5_t0nZDPh9m_0tn', {
+                                    action: 'submit'
+                                })
+                                .then(function(token) {
+                                    // Вставляем свежий токен
+                                    recaptchaInput.value = token;
+                                    // Отправляем форму
+                                    form.submit();
+                                });
+                        });
+                    }
+                });
+            }
+        });
+
+        // Заполняем скрытые поля для всех форм
+        const allForms = document.querySelectorAll('form[method="post"]');
+        allForms.forEach(function(form) {
+            const pageUrl = form.querySelector('input[name="page-url"]');
+            const pageTitle = form.querySelector('input[name="page-title"]');
+
+            if (pageUrl) pageUrl.value = window.location.href;
+            if (pageTitle) pageTitle.value = document.title;
+        });
     });
-    
-    // Заполняем скрытые поля для всех форм
-    const allForms = document.querySelectorAll('form[method="post"]');
-    allForms.forEach(function(form) {
-        const pageUrl = form.querySelector('input[name="page-url"]');
-        const pageTitle = form.querySelector('input[name="page-title"]');
-        
-        if (pageUrl) pageUrl.value = window.location.href;
-        if (pageTitle) pageTitle.value = document.title;
-    });
-});
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Находим все кнопки загрузки файлов
-    const fileUploaders = document.querySelectorAll('.file-upload-wrapper');
-    
-    fileUploaders.forEach(function(wrapper) {
-        const fileInput = wrapper.querySelector('.file-upload');
-        const fileName = wrapper.querySelector('.file-name');
-        const fileButton = wrapper.querySelector('.file-upload-btn');
-        
-        if (fileInput && fileName) {
-            // Клик по кнопке открывает выбор файла
-            if (fileButton) {
-                fileButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    fileInput.click();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Находим все кнопки загрузки файлов
+        const fileUploaders = document.querySelectorAll('.file-upload-wrapper');
+
+        fileUploaders.forEach(function(wrapper) {
+            const fileInput = wrapper.querySelector('.file-upload');
+            const fileName = wrapper.querySelector('.file-name');
+            const fileButton = wrapper.querySelector('.file-upload-btn');
+
+            if (fileInput && fileName) {
+                // Клик по кнопке открывает выбор файла
+                if (fileButton) {
+                    fileButton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        fileInput.click();
+                    });
+                }
+
+                // Обновляем название при выборе файла
+                fileInput.addEventListener('change', function(e) {
+                    if (e.target.files && e.target.files.length > 0) {
+                        const file = e.target.files[0];
+                        const maxSize = 5 * 1024 * 1024; // 5MB
+
+                        if (file.size > maxSize) {
+                            alert('Размер файла не должен превышать 5MB');
+                            fileInput.value = '';
+                            fileName.textContent = 'Файл не прикреплен';
+                            return;
+                        }
+
+                        fileName.textContent = file.name;
+                    } else {
+                        fileName.textContent = 'Файл не прикреплен';
+                    }
                 });
             }
-            
-            // Обновляем название при выборе файла
-            fileInput.addEventListener('change', function(e) {
-                if (e.target.files && e.target.files.length > 0) {
-                    const file = e.target.files[0];
-                    const maxSize = 5 * 1024 * 1024; // 5MB
-                    
-                    if (file.size > maxSize) {
-                        alert('Размер файла не должен превышать 5MB');
-                        fileInput.value = '';
-                        fileName.textContent = 'Файл не прикреплен';
-                        return;
-                    }
-                    
-                    fileName.textContent = file.name;
-                } else {
-                    fileName.textContent = 'Файл не прикреплен';
-                }
-            });
-        }
+        });
     });
-});
 </script>
 
 <?php wp_footer(); ?>

@@ -63,7 +63,7 @@ if ($show_articles) {
     <div class="container">
         <div class="section-title text-center">
             <h2><?php echo esc_html($block_title); ?></h2>
-            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+            <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
         </div>
 
         <!-- Табуляция -->
@@ -83,7 +83,7 @@ if ($show_articles) {
 
                 <?php if ($show_news && $show_articles): ?>
                     <li class="nav-item">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/menu-decoration-point.svg" alt="Декоративная точка - разделитель" class="img-fluid py-3">
+                        <img width="6" height="6" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/menu-decoration-point.svg" alt="Декоративная точка - разделитель" class="img-fluid py-3">
                     </li>
                 <?php endif; ?>
 
