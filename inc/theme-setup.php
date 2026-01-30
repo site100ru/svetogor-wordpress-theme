@@ -143,17 +143,21 @@ add_action('wp_head', 'svetogor_critical_css', 2);
 function svetogor_preload_fonts() {
     // Только самые критичные шрифты, которые используются
     $fonts = array(
-        '/assets/fonts/HelveticaNeueCyr/HelveticaNeueCyr-Light.ttf',
-        '/assets/fonts/HelveticaNeueCyr/HelveticaNeueCyr-Roman.ttf',
-        '/assets/fonts/Gilroy/Gilroy-Light.ttf',
-        '/assets/fonts/Gilroy/Gilroy-Regular.ttf',
+        // Gilroy - основные начертания
+        '/assets/fonts/Gilroy/Gilroy-Light.ttf',      
+        '/assets/fonts/Gilroy/Gilroy-Regular.ttf',    
+        '/assets/fonts/Gilroy/Gilroy-Bold.ttf',       
+        '/assets/fonts/Gilroy/Gilroy-Extrabold.ttf',  
+        
+        // HelveticaNeueCyr
+        '/assets/fonts/HelveticaNeueCyr/HelveticaNeueCyr-Medium.ttf',
     );
     
     foreach ($fonts as $font) {
         echo '<link rel="preload" href="' . get_template_directory_uri() . $font . '" as="font" type="font/ttf" crossorigin>' . "\n";
     }
 }
-add_action('wp_head', 'svetogor_preload_fonts', 1); // Приоритет 1 - загружается первым
+add_action('wp_head', 'svetogor_preload_fonts', 1);
 
 
 /**
