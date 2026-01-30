@@ -5,7 +5,7 @@
 
     <!-- Правая часть с картинкой (скрывается на мобилках) -->
     <div class="right-part d-none d-lg-block">
-      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about-us.png" alt="Изображение" class="img-cover">
+      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about-us.webp" alt="Изображение" class="img-cover">
     </div>
   </div>
 
