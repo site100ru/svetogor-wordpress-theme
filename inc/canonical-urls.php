@@ -22,16 +22,50 @@ function add_canonical_url()
         
     } elseif (is_singular()) {
         // Для отдельных страниц, постов, товаров, портфолио
-        $canonical_url = trailingslashit(get_permalink());
+        global $post;
+        $custom = get_post_meta($post->ID, 'custom_permalink', true);
+        
+        if ($custom) {
+            // Кастомный URL — БЕЗ слеша
+            $canonical_url = home_url('/' . trim($custom, '/'));
+        } else {
+            // Стандартный URL — СО слешем
+            $canonical_url = trailingslashit(get_permalink());
+        }
+        
     } elseif (is_category()) {
         // Для категорий
-        $canonical_url = trailingslashit(get_category_link(get_queried_object_id()));
+        $term = get_queried_object();
+        $custom = get_term_meta($term->term_id, 'custom_permalink', true);
+        
+        if ($custom) {
+            $canonical_url = home_url('/' . trim($custom, '/'));
+        } else {
+            $canonical_url = trailingslashit(get_category_link(get_queried_object_id()));
+        }
+        
     } elseif (is_tag()) {
         // Для меток
-        $canonical_url = trailingslashit(get_tag_link(get_queried_object_id()));
+        $term = get_queried_object();
+        $custom = get_term_meta($term->term_id, 'custom_permalink', true);
+        
+        if ($custom) {
+            $canonical_url = home_url('/' . trim($custom, '/'));
+        } else {
+            $canonical_url = trailingslashit(get_tag_link(get_queried_object_id()));
+        }
+        
     } elseif (is_tax()) {
         // Для таксономий
-        $canonical_url = trailingslashit(get_term_link(get_queried_object()));
+        $term = get_queried_object();
+        $custom = get_term_meta($term->term_id, 'custom_permalink', true);
+        
+        if ($custom) {
+            $canonical_url = home_url('/' . trim($custom, '/'));
+        } else {
+            $canonical_url = trailingslashit(get_term_link($term));
+        }
+        
     } elseif (is_post_type_archive()) {
         // Для архивов
         $canonical_url = trailingslashit(get_post_type_archive_link(get_post_type()));

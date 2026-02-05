@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 // ============================================================================
 
 define('CPURL_POST_TYPES', array('post', 'product', 'page', 'news', 'services', 'portfolio'));
-define('CPURL_TAXONOMIES', array('product_cat', 'complex_design'));
+define('CPURL_TAXONOMIES', array('product_cat', 'complex_design', 'portfolio_category'));
 
 // ============================================================================
 // ТРАНСЛИТЕРАЦИЯ (использует функцию из transliteration.php)
@@ -317,13 +317,18 @@ function cpurl_custom_link($permalink, $post) {
     return $custom ? home_url('/' . trim($custom, '/') . '/') : $permalink;
 }
 
-add_filter('term_link', 'cpurl_custom_term_link', 10, 3);
+add_filter('term_link', 'cpurl_custom_term_link', 999, 3);
 function cpurl_custom_term_link($termlink, $term, $taxonomy) {
     if (!in_array($taxonomy, CPURL_TAXONOMIES)) return $termlink;
     
     $term_id = is_object($term) ? $term->term_id : $term;
     $custom = get_term_meta($term_id, 'custom_permalink', true);
-    return $custom ? home_url('/' . trim($custom, '/') . '/') : $termlink;
+    
+    if ($custom) {
+        return home_url('/' . trim($custom, '/')); // БЕЗ слэша в конце
+    }
+    
+    return $termlink;
 }
 
 // ============================================================================
@@ -477,4 +482,77 @@ function cpurl_redirect() {
 add_action('after_switch_theme', 'cpurl_activate');
 function cpurl_activate() {
     delete_option('rewrite_rules');
+}
+
+// ============================================================================
+// УБРАТЬ СЛЭШ ИЗ ССЫЛОК В АДМИНКЕ
+// ============================================================================
+
+add_filter('preview_post_link', 'cpurl_remove_slash_preview', 10, 2);
+function cpurl_remove_slash_preview($preview_link, $post) {
+    $custom = get_post_meta($post->ID, 'custom_permalink', true);
+    if ($custom) {
+        $preview_link = rtrim($preview_link, '/');
+    }
+    return $preview_link;
+}
+
+add_filter('post_link', 'cpurl_remove_slash_admin', 999, 2);
+add_filter('post_type_link', 'cpurl_remove_slash_admin', 999, 2);
+add_filter('page_link', 'cpurl_remove_slash_admin', 999, 2);
+function cpurl_remove_slash_admin($permalink, $post) {
+    $post_id = is_object($post) ? $post->ID : $post;
+    $custom = get_post_meta($post_id, 'custom_permalink', true);
+    if ($custom) {
+        $permalink = rtrim($permalink, '/');
+    }
+    return $permalink;
+}
+
+
+add_filter('get_term_link', 'cpurl_remove_slash_term_link', 999, 3);
+function cpurl_remove_slash_term_link($termlink, $term, $taxonomy) {
+    if (is_admin() || is_admin_bar_showing()) {
+        $term_id = is_object($term) ? $term->term_id : $term;
+        $custom = get_term_meta($term_id, 'custom_permalink', true);
+        if ($custom) {
+            return rtrim($termlink, '/');
+        }
+    }
+    return $termlink;
+}
+
+add_filter('get_sample_permalink', 'cpurl_remove_slash_sample', 999, 5);
+function cpurl_remove_slash_sample($permalink, $post_id, $title, $name, $post) {
+    $custom = get_post_meta($post_id, 'custom_permalink', true);
+    if ($custom) {
+        $permalink[0] = rtrim($permalink[0], '/');
+    }
+    return $permalink;
+}
+
+add_filter('redirect_canonical', 'cpurl_disable_trailing_slash', 10, 2);
+function cpurl_disable_trailing_slash($redirect_url, $requested_url) {
+    global $post;
+    
+    // Для постов с кастомным URL
+    if (is_singular() && $post) {
+        $custom = get_post_meta($post->ID, 'custom_permalink', true);
+        if ($custom) {
+            return false; // Отключаем редирект
+        }
+    }
+    
+    // Для таксономий с кастомным URL
+    if (is_tax() || is_category() || is_tag()) {
+        $term = get_queried_object();
+        if ($term && isset($term->term_id)) {
+            $custom = get_term_meta($term->term_id, 'custom_permalink', true);
+            if ($custom) {
+                return false; // Отключаем редирект
+            }
+        }
+    }
+    
+    return $redirect_url;
 }
