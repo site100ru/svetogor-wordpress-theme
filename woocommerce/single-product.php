@@ -5,7 +5,6 @@
  */
 defined('ABSPATH') || exit;
 get_header('shop'); ?>
-<h1 class="d-none"><?php the_title(); ?></h1>
 <?php while (have_posts()): ?>
     <?php the_post(); ?>
 
@@ -84,7 +83,7 @@ get_header('shop'); ?>
                     <!-- Информация о товаре -->
                     <div class="col-12 col-lg-4 product-descriprion">
                         <div class="section-title mb-0">
-                            <h2 class="product_title"><?php the_title(); ?></h2>
+                            <h1 class="h2 product_title"><?php the_title(); ?></h1>
                             <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
                         </div>
 

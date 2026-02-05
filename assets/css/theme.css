@@ -276,7 +276,7 @@ p a:hover {opacity:0.75 !important}
 .section-contacts a:hover {color:var(--color-accent-hover)}
 .tab-content-product * {font-family:var(--font-family); font-weight:300; font-size:clamp(1rem,0.909rem + 0.45vw,1.25rem); line-height:1.25}
 .product-descriprion {display:flex; flex-direction:column; align-items:start; gap:clamp(1.25rem,-6.563rem + 12.5vw,2.813rem)}
-.product-descriprion .section-title h2 {font-family:var(--second-family)}
+.product-descriprion .section-title h1 {font-family: var(--second-family);text-transform: none;}
 .product-descriprion .price-text {color:#e31e24; font-family:var(--second-family)}
 #productTabs.nav-tabs:first-child {margin-left:calc(-1 * var(--bs-nav-link-padding-x))}
 .price-item {display:flex; align-items:baseline; width:100%; margin-bottom:16px; position:relative; overflow:hidden}

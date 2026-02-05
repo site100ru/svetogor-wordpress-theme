@@ -1586,9 +1586,7 @@ p a:hover {
 	gap: clamp(1.25rem, -6.563rem + 12.5vw, 2.813rem);
 }
 
-.product-descriprion .section-title h2 {
-    font-family: var(--second-family);
-}
+.product-descriprion .section-title h1 {font-family: var(--second-family);text-transform: none;}
 
 .product-descriprion .price-text {
     color: #e31e24;
