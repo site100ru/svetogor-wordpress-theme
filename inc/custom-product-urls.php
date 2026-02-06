@@ -314,7 +314,7 @@ add_filter('page_link', 'cpurl_custom_link', 10, 2);
 function cpurl_custom_link($permalink, $post) {
     $post_id = is_object($post) ? $post->ID : $post;
     $custom = get_post_meta($post_id, 'custom_permalink', true);
-    return $custom ? home_url('/' . trim($custom, '/') . '/') : $permalink;
+    return $custom ? home_url('/' . trim($custom, '/')) : $permalink;
 }
 
 add_filter('term_link', 'cpurl_custom_term_link', 999, 3);
@@ -323,12 +323,7 @@ function cpurl_custom_term_link($termlink, $term, $taxonomy) {
     
     $term_id = is_object($term) ? $term->term_id : $term;
     $custom = get_term_meta($term_id, 'custom_permalink', true);
-    
-    if ($custom) {
-        return home_url('/' . trim($custom, '/')); // БЕЗ слэша в конце
-    }
-    
-    return $termlink;
+    return $custom ? home_url('/' . trim($custom, '/')) : $termlink;
 }
 
 // ============================================================================
@@ -438,36 +433,34 @@ function cpurl_redirect() {
     if (is_admin()) return;
     
     global $post;
+    $request_uri = $_SERVER['REQUEST_URI'];
+    $has_trailing_slash = (substr($request_uri, -1) === '/');
     
     // Для постов
     if (is_singular() && $post) {
         $custom = get_post_meta($post->ID, 'custom_permalink', true);
         if ($custom) {
-            $custom = trim($custom, '/');
-            $new_url = home_url('/' . $custom . '/');
-            $current_url = home_url(add_query_arg(array(), $_SERVER['REQUEST_URI']));
+            $custom_clean = trim($custom, '/');
+            $current_path = trim(parse_url($request_uri, PHP_URL_PATH), '/');
             
-            if (strpos($current_url, '/' . $custom . '/') === false && 
-                strpos($current_url, '/' . $custom) === false) {
-                wp_safe_redirect($new_url, 301);
+            if ($current_path !== $custom_clean || $has_trailing_slash) {
+                wp_safe_redirect(home_url('/' . $custom_clean), 301);
                 exit;
             }
         }
     }
     
     // Для таксономий
-    if (is_tax(CPURL_TAXONOMIES) || is_product_category()) {
+    if (is_tax(CPURL_TAXONOMIES) || is_category() || is_tag() || is_tax('portfolio_category')) {
         $term = get_queried_object();
         if ($term && isset($term->term_id)) {
             $custom = get_term_meta($term->term_id, 'custom_permalink', true);
-            if (!empty($custom)) {
-                $custom = trim($custom, '/');
-                $new_url = home_url('/' . $custom . '/');
-                $current_url = home_url(add_query_arg(array(), $_SERVER['REQUEST_URI']));
+            if ($custom) {
+                $custom_clean = trim($custom, '/');
+                $current_path = trim(parse_url($request_uri, PHP_URL_PATH), '/');
                 
-                if (strpos($current_url, '/' . $custom . '/') === false && 
-                    strpos($current_url, '/' . $custom) === false) {
-                    wp_safe_redirect($new_url, 301);
+                if ($current_path !== $custom_clean || $has_trailing_slash) {
+                    wp_safe_redirect(home_url('/' . $custom_clean), 301);
                     exit;
                 }
             }
