@@ -173,9 +173,9 @@ class Hero_Background_Meta_Box {
         wp_enqueue_media();
         wp_enqueue_script(
             'hero-bg-uploader',
-            get_template_directory_uri() . '/js/admin/hero-bg-uploader.js',
+            get_template_directory_uri() . '/assets/js/admin/hero-background-uploader.js',
             ['jquery'],
-            '2.1.0',
+            null,
             true
         );
     }

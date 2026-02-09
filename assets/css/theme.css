@@ -1,6 +1,6 @@
 :root {--color-accent:linear-gradient(90deg,#e31e24 0,#e85122 100%); --color-accent-hover:#e85122; --hero-box-shadow:0 4px 10px 0 rgba(0,0,0,0.1); --border-radius:10px; --white-color:#c8c8c8; --white:#f5f5f5; --font-family:'Gilroy',sans-serif; --second-family:'HelveticaNeueCyr',sans-serif; --third-family:'HelveticaNeue',sans-serif; --section-padding:clamp(1.875rem,1.193rem + 3.41vw,3.75rem); --section-margin-bottom:clamp(1.875rem,1.193rem + 3.41vw,3.75rem); --section-font-size:clamp(1.5rem,1.364rem + 0.68vw,1.875rem); --bs-btn-active-border-color:var(--color-accent-hover); --bs-btn-active-color:var(--color-accent-hover)}
 body {color:#323232; font-family:var(--font-family); padding-right:0 !important; overflow:visible !important}
-h1 {font-family:var(--font-family); color:#4b4b4b; font-size:clamp(1.875rem,1.193rem + 3.41vw,3.75rem); text-transform:uppercase; line-height:1.25; font-weight:800}
+h1 {font-family:var(--font-family); color:#4b4b4b; font-size:clamp(1.875rem,1.193rem + 3.41vw,3.75rem); text-transform:uppercase; line-height:1.25; font-weight:700}
 h2 {font-family:var(--font-family); font-size:30px; line-height:1; font-weight:700}
 h3 {font-family:var(--font-family); font-size:20px}
 h4 {font-family:var(--font-family); font-size:1.25rem; font-weight:700}
@@ -109,7 +109,7 @@ img {object-fit:cover}
 }
 #sliding-header.visible {transform:translateY(0); opacity:1; pointer-events:auto}
 .carouselMain {height:500px}
-.carouselMain h1,.carouselMain h2 {font-size:clamp(1.875rem,1.193rem + 3.41vw,3.75rem); margin-bottom:0; color:#4b4b4b; text-transform:uppercase; font-weight:800; line-height:1.25}
+.carouselMain h1,.carouselMain h2 { margin-bottom:0; color:#4b4b4b; text-transform:uppercase; font-weight:700; line-height:1.25; font-size: clamp(1.875rem, 1.42rem + 2.27vw, 3.125rem); }
 @media (max-width:768px) {.carouselMain h1,.carouselMain h2 {max-width:400px; margin-inline:auto; text-align:center; text-wrap:balance}
 }
 @media (max-width:568px) {.carouselMain h1,.carouselMain h2 {line-height:1}
@@ -229,7 +229,7 @@ p a:hover {opacity:0.75 !important}
 @media (max-width:560px) {.hero-section {background-position:center}
 }
 .hero-content {position:relative; z-index:2}
-.hero-content h1 {margin-bottom:0; font-size:clamp(1.25rem,0.795rem + 2.27vw,2.5rem); text-transform:uppercase}
+.hero-content h1 {margin-bottom:0; font-size:clamp(1.25rem,0.795rem + 2.27vw,2.5rem); text-transform:uppercase; font-weight: 700;}
 .single-news .hero-content h1 {max-width:600px}
 @media (max-width:568px) {.hero-content h1 {line-height:1}
 }

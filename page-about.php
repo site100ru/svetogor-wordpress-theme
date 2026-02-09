@@ -7,13 +7,17 @@ add_action('wp_head', function () {
 ?>
     <style>
         .hero-section h1 {
-            font-size: clamp(1.25rem, 0.341rem + 4.55vw, 3.75rem);
+            font-size: clamp(1.25rem, 0.568rem + 3.41vw, 3.125rem);
+            font-weight: 700;
+            color: #4b4b4b;
         }
 
         .hero-section h2 {
-            font-family: var(--second-family);
-            font-size: clamp(1.125rem, 0.966rem + 0.8vw, 1.563rem);
-            font-weight: 400;
+            font-family: var(--font-family);
+            font-weight: 700;
+            font-size: clamp(1.125rem, 0.463rem + 2.72vw, 2.5rem);
+            color: var(--dark-color);
+            color: #4b4b4b;
         }
 
         .card.card-portfolio-aboutUs {
@@ -27,6 +31,12 @@ add_action('wp_head', function () {
             height: 100%;
             max-height: 416px;
             border-radius: 0;
+        }
+
+        @media(max-width: 1200px) {
+            .hero-section {
+                background-position: left;
+            }
         }
     </style>
 <?php
@@ -55,8 +65,22 @@ if ($hero_bg_id) {
     <div class="container position-relative">
         <div class="row">
             <div class="col hero-content">
-                <h1><?php echo $page_title; ?></h1>
-                <h2>Начали с мечты, достигли успеха - <br>мы на вашей стороне!</h2>
+                <h1 class="mb-3 mb-md-0"><?php echo $page_title; ?></h1>
+
+                <!-- Заголовок в 8 колонок с flex -->
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <h2 class="d-flex flex-column mb-4">
+                            <span>Собственное производство —</span>
+                            <span class="align-self-md-center">значит быстрее и дешевле</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <p>
+                    Создадим любое рекламное решение по вашему проекту: <br />
+                    от вывески до торгового оборудования
+                </p>
             </div>
         </div>
     </div>
@@ -330,73 +354,77 @@ $next_arrow = get_field('carousel_next_arrow', 'option');
  * HTML код с карточками и модалкой Bootstrap Carousel
  */
 $images = array(
-    array('file' => 'portfolio-card-1.jpg', 'alt' => 'Объемная световая буква А'),
-    array('file' => 'portfolio-card-2.jpg', 'alt' => 'Производственная площадка с широкоформатными принтерами'),
-    array('file' => 'portfolio-card-3.jpg', 'alt' => 'Мастер собирает объемные световые буквы'),
-    array('file' => 'portfolio-card-4.jpg', 'alt' => 'Печать любой сложности'),
-    array('file' => 'portfolio-card-5.jpg', 'alt' => 'Печать на оборудовании'),
-    array('file' => 'portfolio-card-6.jpg', 'alt' => 'Световая буква'),
-    array('file' => 'portfolio-card-7.jpg', 'alt' => 'Сборка световых букв'),
+    array('file' => 'portfolio-card-1.jpg', 'alt' => 'Лазерный станок с ЧПУ в процессе гравировки металлических деталей, оператор работает за компьютером'),
+    array('file' => 'portfolio-card-2.jpg', 'alt' => 'Промышленный лазерный станок с открытой рабочей камерой и системой охлаждения в цеху'),
+    array('file' => 'portfolio-card-3.jpg', 'alt' => 'Овременный офис с зоной ожидания, ресепшн и сотрудником за рабочим местом'),
+    array('file' => 'portfolio-card-4.jpg', 'alt' => 'Руки мастера собирают объёмную букву на рабочем столе в мастерской, используя шуруповёрт.'),
+    array('file' => 'portfolio-card-5.jpg', 'alt' => 'Сварщик в защитной маске выполняет сварку металлических деталей на перфорированном рабочем столе в цеху.'),
+    array('file' => 'portfolio-card-6.jpg', 'alt' => 'Рабочий в перчатках режет металлический профиль на торцовочной пиле в производственном цеху.'),
+    array('file' => 'portfolio-card-7.jpg', 'alt' => 'Стеллаж с рулонами яркой цветной плёнки в офисном помещении, рядом стол с компьютером и человек, работающий за ним'),
     array('file' => 'portfolio-card-8.jpg', 'alt' => 'Печатное оборудование'),
 );
 ?>
 
 <div class="section">
     <div class="container-fluid">
+        <div class="section-title text-center">
+            <h3>Наше производство</h3>
+            <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+        </div>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(0)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-1.jpg" class="card-img-top" alt="Объемная световая буква А">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-1.jpg" class="card-img-top" alt="Лазерный станок с ЧПУ в процессе гравировки металлических деталей, оператор работает за компьютером">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(1)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-2.jpg" class="card-img-top" alt="Производственная площадка">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-2.jpg" class="card-img-top" alt="Промышленный лазерный станок с открытой рабочей камерой и системой охлаждения в цеху">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(2)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-3.jpg" class="card-img-top" alt="Сборка световых букв">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-3.jpg" class="card-img-top" alt="овременный офис с зоной ожидания, ресепшн и сотрудником за рабочим местом">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(3)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-4.jpg" class="card-img-top" alt="Печать">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-4.jpg" class="card-img-top" alt="Руки мастера собирают объёмную букву на рабочем столе в мастерской, используя шуруповёрт.">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(4)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-5.jpg" class="card-img-top" alt="Оборудование">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-5.jpg" class="card-img-top" alt="Сварщик в защитной маске выполняет сварку металлических деталей на перфорированном рабочем столе в цеху.">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(5)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-6.jpg" class="card-img-top" alt="Световая буква">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-6.jpg" class="card-img-top" alt="Рабочий в перчатках режет металлический профиль на торцовочной пиле в производственном цеху.">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 mb-4">
                 <div onclick="openGallery(6)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-7.jpg" class="card-img-top" alt="Мастер за работой">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-7.jpg" class="card-img-top" alt="Стеллаж с рулонами яркой цветной плёнки в офисном помещении, рядом стол с компьютером и человек, работающий за ним">
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div onclick="openGallery(7)" class="cursor-pointer w-100 card-portfolio-aboutUs card">
                     <div class="card-img-container">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-8.jpg" class="card-img-top" alt="Печатное производство">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/about/portfolio-card-8.jpg" class="card-img-top" alt="Мужчина работает на промышленном станке для обработки листовых материалов в мастерской; он подаёт деревянный лист в машину.">
                     </div>
                 </div>
             </div>
@@ -406,30 +434,30 @@ $images = array(
 
 <!-- Модалка с галереей -->
 <div id="galleryWrapper" style="background: rgba(0, 0, 0, 0.85); display: none; position: fixed; inset: 0; z-index: 9999;">
-    
+
     <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel" style="position: fixed; top: 0; height: 100%; width: 100%;">
-        
+
         <div class="carousel-indicators">
             <?php foreach ($images as $index => $image): ?>
                 <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="<?php echo $index; ?>" <?php echo $index === 0 ? 'class="active"' : ''; ?> aria-label="Slide <?php echo $index + 1; ?>"></button>
             <?php endforeach; ?>
         </div>
-        
+
         <div class="carousel-inner h-100">
             <?php foreach ($images as $index => $image): ?>
                 <div class="carousel-item h-100 <?php echo $index === 0 ? 'active' : ''; ?>" data-bs-interval="999999999">
                     <div class="row align-items-center h-100">
                         <div class="col text-center">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/<?php echo $image['file']; ?>" 
-                                 class="img-fluid" 
-                                 style="max-width: 90vw; max-height: 90vh;" 
-                                 alt="<?php echo esc_attr($image['alt']); ?>">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/about/<?php echo $image['file']; ?>"
+                                class="img-fluid"
+                                style="max-width: 90vw; max-height: 90vh;"
+                                alt="<?php echo esc_attr($image['alt']); ?>">
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
-        
+
         <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Предыдущий</span>
@@ -439,38 +467,38 @@ $images = array(
             <span class="visually-hidden">Следующий</span>
         </button>
     </div>
-    
+
     <button type="button" onclick="closeGallery();" class="btn-close btn-close-white" style="position: fixed; top: 25px; right: 25px; z-index: 99999;" aria-label="Close"></button>
 </div>
 
 <script>
-function openGallery(slideIndex) {
-    const wrapper = document.getElementById('galleryWrapper');
-    const carousel = new bootstrap.Carousel(document.getElementById('galleryCarousel'));
-    
-    wrapper.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    carousel.to(slideIndex);
-}
+    function openGallery(slideIndex) {
+        const wrapper = document.getElementById('galleryWrapper');
+        const carousel = new bootstrap.Carousel(document.getElementById('galleryCarousel'));
 
-function closeGallery() {
-    document.getElementById('galleryWrapper').style.display = 'none';
-    document.body.style.overflow = '';
-}
-
-// Закрытие по ESC
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && document.getElementById('galleryWrapper').style.display === 'block') {
-        closeGallery();
+        wrapper.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        carousel.to(slideIndex);
     }
-});
 
-// Закрытие по клику на фон
-document.getElementById('galleryWrapper').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeGallery();
+    function closeGallery() {
+        document.getElementById('galleryWrapper').style.display = 'none';
+        document.body.style.overflow = '';
     }
-});
+
+    // Закрытие по ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('galleryWrapper').style.display === 'block') {
+            closeGallery();
+        }
+    });
+
+    // Закрытие по клику на фон
+    document.getElementById('galleryWrapper').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeGallery();
+        }
+    });
 </script>
 
 <?php get_template_part('template-parts/blocks/news-articles-tabs'); ?>
