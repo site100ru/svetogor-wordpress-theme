@@ -26,40 +26,9 @@ $background_color_general_info = get_field('background_color_general_info') ?: '
 // Определяем классы на основе настроек фона
 $section_class = 'section section-product-list';
 $section_class .= $background_color_general_info === 'grey' ? ' bg-grey' : '';
-
-// Добавляем стили в head через wp_add_inline_style
-add_action('wp_head', function () {
-?>
-    <style>
-        .general-info .additional-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
-            opacity: 0;
-        }
-
-        .general-info .additional-content.expanded {
-            max-height: none;
-            opacity: 1;
-            margin-top: 1rem;
-        }
-
-        .general-info .expand-btn {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .general-info .additional-content.expanding {
-            max-height: 2000px;
-            opacity: 1;
-            margin-top: 1rem;
-        }
-    </style>
-<?php
-});
 ?>
 
-<section id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($section_class); ?> <?php echo esc_attr($className); ?> general-info">
+<section id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($section_class); ?> <?php echo esc_attr($className); ?> general-info base-text">
     <div class="container">
         <?php if (!empty($section_title_general_info)): ?>
             <div class="section-title text-center">
@@ -98,10 +67,12 @@ add_action('wp_head', function () {
 </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const expandButtons = document.querySelectorAll('.general-info .expand-btn');
-
-        expandButtons.forEach(function(button) {
+    (function() {
+        const initExpandButton = function() {
+            const button = document.querySelector('[data-target="#additionalText-<?php echo esc_js($block['id']); ?>"]');
+            
+            if (!button) return;
+            
             const targetId = button.getAttribute('data-target');
             const targetElement = document.querySelector(targetId);
 
@@ -143,6 +114,12 @@ add_action('wp_head', function () {
                     }
                 });
             }
-        });
-    });
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initExpandButton);
+        } else {
+            initExpandButton();
+        }
+    })();
 </script>

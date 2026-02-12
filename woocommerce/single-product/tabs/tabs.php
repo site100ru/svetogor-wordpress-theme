@@ -42,7 +42,7 @@ if ( ! empty( $product_tabs ) ) : ?>
     </ul>
 
     <!-- Содержимое табов -->
-    <div class="tab-content tab-content-product" id="productTabsContent">
+    <div class="tab-content base-text tab-content-product" id="productTabsContent">
         <?php $tab_count = 0; ?>
         <?php foreach ( $product_tabs as $key => $product_tab ) : ?>
             <div class="tab-pane fade <?php echo $tab_count === 0 ? 'show active' : ''; ?>" 

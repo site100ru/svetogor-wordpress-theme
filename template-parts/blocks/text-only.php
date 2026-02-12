@@ -53,7 +53,7 @@ if ($columns_count === '2') {
 }
 ?>
 
-<div id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($section_class); ?> <?php echo esc_attr($className); ?>">
+<div id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($section_class); ?> <?php echo esc_attr($className); ?> base-text">
     <div class="container">
         <div class="row align-items-start justify-content-center background-color-field-text-only">
 

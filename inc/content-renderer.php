@@ -55,17 +55,17 @@ function render_universal_content($content, $post_type = 'post')
     $wrapper_map = array(
         'post' => array(
             'wrapper_class' => 'standard-block-wrapper',
-            'section_class' => 'single-article-content',
+            'section_class' => 'single-article-content base-text',
             'content_class' => 'article-content'
         ),
         'news' => array(
             'wrapper_class' => 'standard-block-wrapper',
-            'section_class' => 'single-news-content',
+            'section_class' => 'single-news-content base-text',
             'content_class' => 'news-content'
         ),
         'services' => array(
             'wrapper_class' => 'standard-block-wrapper-service',
-            'section_class' => 'single-service-content',
+            'section_class' => 'single-service-content base-text',
             'content_class' => 'service-content'
         )
     );
@@ -116,7 +116,7 @@ function render_content_section($content, $section_class, $content_class)
     <section class="section <?php echo esc_attr($section_class); ?>">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12 col-lg-8">
+                <div class="col-12">
                     <div class="<?php echo esc_attr($content_class); ?>">
                         <?php echo $content; ?>
                     </div>

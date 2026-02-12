@@ -102,7 +102,7 @@ if ($show_articles) {
         <?php endif; ?>
 
         <!-- Контент табов -->
-        <div class="tab-content" id="<?php echo $unique_id; ?>Content">
+        <div class="tab-content base-text" id="<?php echo $unique_id; ?>Content">
 
             <!-- Новости -->
             <?php if ($show_news): ?>

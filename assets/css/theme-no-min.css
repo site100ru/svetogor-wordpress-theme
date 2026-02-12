@@ -33,9 +33,9 @@ body {
 h1 {
 	font-family: var(--font-family);
 	color: #4b4b4b;
-	font-size: clamp(1.875rem, 1.193rem + 3.41vw, 3.75rem);
+	font-size: clamp(1.875rem, 1.193rem + 3.41vw, 3.125rem);
 	text-transform: uppercase;
-	line-height: 1.25;
+	line-height: 1.35;
 	font-weight: 700;
 }
 
@@ -699,12 +699,12 @@ img {
 
 .carouselMain h1,
 .carouselMain h2 {
-	font-size: clamp(1.875rem, 1.42rem + 2.27vw, 3.125rem);
+	font-size: clamp(1.875rem, 1.193rem + 3.41vw, 3.125rem);
 	margin-bottom: 0;
 	color: #4b4b4b;
 	text-transform: uppercase;
 	font-weight: 700;
-	line-height: 1.25;
+	line-height: 1.35;
 }
 
 @media (max-width: 768px) {
@@ -878,12 +878,12 @@ img {
 	font-weight: 700;
 }
 
-.section-product-list .row h3,
+/* .section-product-list .row h3,
 .section-product-list .row h4,
 .section-product-list .row h5 {
 	font-weight: 300;
 	margin-bottom: 1rem;
-}
+} */
 
 p a {
 	color: var(--color-accent-hover) !important;
@@ -1347,12 +1347,12 @@ p a:hover {
 	z-index: 2;
 }
 
-.hero-content h1 {
+/* .hero-content h1 {
 	margin-bottom: 0;
 	font-size: clamp(1.25rem, 0.795rem + 2.27vw, 2.5rem);
 	text-transform: uppercase;
     font-weight: 700;
-}
+} */
 
 .single-news .hero-content h1 {
 	max-width: 600px;
@@ -2597,32 +2597,35 @@ strong {
 	background-color: var(--color-accent-hover);
 }
 
-.section.general-info h3,
+.base-text h2 {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.base-text h3,
 .section.description h3,
 .single-post h3,
-.single-news h3,
-.tab-content-product h3 {
+.single-news h3 {
 	font-family: var(--font-family);
 	font-weight: 700;
 	font-size: clamp(1rem, 0.786rem + 0.95vw, 1.5rem);
 }
 
-.section.general-info h4,
+.base-text h4,
 .section.description h4,
 .single-post h4,
-.single-news h4,
-.tab-content-product h4  {
+.single-news h4  {
 	font-family: var(--font-family);
 	font-weight: 500;
 	font-size: clamp(1rem, 0.839rem + 0.71vw, 1.375rem);
 	line-height: 1.35;
 }
 
-.section.general-info strong,
+.base-text strong,
 .section.description strong,
 .single-post strong,
-.single-news strong,
-.tab-content-product strong {
+.single-news strong {
 	font-weight: 500 !important;
 }
 
@@ -2710,4 +2713,28 @@ strong {
 	font-size: 130%;
 	color: white;
 	margin: auto;
+}
+
+.general-info .additional-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+}
+
+.general-info .additional-content.expanded {
+    max-height: none;
+    opacity: 1;
+    margin-top: 1rem;
+}
+
+.general-info .expand-btn {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.general-info .additional-content.expanding {
+    max-height: 2000px;
+    opacity: 1;
+    margin-top: 1rem;
 }
