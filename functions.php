@@ -241,3 +241,71 @@ add_action('template_redirect', function() {
         exit;
     }
 });
+
+
+add_action('template_redirect', 'custom_redirects_301');
+
+function custom_redirects_301() {
+    // Получаем текущий URL
+    $current_url = $_SERVER['REQUEST_URI'];
+    
+    // Массив переадресаций: старый URL => новый URL
+    $redirects = array(
+        '/narugnaja-reklama/bukvy-svetovye/slim-lajt.html' => '/narugnaja-reklama/bukvy-svetovye/bright-light.html',
+        '/narugnaja-reklama/svetovye-koroba/ekonom-boks.html' => '/narugnaja-reklama/svetovye-koroba/alyu-boks.html',
+        '/narugnaja-reklama/svetovye-koroba/metall-boks.html' => '/narugnaja-reklama/световye-koroba/alyu-boks.html',
+        '/narugnaja-reklama/svetovye-koroba/slim-boks.html' => '/narugnaja-reklama/svetovye-koroba/klej-boks.html',
+        '/narugnaja-reklama/svetovye-koroba/totem-metall.html' => '/narugnaja-reklama/stely-pilony-pilarsy/pilony-otdelno-stoyashchie.html',
+        '/narugnaja-reklama/svetovye-koroba/totem-alyuminij.html' => '/narugnaja-reklama/stely-pilony-pilarsy/pilony-otdelno-stoyashchie.html',
+        '/narugnaja-reklama/stely-pilony-pilarsy/pilarsy-siti-format-3kh-storonnie.html' => '/narugnaja-reklama/stely-pilony-pilarsy/pilony-siti-format-1-2-kh-1-8-m.html',
+        '/narugnaja-reklama/vitriny-oformlenie-vitrin.html' => '/shirokoformatnaja-pechat/naklejki-na-vitriny.html',
+        '/production/reklama-na-transporte/reklama-na-avtotransporte.html' => '/shirokoformatnaja-pechat/naklejki-na-vitriny.html',
+        '/production/reklama-na-transporte/reklama-na-vodnom-transporte.html' => '/shirokoformatnaja-pechat/naklejki-na-vitriny.html',
+        '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity/stendy-ulichnye-informatsionnye-sb/ulichnyj-informatsionnyj-stend-sb1.html' => '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity.html',
+        '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity/stendy-nashe-podmoskove.html' => '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity.html',
+        '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity/stendy-ulichnye-informatsionnye-se.html' => '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity.html',
+        '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity/stendy-ulichnye-informatsionnye-su.html' => '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity.html',
+        '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity/stendy-ulichnye-informatsionnye-sm.html' => '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity.html',
+        '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity/stendy-ulichnye-informatsionnye-sv.html' => '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity.html',
+        '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity/stendy-ulichnye-informatsionnye-skh.html' => '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity.html',
+        '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity/stendy-ulichnye-informatsionnye-sb.html' => '/narugnaja-reklama/ulichnye-informatsionnye-stendy-i-shchity.html',
+        '/narugnaja-reklama/ulichnye-tonkie-svetovye-paneli.html' => '/product_cat/products/koroba-dlya-afish-and-menyu/',
+        '/narugnaja-reklama/stroitelnye-informatsionnye-shchity-pasport-ob-ekta-stroitelstva.html' => '/ulichnye-informatsionnye-stendy-i-shchity/stendy-ulichnye-informatsionnye-se/stend-ulichnyj-informatsionnyj-se1.html/',
+        '/interiernaja-reklama/mobilnye-vystavochnye-stendy/iks-banner-x-banner.html' => '/interiernaja-reklama/mobilnye-vystavochnye-stendy.html/',
+        '/interiernaja-reklama/mobilnye-vystavochnye-stendy/l-banner-l-banner.html' => '/interiernaja-reklama/mobilnye-vystavochnye-stendy.html/',
+        '/interiernaja-reklama/mobilnye-vystavochnye-stendy/u-banner-y-banner.html' => '/interiernaja-reklama/mobilnye-vystavochnye-stendy.html/',
+        '/interiernaja-reklama/magneticbox-52.html' => '/product/magnetik-2/',
+        '/shirokoformatnaja-pechat/postery.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/bannery-v-interer.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/plakaty-afishi.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/naklejki-na-avtotransport.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/bannery-peretyazhki-na-ulitsu.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/chertezhi.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/naklejki-raznye.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/pechat-na-kholste.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/bannernaya-setka.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/fotooboi.html' => 'shirokoformatnaja-pechat.html',
+        '/shirokoformatnaja-pechat/pechat-na-plenke.html' => 'shirokoformatnaja-pechat.html',
+        '/uslugi/registrazija-reklamy.html' => '/uslugi.html/',
+        '/uslugi/consulting.html' => '/uslugi.html/',
+        '/uslugi/dizayn-reklamy/dizajn-interera.html' => '/uslugi/dizayn-reklamy/dizajn-naruzhnoj-reklamy.html',
+        '/uslugi/dizayn-reklamy/shirokoformatnaya-pechat.html' => '/uslugi/dizayn-reklamy.html',
+        '/uslugi/dizayn-reklamy/izgotovlenie-reklamnogo-oborudovaniya.html' => '/uslugi/dizayn-reklamy.html',
+        '/uslugi/dizayn-reklamy/dizajn-vystavochnykh-stendov.html' => '/uslugi/dizayn-reklamy.html',
+        '/uslugi/dizayn-reklamy/dizajn-malykh-reklamnykh-nositelej.html' => '/uslugi/dizayn-reklamy.html',
+        '/uslugi/dizayn-reklamy/razrabotka-firmennogo-stilya.html' => '/uslugi/dizayn-reklamy.html',
+        '/tipografi/polnotsvetnaya-poligrafiya.html' => '/uslugi.html/',
+        '/tipografi/polnotsvetnaya-poligrafiya/vizitki.html' => '/uslugi.html/',
+        '/tipografi/polnotsvetnaya-poligrafiya/listovki.html' => '/uslugi.html/',
+        '/tipografi/polnotsvetnaya-poligrafiya/buklety.html' => '/uslugi.html/',
+        '/tipografi/polnotsvetnaya-poligrafiya/katalogi.html' => '/uslugi.html/',
+        '/tipografi/rizograf.html' => '/uslugi.html/',
+        '/gallery.html' => '/portfolio/',
+    );
+    
+    // Проверяем, есть ли текущий URL в массиве переадресаций
+    if (array_key_exists($current_url, $redirects)) {
+        wp_redirect($redirects[$current_url], 301);
+        exit();
+    }
+}
