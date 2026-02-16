@@ -225,17 +225,17 @@ function render_archive_template($args = array())
     <section class="section section-page-comprehensive box-shadow-main">
         <div class="container">
             <div class="section-content-cards">
-                <!-- Заголовок -->
-                <div class="section-title text-center">
-                    <h3><?php echo esc_html($args['title']); ?></h3>
-                    <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
-                </div>
+                
+                <?php if ($query->have_posts()): ?>
+                    <!-- Заголовок (только если есть посты) -->
+                    <div class="section-title text-center">
+                        <h3><?php echo esc_html($args['title']); ?></h3>
+                        <img width="62" height="14" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/assets/img/ico/points.svg" alt="Точки" class="img-fluid">
+                    </div>
 
-                <!-- Карточки -->
-                <div class="row <?php echo $args['card_type'] === 'service' ? 'row-cards' : ''; ?>">
-                    <?php if ($query->have_posts()): ?>
-                        <?php while ($query->have_posts()):
-                            $query->the_post(); ?>
+                    <!-- Карточки -->
+                    <div class="row <?php echo $args['card_type'] === 'service' ? 'row-cards' : ''; ?>">
+                        <?php while ($query->have_posts()): $query->the_post(); ?>
                             <?php
                             if ($args['card_type'] === 'service') {
                                 render_service_card(get_the_ID());
@@ -244,19 +244,22 @@ function render_archive_template($args = array())
                             }
                             ?>
                         <?php endwhile; ?>
-                    <?php else: ?>
+                    </div>
+
+                    <!-- Пагинация -->
+                    <?php if ($args['show_pagination'] && $query->max_num_pages > 1): ?>
+                        <?php custom_pagination($query); ?>
+                    <?php endif; ?>
+                    
+                <?php else: ?>
+                    <div class="row">
                         <div class="col-12">
                             <div class="text-center py-5">
-                                <h4><?php echo esc_html($args['no_posts_message']); ?></h4>
+                                <h2><?php echo esc_html($args['no_posts_message']); ?></h3>
                                 <p class="text-muted"><?php echo esc_html($args['no_posts_text']); ?></p>
                             </div>
                         </div>
-                    <?php endif; ?>
-                </div>
-
-                <!-- Пагинация -->
-                <?php if ($args['show_pagination'] && $query->max_num_pages > 1): ?>
-                    <?php custom_pagination($query); ?>
+                    </div>
                 <?php endif; ?>
 
                 <?php wp_reset_postdata(); ?>
