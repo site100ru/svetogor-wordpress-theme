@@ -220,9 +220,24 @@ add_action('template_redirect', function () {
     }
 });
 
-add_action('template_redirect', function () {
-    if (is_post_type_archive('articles')) {
-        wp_safe_redirect(home_url('/stati.html/'), 301);
+add_action('template_redirect', function() {
+    $request_path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+    
+    if ($request_path === 'stati.html') {
+        global $wp_query;
+        
+        $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+        
+        $args = array(
+            'post_type' => 'post',
+            'posts_per_page' => get_option('posts_per_page'),
+            'paged' => $paged,
+            'post_status' => 'publish',
+        );
+        
+        $wp_query = new WP_Query($args);
+        
+        include get_template_directory() . '/articles/archive-articles.php';
         exit;
     }
 });
