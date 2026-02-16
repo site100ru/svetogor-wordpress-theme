@@ -1331,9 +1331,7 @@ p a:hover {
 	display: flex;
 	align-items: center;
 
-	background: url('../img/hero-home-bg.jpg');
-	background-position: right 40%;
-	background-size: cover;
+	background: url('../img/hero-home-bg.webp');
 }
 
 @media (max-width: 560px) {
