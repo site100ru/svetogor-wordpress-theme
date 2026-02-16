@@ -219,3 +219,10 @@ add_action('template_redirect', function () {
         exit;
     }
 });
+
+add_action('template_redirect', function () {
+    if (is_post_type_archive('articles')) {
+        wp_safe_redirect(home_url('/stati.html/'), 301);
+        exit;
+    }
+});
