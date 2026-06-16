@@ -302,7 +302,7 @@ class Contact_Data_Manager {
      * Получить адрес компании
      */
     public function get_company_address() {
-        $address = $this->get_company_data('company_address', '');
+        $address = $this->get_company_data('company_work_address', '');
         
         if (!empty($address)) {
             return $address;

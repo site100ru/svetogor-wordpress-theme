@@ -15,8 +15,8 @@ if (!empty($block['className'])) {
 }
 
 // Координаты маркера и центра карты 
-$lat = 55.889916;
-$lng = 37.634012;
+$lat = 55.972883;
+$lng = 37.919568;
 
 // Путь к иконке маркера
 $marker_icon = get_template_directory_uri() . '/assets/img/ico/placemark.png';
@@ -24,11 +24,11 @@ $marker_icon = get_template_directory_uri() . '/assets/img/ico/placemark.png';
 
 <!-- Map -->
 <div id="<?php echo esc_attr($id); ?>" class="container mb-5 <?php echo esc_attr($className); ?>">
-  <div class="row">
-    <div class="col" id="map2">
-      <div id="<?php echo esc_attr($map_id); ?>"></div>
-    </div>
-  </div>
+	<div class="row">
+		<div class="col" id="map2">
+			<div id="<?php echo esc_attr($map_id); ?>"></div>
+		</div>
+	</div>
 </div>
 <!-- /Map -->
 
@@ -72,9 +72,9 @@ $marker_icon = get_template_directory_uri() . '/assets/img/ico/placemark.png';
           {},
           {
             iconLayout: 'default#image',
-            iconImageHref: '<?php echo esc_js($marker_icon); ?>',
-            iconImageSize: [240, 240],
-            iconImageOffset: [-143, -230],
+            // iconImageHref: '<?php echo esc_js($marker_icon); ?>',
+            iconImageSize: [40, 40],
+            iconImageOffset: [0, 0],
           }
         );
 
